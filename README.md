@@ -1,5 +1,5 @@
 # bloktech
-blok tech periode 4 leerjaar 2
+**blok tech periode 4 leerjaar 2**
 
 Mijn naam is Stefan Radouane.
 Ik ga een matchin applicatie maken voor blok tech.
