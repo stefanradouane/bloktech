@@ -100,8 +100,8 @@ app.get('/movie/:id/:slug', (req, res) => {
 /*******************************************************
  * If no routes give response, show 404
 ********************************************************/
-app.get('/', (req, res) => {
-    res.send('Hello World!')
+app.use( (req, res) => {
+    res.status(404).send("Error 404: file not found");
 })
 
 /*******************************************************
