@@ -60,7 +60,7 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
     let doc = '<!doctype html>';
     doc += '<title>Movies</title>';
-    doc += '<h1>Stefan Radouane</h1>';
+    doc += '<h1>Movies</h1>';
 
     movies.forEach(movie => {
         doc += "<section>";
@@ -77,7 +77,25 @@ app.get('/', (req, res) => {
     res.send(doc);
 })
 
-app.get('/movie/:id/:slug');
+app.get('/movie/:id/:slug', (req, res) => {
+    // console.log(req.params.id)
+    let movie = movies.find(element => element.id == req.params.id);
+    console.log(movie);
+    // Render Page
+    let doc = '<!doctype html>';
+    doc += `<title>Movie details for ${movie.name}</title>`;
+    doc += `<h1>${movie.name}</h1>`;
+    doc += `<h2>${movie.year}</h2>`;
+    doc += `<h3>Categories</h3>`;
+    doc += '<ul>';
+    movie.categories.forEach(category => {
+        doc += `<li>${category}</li>`;
+    });
+    doc += '</ul>';
+    doc += `<p>${movie.storyline}</p>`;
+    // doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
+    res.send(doc);
+    });
 
 /*******************************************************
  * If no routes give response, show 404
