@@ -1,9 +1,9 @@
-console.log('hallo wereld');
-
 /*******************************************************
  * Define some constants and variables
 ********************************************************/
 const express = require('express');
+let ejs = require('ejs');
+
 const app = express();
 const port = 3000;
 
@@ -42,6 +42,10 @@ const movies = [
     }
 ]
 
+let namen = require('./database/database');
+let nummers = require('./database/database');
+
+
 /*******************************************************
  * Middleware
 ********************************************************/
@@ -50,6 +54,7 @@ app.use(express.static('public'));
 /*******************************************************
  * Set template engine
 ********************************************************/
+app.set('view engine', 'ejs');
 
 /*******************************************************
  * Routes
@@ -95,7 +100,23 @@ app.get('/movie/:id/:slug', (req, res) => {
     doc += `<p>${movie.storyline}</p>`;
     // doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
     res.send(doc);
-    });
+});
+
+app.get('/sounder', (req, res) => {
+    res.render('pages/index', {nummers});
+})
+
+app.get('/sounder/ontdek', (req, res) => {
+    res.render('pages/ontdek');
+})
+
+app.get('/sounder/likes', (req, res) => {
+    res.render('pages/likes');
+})
+
+app.get('/login', (req, res) => {
+    res.send("Very good very nice");
+})
 
 /*******************************************************
  * If no routes give response, show 404
