@@ -106,6 +106,10 @@ app.get('/sounder', (req, res) => {
     res.render('pages/index', {nummers});
 })
 
+app.get('/sounder/start', (req, res) => {
+    res.render('pages/start');
+})
+
 app.get('/sounder/ontdek', (req, res) => {
     res.render('pages/ontdek');
 })
