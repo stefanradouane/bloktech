@@ -127,6 +127,12 @@ const movies = [
 ********************************************************/
 app.use(express.static('./public'));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.post('/save-categorie', (req, res)=>{
+    res.send(req.body)
+});
 
 // app.use('/styles', express.static(__dirname + 'public/styles'))
 // app.use('/scripts', express.static(__dirname + 'public/scripts'))
