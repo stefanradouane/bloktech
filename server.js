@@ -3,6 +3,7 @@
 ********************************************************/
 const express = require('express');
 let ejs = require('ejs');
+var bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -42,9 +43,11 @@ const movies = [
     }
 ]
 
-let namen = require('./database/database');
-let nummers = require('./database/database');
+// let namen = require('./database/database');
+// let nummers = require('./database/database');
+// const data = require('./public/scripts/script');
 
+// console.log(data)
 
 // const APIController = (function() {
     
@@ -82,32 +85,7 @@ let nummers = require('./database/database');
 
 
 
-const clientId = '97827c6f27404e7a8ce75a072081a151';
-const clientSecret = '9d4531501fd94595a45632324e3387b5';
 
-// const data = '';
-
-async function getToken(){
-    const result = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded', 
-                'Authorization' : 'Basic ' + btoa(clientId + ':' + clientSecret)
-            },
-            body: 'grant_type=client_credentials'
-        });
-    const log = await result.json();
-    const token = log.access_token;
-    // console.log(token);
-    const eind = await fetch(`https://api.spotify.com/v1/browse/categories?country=NL`, {
-        method: 'GET',
-        headers: { 'Authorization' : 'Bearer ' + token}
-    });
-    // console.log(token);
-    data = await eind.json();
-    console.log(data.categories.items);
-    return data.categories;
-}
 
 
 // async function getGenres(){
@@ -211,8 +189,8 @@ app.get('/sounder', (req, res) => {
 })
 
 app.get('/sounder/start', (req, res) => {
-    res.render('pages/start', getToken()
-    );
+    res.render('pages/start')
+    ;
 })
 
 
