@@ -46,15 +46,119 @@ let namen = require('./database/database');
 let nummers = require('./database/database');
 
 
+// const APIController = (function() {
+    
+//    
+
+//     // private methods
+//     const _getToken = async () => {
+
+//         const result = await fetch('https://accounts.spotify.com/api/token', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type' : 'application/x-www-form-urlencoded', 
+//                 'Authorization' : 'Basic ' + btoa(clientId + ':' + clientSecret)
+//             },
+//             body: 'grant_type=client_credentials'
+//         });
+
+//         const data = await result.json();
+//         return data.access_token;
+//     }
+
+
+//     return {
+//         getToken() {
+//             console.log(data)
+//             return _getToken();
+//         }
+//     }
+
+    
+// })()
+
+
+
+
+
+
+const clientId = '97827c6f27404e7a8ce75a072081a151';
+const clientSecret = '9d4531501fd94595a45632324e3387b5';
+
+// const data = '';
+
+async function getToken(){
+    const result = await fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded', 
+                'Authorization' : 'Basic ' + btoa(clientId + ':' + clientSecret)
+            },
+            body: 'grant_type=client_credentials'
+        });
+    const log = await result.json();
+    const token = log.access_token;
+    // console.log(token);
+    const eind = await fetch(`https://api.spotify.com/v1/browse/categories?country=NL`, {
+        method: 'GET',
+        headers: { 'Authorization' : 'Bearer ' + token}
+    });
+    // console.log(token);
+    data = await eind.json();
+    console.log(data.categories.items);
+    return data.categories;
+}
+
+
+// async function getGenres(){
+//     getToken()
+//     const result = await fetch(`https://api.spotify.com/v1/browse/categories?country=NL`, {
+//         method: 'GET',
+//         headers: { 'Authorization' : 'Bearer ' + token}
+//     });
+//     console.log('token')
+
+//     const data = await result.json();
+//     console.log(data)
+// }
+
+// const getGenres = async (token) => {
+//     getToken()
+//     const result = await fetch(`https://api.spotify.com/v1/browse/categories?country=NL`, {
+//         method: 'GET',
+//         headers: { 'Authorization' : 'Bearer ' + token}
+//     });
+//     console.log(token)
+
+//     const data = await result.json();
+//     console.log(data)
+//     // return data.categories.items;
+// }
+
+    // return {
+    //     getToken(){
+    //         console.log(_getToken());
+    //         return _getToken();
+    //     }
+    // }
+
+
+
 /*******************************************************
  * Middleware
 ********************************************************/
-app.use(express.static('public'));
+app.use(express.static('./public'));
+
+
+// app.use('/styles', express.static(__dirname + 'public/styles'))
+// app.use('/scripts', express.static(__dirname + 'public/scripts'))
+// app.use('/images', express.static(__dirname + 'public/images'))
 
 /*******************************************************
  * Set template engine
 ********************************************************/
 app.set('view engine', 'ejs');
+
 
 /*******************************************************
  * Routes
@@ -107,8 +211,11 @@ app.get('/sounder', (req, res) => {
 })
 
 app.get('/sounder/start', (req, res) => {
-    res.render('pages/start');
+    res.render('pages/start', getToken()
+    );
 })
+
+
 
 app.get('/sounder/ontdek', (req, res) => {
     res.render('pages/ontdek');
