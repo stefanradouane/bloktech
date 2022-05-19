@@ -3,123 +3,26 @@
 ********************************************************/
 const express = require('express');
 let ejs = require('ejs');
+
+const arrayify = require('array-back');
 var bodyParser = require('body-parser');
+
+const fetch = require('node-fetch');
+
+const dotenv = require('dotenv').config();
+
+const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb');
+
+let db = null;
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const movies = [
-    {
-        "id": 1,
-        "slug": "black-panther",
-        "name": "Black Panther",
-        "year": "2018",
-        "categories": ["action", "adventures", "sci-fi"],
-        "storyline": "T'Challa said 'wakanda forever!', this is a very inspirering quote."
-    },
-    {
-        "id": 2,
-        "slug": "thor-ragnarok",
-        "name": "Thor Ragnarok",
-        "year": "2016",
-        "categories": ["action", "adventures", "sci-fi"],
-        "storyline": "Thor is trying to prevent ragnarok, the ending of Argard"
-    },
-    {
-        "id": 3,
-        "slug": "ironman-2",
-        "name": "Ironman 2",
-        "year": "2011",
-        "categories": ["action", "adventures", "sci-fi"],
-        "storyline": "Tony Stark has a conflict with the government. He want's to keep the knowledge of te ironman suit for himself."
-    },
-    {
-        "id": 4,
-        "slug": "doctor-strange",
-        "name": "Doctor Strange",
-        "year": "2018",
-        "categories": ["action", "adventures", "sci-fi", "magic"],
-        "storyline": "Doctor Steven Strange gets himself in a car accident, he lost his feeling in his hands and is trying to fix his hands."
-    }
-]
-
 // let namen = require('./database/database');
 // let nummers = require('./database/database');
 // const data = require('./public/scripts/script');
-
 // console.log(data)
-
-// const APIController = (function() {
-    
-//    
-
-//     // private methods
-//     const _getToken = async () => {
-
-//         const result = await fetch('https://accounts.spotify.com/api/token', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type' : 'application/x-www-form-urlencoded', 
-//                 'Authorization' : 'Basic ' + btoa(clientId + ':' + clientSecret)
-//             },
-//             body: 'grant_type=client_credentials'
-//         });
-
-//         const data = await result.json();
-//         return data.access_token;
-//     }
-
-
-//     return {
-//         getToken() {
-//             console.log(data)
-//             return _getToken();
-//         }
-//     }
-
-    
-// })()
-
-
-
-
-
-
-
-
-
-// async function getGenres(){
-//     getToken()
-//     const result = await fetch(`https://api.spotify.com/v1/browse/categories?country=NL`, {
-//         method: 'GET',
-//         headers: { 'Authorization' : 'Bearer ' + token}
-//     });
-//     console.log('token')
-
-//     const data = await result.json();
-//     console.log(data)
-// }
-
-// const getGenres = async (token) => {
-//     getToken()
-//     const result = await fetch(`https://api.spotify.com/v1/browse/categories?country=NL`, {
-//         method: 'GET',
-//         headers: { 'Authorization' : 'Bearer ' + token}
-//     });
-//     console.log(token)
-
-//     const data = await result.json();
-//     console.log(data)
-//     // return data.categories.items;
-// }
-
-    // return {
-    //     getToken(){
-    //         console.log(_getToken());
-    //         return _getToken();
-    //     }
-    // }
-
 
 
 /*******************************************************
@@ -155,67 +58,74 @@ app.set('view engine', 'ejs');
  * Get /
  *  home - show movielist
 ********************************************************/
-app.get('/', (req, res) => {
-    let doc = '<!doctype html>';
-    doc += '<title>Movies</title>';
-    doc += '<h1>Movies</h1>';
+// app.get('/', (req, res) => {
+//     let doc = '<!doctype html>';
+//     doc += '<title>Movies</title>';
+//     doc += '<h1>Movies</h1>';
 
-    movies.forEach(movie => {
-        doc += "<section>";
-        doc += `<h2>${movie.name}</h2>`
-        doc += `<h3>${movie.year}</h3>`
-        doc += '<ul>';
-        movie.categories.forEach(category => {
-            doc += `<li>${category}</li>`;
-        });
-        doc += '</ul>';
-        doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
-        doc += '</section>';
-    });
-    res.send(doc);
+//     movies.forEach(movie => {
+//         doc += "<section>";
+//         doc += `<h2>${movie.name}</h2>`
+//         doc += `<h3>${movie.year}</h3>`
+//         doc += '<ul>';
+//         movie.categories.forEach(category => {
+//             doc += `<li>${category}</li>`;
+//         });
+//         doc += '</ul>';
+//         doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
+//         doc += '</section>';
+//     });
+//     res.send(doc);
+// })
+
+// app.get('/movie/:id/:slug', (req, res) => {
+//     // console.log(req.params.id)
+//     let movie = movies.find(element => element.id == req.params.id);
+//     console.log(movie);
+//     // Render Page
+//     let doc = '<!doctype html>';
+//     doc += `<title>Movie details for ${movie.name}</title>`;
+//     doc += `<h1>${movie.name}</h1>`;
+//     doc += `<h2>${movie.year}</h2>`;
+//     doc += `<h3>Categories</h3>`;
+//     doc += '<ul>';
+//     movie.categories.forEach(category => {
+//         doc += `<li>${category}</li>`;
+//     });
+//     doc += '</ul>';
+//     doc += `<p>${movie.storyline}</p>`;
+//     // doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
+//     res.send(doc);
+// });
+
+app.get('/', async (req, res) => {
+    const gebruikers = await db.collection('gebruikers').find({},{}).toArray();
+    res.render('pages/index', {gebruikers});
 })
 
-app.get('/movie/:id/:slug', (req, res) => {
-    // console.log(req.params.id)
-    let movie = movies.find(element => element.id == req.params.id);
-    console.log(movie);
-    // Render Page
-    let doc = '<!doctype html>';
-    doc += `<title>Movie details for ${movie.name}</title>`;
-    doc += `<h1>${movie.name}</h1>`;
-    doc += `<h2>${movie.year}</h2>`;
-    doc += `<h3>Categories</h3>`;
-    doc += '<ul>';
-    movie.categories.forEach(category => {
-        doc += `<li>${category}</li>`;
-    });
-    doc += '</ul>';
-    doc += `<p>${movie.storyline}</p>`;
-    // doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
-    res.send(doc);
-});
-
-app.get('/sounder', (req, res) => {
-    res.render('pages/index' );
+app.get('/start', (req, res) => {
+    res.render('pages/start');
 })
 
-app.get('/sounder/start', (req, res) => {
-    res.render('pages/start')
-    ;
+app.post('/start', (req, res) => {
+    console.log(hoi)
+    res.render('pages/categorie')
 })
 
+app.get('/categorie', (req, res) => {
+    res.render('pages/categorie');
+})
 
-
-app.get('/sounder/ontdek', (req, res) => {
+app.get('/ontdek', (req, res) => {
     res.render('pages/ontdek');
 })
 
-app.get('/sounder/likes', (req, res) => {
+app.get('/likes', (req, res) => {
     res.render('pages/likes');
 })
 
 app.get('/login', (req, res) => {
-    res.send("Very good very nice");
+    res.render('pages/login');
 })
 
 /*******************************************************
@@ -226,8 +136,28 @@ app.use( (req, res) => {
 })
 
 /*******************************************************
+ * Connect to database
+********************************************************/
+async function connectDB(){
+    const uri = process.env.DB_URI;
+    const client = new MongoClient(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+    try{
+        await client.connect();
+        db = client.db(process.env.DB_NAME);
+    } catch (error){
+        throw error;
+    }
+}
+
+/*******************************************************
  * Start webserver
 ********************************************************/
 app.listen(port, () => {
-    console.log(`Webserver lisening on port ${port}`)
+    console.log('+/================================================/+\n\n');
+    console.log(`Webserver lisening on port ${port}\n`);
+    connectDB().then(console.log('We have connection to mongoDB\n\n'));
+    console.log('+/================================================/+\n\n');
 })
