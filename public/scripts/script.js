@@ -87,11 +87,11 @@ async function getCategory(){
    categories.forEach(categorie => {
         console.log(categorie.name);
         let htmlSegment =   `<div class="container">
-                                <label for="${categorie.name}">
+                                <label for="${categorie.id}">
                                     <p>${categorie.name}</p>
                                     <img src="${categorie.icons[0].url}"/>
                                 </label>
-                                <input type="checkbox" name="${categorie.name}" value="${categorie.name}" id="${categorie.id}">
+                                <input type="checkbox" name="likedCategorie" value="${categorie.id}" id="${categorie.name}">
                             </div>`;
         html += htmlSegment;
     });

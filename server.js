@@ -132,7 +132,12 @@ app.use(bodyParser.json());
 
 app.post('/save-categorie', (req, res)=>{
     res.send(req.body)
+    // console.log(req.body)
 });
+
+// function add(req, res){
+//     var id = slug;
+// }
 
 // app.use('/styles', express.static(__dirname + 'public/styles'))
 // app.use('/scripts', express.static(__dirname + 'public/scripts'))
@@ -191,7 +196,7 @@ app.get('/movie/:id/:slug', (req, res) => {
 });
 
 app.get('/sounder', (req, res) => {
-    res.render('pages/index', {nummers});
+    res.render('pages/index' );
 })
 
 app.get('/sounder/start', (req, res) => {
