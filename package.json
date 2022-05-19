@@ -10,7 +10,7 @@
   "author": "Stefan Radouane",
   "license": "MIT",
   "dependencies": {
-    "arrayify": "^1.0.0",
+    "array-back": "^6.2.2",
     "body-parser": "^1.20.0",
     "camelcase": "^6.3.0",
     "dotenv": "^16.0.1",

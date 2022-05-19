@@ -91,7 +91,7 @@ async function getCategory(){
                                     <p>${categorie.name}</p>
                                     <img src="${categorie.icons[0].url}"/>
                                 </label>
-                                <input type="checkbox" name="likedCategorie" value="${categorie.id}" id="${categorie.name}">
+                                <input type="checkbox" name="categorie" value="${categorie.id}" id="${categorie.name}">
                             </div>`;
         html += htmlSegment;
     });

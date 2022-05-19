@@ -18,6 +18,7 @@ let db = null;
 
 const app = express();
 const port = process.env.PORT || 3000;
+const categories = ["likes","like"];
 
 // let namen = require('./database/database');
 // let nummers = require('./database/database');
@@ -100,19 +101,23 @@ app.set('view engine', 'ejs');
 
 app.get('/', async (req, res) => {
     const gebruikers = await db.collection('gebruikers').find({},{}).toArray();
-    res.render('pages/index', {gebruikers});
-})
+    res.render('pages/index', {gebruikers})})
 
-app.get('/start', (req, res) => {
-    res.render('pages/start');
+app.get('/start', async (req, res) => {
+    const gebruikers = await db.collection('gebruikers').find({},{}).toArray();
+    res.render('pages/start', {gebruikers, categories});
 })
 
 app.post('/start', (req, res) => {
-    console.log(hoi)
-    res.render('pages/categorie')
+    console.log(req.body.categorie)
+    const categorie = arrayify(req.body.categorie);
+    console.log(categorie)
+    gebruikers.push(categorie);
+
+    res.render('pages/categorie', console.log(categories));
 })
 
-app.get('/categorie', (req, res) => {
+app.get('/start/categorie', (req, res) => {
     res.render('pages/categorie');
 })
 
@@ -126,6 +131,10 @@ app.get('/likes', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.render('pages/login');
+})
+
+app.get('/register', (req, res) => {
+    res.render('pages/register');
 })
 
 /*******************************************************

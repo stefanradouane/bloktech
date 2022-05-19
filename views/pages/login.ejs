@@ -8,11 +8,19 @@
         <%- include('../partials/header'); %>
     </header>
     <main>
-        <section>
-            <h2>Ontdek nieuwe muziek</h2>
-            <img src="/images/lp.webp" alt="">
-            <a href="/sounder/ontdek/">Start met muziek ontdekken</a>
-        </section> 
+        <h1>Login</h1>
+        <form action="/login" method="POST">
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <a href="/register">Register</a>
     </main>
     <footer>
         <%- include('../partials/footer'); %>
