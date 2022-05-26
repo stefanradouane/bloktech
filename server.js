@@ -14,11 +14,53 @@ const dotenv = require('dotenv').config();
 const { MongoClient } = require('mongodb');
 const { ObjectId } = require('mongodb');
 
-let db = null;
-
 const app = express();
 const port = process.env.PORT || 3000;
-const categories = ["likes","like"];
+
+
+const bcrypt = require('bcrypt');
+const flash = require('express-flash');
+const session = require('express-session');
+
+const passport = require('passport');
+
+const methodOverride = require('method-override')
+
+
+const inizializePassport = require('./passport-config');
+
+const user = require('./passport-config');
+
+const { use } = require('passport');
+
+
+
+// inizializePassport(passport, email => users.find(user => user.email === email),
+// id => users.find(user => user.id === id));
+
+
+inizializePassport(
+    passport, 
+    async email => await db.collection('gebruikers').findOne({email:email}),
+    id => {
+        const userFound = "Hier moet de juiste id van de gebruiker komen"
+        return userFound;
+    }
+
+);
+
+
+    // db.collection('gebruikers').findOne({_id:id},{_id:1, name:0, email:0, password:0})
+// db.collection('gebruikers').findOne(user => user._id === id))
+
+// db.collection('gebruikers').find().project({ _id: 1}))
+
+//  -> id die ik wil ophalen naar de variabel id 
+
+let db = null;
+
+let users = [];
+
 
 // let namen = require('./database/database');
 // let nummers = require('./database/database');
@@ -39,13 +81,48 @@ app.post('/save-categorie', (req, res)=>{
     // console.log(req.body)
 });
 
-// function add(req, res){
-//     var id = slug;
-// }
 
-// app.use('/styles', express.static(__dirname + 'public/styles'))
-// app.use('/scripts', express.static(__dirname + 'public/scripts'))
-// app.use('/images', express.static(__dirname + 'public/images'))
+app.use(flash())
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUnitialized: false
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(methodOverride('_method'))
+
+
+function checkAuthenticated(req,res,next){
+    if (req.isAuthenticated()){
+        return next()
+    }
+
+    res.redirect('/login');
+}
+
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return res.redirect('/')
+    }
+    next()
+  }
+
+
+// app.delete('/logout', (req, res) => {
+//     req.logOut()
+//     res.redirect('/login')
+// })
+
+app.delete('/logout', function(req, res, next) {
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/login');
+    });
+  });
 
 /*******************************************************
  * Set template engine
@@ -59,82 +136,118 @@ app.set('view engine', 'ejs');
  * Get /
  *  home - show movielist
 ********************************************************/
-// app.get('/', (req, res) => {
-//     let doc = '<!doctype html>';
-//     doc += '<title>Movies</title>';
-//     doc += '<h1>Movies</h1>';
 
-//     movies.forEach(movie => {
-//         doc += "<section>";
-//         doc += `<h2>${movie.name}</h2>`
-//         doc += `<h3>${movie.year}</h3>`
-//         doc += '<ul>';
-//         movie.categories.forEach(category => {
-//             doc += `<li>${category}</li>`;
-//         });
-//         doc += '</ul>';
-//         doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
-//         doc += '</section>';
-//     });
-//     res.send(doc);
-// })
-
-// app.get('/movie/:id/:slug', (req, res) => {
-//     // console.log(req.params.id)
-//     let movie = movies.find(element => element.id == req.params.id);
-//     console.log(movie);
-//     // Render Page
-//     let doc = '<!doctype html>';
-//     doc += `<title>Movie details for ${movie.name}</title>`;
-//     doc += `<h1>${movie.name}</h1>`;
-//     doc += `<h2>${movie.year}</h2>`;
-//     doc += `<h3>Categories</h3>`;
-//     doc += '<ul>';
-//     movie.categories.forEach(category => {
-//         doc += `<li>${category}</li>`;
-//     });
-//     doc += '</ul>';
-//     doc += `<p>${movie.storyline}</p>`;
-//     // doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
-//     res.send(doc);
-// });
-
-app.get('/', async (req, res) => {
+app.get('/', checkAuthenticated, async (req, res) => {
     const gebruikers = await db.collection('gebruikers').find({},{}).toArray();
-    res.render('pages/index', {gebruikers})})
-
-app.get('/start', async (req, res) => {
-    const gebruikers = await db.collection('gebruikers').find({},{}).toArray();
-    res.render('pages/start', {gebruikers, categories});
+    res.render('pages/index', {gebruikers}, console.log(req))
 })
 
-app.post('/start', (req, res) => {
-    console.log(req.body.categorie)
-    const categorie = arrayify(req.body.categorie);
-    console.log(categorie)
-    gebruikers.push(categorie);
 
-    res.render('pages/categorie', console.log(categories));
-})
-
-app.get('/start/categorie', (req, res) => {
-    res.render('pages/categorie');
-})
-
-app.get('/ontdek', (req, res) => {
-    res.render('pages/ontdek');
-})
-
-app.get('/likes', (req, res) => {
-    res.render('pages/likes');
-})
-
-app.get('/login', (req, res) => {
+app.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('pages/login');
 })
 
-app.get('/register', (req, res) => {
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+    successRedirect: '/start',
+    failureRedirect: '/login',
+    'session': true,
+    failureFlash:true
+}))
+
+// (req, res) => {
+    // try{
+    //     const email = req.body.email;
+    //     const password = req.body.password;
+    //     const userAccount = await db.collection('gebruikers').findOne({email:email});
+    //     const match = await bcrypt.compare(password, userAccount.password);
+
+    //     if (match){
+    //         res.status(201).render("pages/start");
+    //     } else{
+    //         res.send("password onjuist")
+    //     }
+
+    // } catch (error){
+    //     res.status(400).send('email onjuist')
+    // }
+
+
+// })
+
+app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('pages/register');
+})
+
+   
+app.post('/register', checkNotAuthenticated, async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        await db.collection('gebruikers').insertOne({
+            "name": req.body.name,
+            "email": req.body.email,
+            "password": hashedPassword
+        })
+        users.push({
+            "id": "16562535173y1731",
+           "name": req.body.name,
+            "email": req.body.email,
+            "password": hashedPassword 
+        })
+        res.redirect('/login')
+    } catch {
+        res.redirect('/register')
+    }
+    console.log(users);
+})
+
+
+app.get('/start', checkAuthenticated, async (req, res) => {
+    // const gebruikers = await db.collection('gebruikers').find({},{}).toArray();
+    res.render('pages/start', console.log(req.session.passport.user));
+})
+
+app.post('/start', checkAuthenticated, async (req, res) => {
+    
+    console.log(req.body.categorie)
+    console.log(req.session.passport.user)
+    const categorie = arrayify(req.body.categorie);
+    try {
+        const query = {_id: ObjectId(req.session.passport.user)};
+        const options = {projection:{_id:0, categorie:1}}
+        const dbCats = await db.collection('gebruikers').findOne(query, options);
+        // console.log(dbCats)
+        const werkCategorie = arrayify(dbCats.categorie);
+        const cat3 = werkCategorie.concat(categorie)
+        const singelItem = new Set(cat3);
+        const myArr = Array.from(singelItem);
+
+        const filter = {_id: ObjectId(req.session.passport.user)};
+        const updateDoc = {
+            $set: {
+              "categorie" : myArr
+            }
+          };
+        db.collection('gebruikers').updateOne(filter, updateDoc, {});
+     } catch (e) {
+        throw (e);
+     };
+
+    res.render('pages/categorie');
+})
+
+app.get('/start/categorie', checkAuthenticated, (req, res) => {
+    res.render('pages/categorie');
+})
+
+app.get('/ontdek', checkAuthenticated, async (req, res) => {
+    const query = {_id: ObjectId(req.session.passport.user)};
+    const options = {projection:{_id:0, categorie:1}}
+    const categorien = await db.collection('gebruikers').findOne(query, options)
+    res.render('pages/ontdek', {categorien}, console.log(categorien));
+})
+
+app.get('/likes', checkAuthenticated,(req, res) => {
+    res.render('pages/likes');
 })
 
 /*******************************************************
@@ -156,10 +269,14 @@ async function connectDB(){
     try{
         await client.connect();
         db = client.db(process.env.DB_NAME);
+        console.log('connect')
+        const gebruikers = await db.collection('gebruikers').find({},{}).toArray();
     } catch (error){
         throw error;
     }
 }
+
+
 
 /*******************************************************
  * Start webserver

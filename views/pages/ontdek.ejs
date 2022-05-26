@@ -7,13 +7,19 @@
     <header>
         <%- include('../partials/header'); %>
     </header>
-    <main>
-        <figure>
+    <main class="muziekLijst">
+        <ul class="hidden">
+        <% categorien.categorie.forEach(function(mascot) { %>
+            <li class="categorie"><%=mascot%></li>
+          <% }); %>
+        </ul>
+        <section class="figure">
             <%- include('../partials/figure'); %>
-        </figure>
+        </section>
     </main>
     <footer>
         <%- include('../partials/footer'); %>
     </footer>
+    <script src="/scripts/getSpotify.js"></script>
 </body>
 </html>
