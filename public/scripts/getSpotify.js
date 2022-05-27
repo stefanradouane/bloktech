@@ -108,6 +108,8 @@ if(mainLijst){
 
     const section = document.querySelector('section.figure');
 
+    let tracks = [];
+
     async function getTracks(){
         // GetTOKEN
         const result = await fetch('https://accounts.spotify.com/api/token', {
@@ -125,7 +127,7 @@ if(mainLijst){
         let listItems = document.querySelectorAll('li.categorie');
 
         async function getPlaylist(catID){
-            const res = await fetch(`https://api.spotify.com/v1/browse/categories/${catID}/playlists?limit=5`, {
+            const res = await fetch(`https://api.spotify.com/v1/browse/categories/${catID}/playlists?limit=1`, {
             method: 'GET',
             headers: { 'Authorization' : 'Bearer ' + token}
             });
@@ -143,44 +145,77 @@ if(mainLijst){
 
 
         Promise.all(playListCategories).then(data => {
-        // console.log(data);
+            // console.log(data);
             data.forEach(link => {
                 if(link.playlists == undefined){
                     // console.log('skip')
+                    return
                 } else{
                     const afspeellijst = link.playlists.items;
                     afspeellijst.forEach(lijst => {
                         const tracksEndPoint = lijst.tracks.href
-                        async function getTracks(){
-                            const res = await fetch(`${tracksEndPoint}`, {
-                            method: 'GET',
-                            headers: { 'Authorization' : 'Bearer ' + token}
-                            });
-                            const eind = await res.json();
-                            const trackArray = eind.items;
-                            trackArray.forEach(Arr => {
-                                const track = Arr.track
-                                console.log(track)
-                                let html = '';
-                                let htmlSegment = `<div>${track.name}</div>`
-                                html += htmlSegment;
-                                section.innerHTML = html;
-                                return track;
-                            })
-                             
-                        }
-                        getTracks()
-                             
+                        tracks.push(getMuziek(tracksEndPoint))
                     })
                 }
+            })
+
+            async function getMuziek(tracksEndPoint){
+                const res = await fetch(`${tracksEndPoint}`, {
+                    method: 'GET',
+                    headers: { 'Authorization' : 'Bearer ' + token}
+                });
+                const eind = await res.json();
+                const trackArray = eind.items;
+                console.log(trackArray)
+                return trackArray
+            }
+
+            let html = '';
+
+            Promise.all(tracks).then(data => {
+                console.log(data)
+                data.forEach(array => {
+                    console.log(array)
+                    array.forEach(tracky => {
+                        const track = tracky.track;
+                        // console.log(track)
+                        let htmlSegment =  `<section class="figure">
+                                        <section>
+                                            <section>
+                                                <h2>${track.name}</h2>
+                                                <h3>${track.artists[0].name}</h3>
+                                                <form><!-- action="/" method="post" -->
+                                                    <input type="hidden" name="${track.id}" value="${track.id}">
+                                                    <input type="submit" value="Like">
+                                                    <input type="submit" value="Dislike">
+                                                </form>
+                                            </section>
+                                            <section>
+                                                <img src="${track.album.images[0].url}" alt="">
+                                            </section>
+                                        </section>
+                                        <section>
+                                            <audio controls>
+                                                <source src="${track.preview_url}" type="audio/ogg">
+                                            </audio>
+                                        </section>
+                                    </section>`;
+                        html += htmlSegment;
+                        mainLijst.innerHTML = html;
+                    })
+                })
             })  
         })
     }
-    getTracks();
+    getTracks();  
 }
 
 
+// <!-- Functie om kaartjes te maken --!>
 
+// tracks.forEach(track => {
+//     console.log(track);
+    // })
 
 
 
