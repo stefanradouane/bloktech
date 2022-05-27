@@ -24,7 +24,7 @@ header{
     background-color: white;
 }
 
-main.muziekLijst ul.hidden{
+main ul.hidden{
     display: none;
     /* visibility: hidden; */
     /* opacity: 0; */

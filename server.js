@@ -246,8 +246,72 @@ app.get('/ontdek', checkAuthenticated, async (req, res) => {
     res.render('pages/ontdek', {categorien}, console.log(categorien));
 })
 
-app.get('/likes', checkAuthenticated,(req, res) => {
-    res.render('pages/likes');
+app.post('/ontdek', checkAuthenticated, async (req, res) => {
+    // console.log(req.body.trackId)
+    try{
+
+        const query = {_id: ObjectId(req.session.passport.user)};
+    
+        const trackId = req.body.trackId;
+
+        const methode = req.body.like;
+
+        const filter = {_id: ObjectId(req.session.passport.user)};
+        
+        if(methode == "like"){
+            const options = {projection:{_id:0, like:1}}
+            const likes = await db.collection('gebruikers').findOne(query, options);
+            console.log(likes);
+
+            const werkCategorie = arrayify(likes.like);
+
+            const cat3 = werkCategorie.concat(trackId)
+
+            const singelItem = new Set(cat3);
+            const myArr = Array.from(singelItem);
+
+            const updateDoc = {
+                $set: {
+                    "like" : myArr
+                }
+            };
+            
+            db.collection('gebruikers').updateOne(filter, updateDoc, {});
+
+        } else{
+            const options = {projection:{_id:0, dislike:1}}
+            const dislikes = await db.collection('gebruikers').findOne(query, options);
+            console.log(dislikes)
+
+            const werkCategorie = arrayify(dislikes.dislike);
+            const cat3 = werkCategorie.concat(trackId);
+            const singelItem = new Set(cat3);
+            const myArr = Array.from(singelItem);
+            
+            const updateDoc = {
+                $set: {
+                    "dislike" : myArr
+                }
+            };
+            db.collection('gebruikers').updateOne(filter, updateDoc, {});
+        }
+        
+    } catch (e) {
+        throw (e);
+    };
+    const query = {_id: ObjectId(req.session.passport.user)};
+    const options = {projection:{_id:0, categorie:1}}
+    const categorien = await db.collection('gebruikers').findOne(query, options)
+    res.render('pages/ontdek', {categorien})
+})
+
+app.get('/likes', checkAuthenticated, async(req, res) => {
+    const query = {_id: ObjectId(req.session.passport.user)};
+    const options = {projection:{_id:0, like:1}}
+    
+    const likes = await db.collection('gebruikers').findOne(query, options);
+    const likeId = arrayify(likes.like);
+    res.render('pages/likes', {likeId});
 })
 
 /*******************************************************

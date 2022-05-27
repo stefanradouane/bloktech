@@ -1,6 +1,7 @@
 console.log('hoi');
 
 
+
 // const askToken = async () => {
 //     const result = await fetch('https://accounts.spotify.com/api/token', {
 //                 method: 'POST',
@@ -109,6 +110,7 @@ if(mainLijst){
     const section = document.querySelector('section.figure');
 
     let tracks = [];
+    let muziek = [];
 
     async function getTracks(){
         // GetTOKEN
@@ -166,28 +168,37 @@ if(mainLijst){
                 });
                 const eind = await res.json();
                 const trackArray = eind.items;
-                console.log(trackArray)
                 return trackArray
             }
 
             let html = '';
+            
 
             Promise.all(tracks).then(data => {
-                console.log(data)
                 data.forEach(array => {
-                    console.log(array)
+                    // console.log(array)
                     array.forEach(tracky => {
+                        
+                            
+                            
+                        
+                        
+                        
+                        
+
                         const track = tracky.track;
+                        muziek.push(track)
+                        // console.log(muziek)
                         // console.log(track)
                         let htmlSegment =  `<section class="figure">
                                         <section>
                                             <section>
                                                 <h2>${track.name}</h2>
                                                 <h3>${track.artists[0].name}</h3>
-                                                <form><!-- action="/" method="post" -->
-                                                    <input type="hidden" name="${track.id}" value="${track.id}">
-                                                    <input type="submit" value="Like">
-                                                    <input type="submit" value="Dislike">
+                                                <form action="/ontdek" method="post">
+                                                    <input type="hidden" name="trackId" value="${track.id}">
+                                                    <input type="submit" name="like" value="Like">
+                                                    <input type="submit" name="dislike" value="Dislike">
                                                 </form>
                                             </section>
                                             <section>
@@ -203,13 +214,69 @@ if(mainLijst){
                         html += htmlSegment;
                         mainLijst.innerHTML = html;
                     })
+                    
                 })
+                console.log(muziek)
+
             })  
         })
     }
     getTracks();  
+
+    
+
+    // Promise.all(muziek).then(data => {
+    //     console.log(data)
+    //     console.log(muziek)
+    // })
 }
 
+const mainLikes = document.querySelector('main.likes');
+
+let likes = [];
+
+if(mainLikes){
+    const likeId = document.querySelectorAll('li.likeId');
+
+    async function getLikeList(){
+        const result = await fetch('https://accounts.spotify.com/api/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type' : 'application/x-www-form-urlencoded', 
+                        'Authorization' : 'Basic ' + btoa(clientId + ':' + clientSecret)
+                    },
+                    body: 'grant_type=client_credentials'
+                });
+        const log = await result.json();
+        const token = log.access_token;
+        console.log(token)
+
+        likeId.forEach(id => {
+            const nummerId = id.innerText;
+            console.log(nummerId)
+            likes.push(LikeList(nummerId))
+            console.log(likes)
+        })
+
+        async function LikeList(nummerId){
+            const res = await fetch(`https://api.spotify.com/v1/tracks/${nummerId}`, {
+                method: 'GET',
+                headers: { 'Authorization' : 'Bearer ' + token}
+            });
+            const eind = await res.json();
+            // const trackArray = eind.items;
+            console.log(eind);
+            return eind
+        }
+    };;
+    getLikeList();
+
+    
+    
+
+    
+    // const Id = likeId.innerText;
+}
 
 // <!-- Functie om kaartjes te maken --!>
 
