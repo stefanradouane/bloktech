@@ -171,53 +171,168 @@ if(mainLijst){
                 return trackArray
             }
 
-            let html = '';
             
 
             Promise.all(tracks).then(data => {
                 data.forEach(array => {
                     // console.log(array)
                     array.forEach(tracky => {
-                        
-                            
-                            
-                        
-                        
-                        
-                        
-
                         const track = tracky.track;
                         muziek.push(track)
-                        // console.log(muziek)
-                        // console.log(track)
-                        let htmlSegment =  `<section class="figure">
-                                        <section>
-                                            <section>
-                                                <h2>${track.name}</h2>
-                                                <h3>${track.artists[0].name}</h3>
-                                                <form action="/ontdek" method="post">
-                                                    <input type="hidden" name="trackId" value="${track.id}">
-                                                    <input type="submit" name="like" value="Like">
-                                                    <input type="submit" name="dislike" value="Dislike">
-                                                </form>
-                                            </section>
-                                            <section>
-                                                <img src="${track.album.images[0].url}" alt="">
-                                            </section>
-                                        </section>
-                                        <section>
-                                            <audio controls>
-                                                <source src="${track.preview_url}" type="audio/ogg">
-                                            </audio>
-                                        </section>
-                                    </section>`;
-                        html += htmlSegment;
-                        mainLijst.innerHTML = html;
                     })
                     
                 })
-                console.log(muziek)
+                
 
+                function CreateOne(){
+
+                    let liLike = document.querySelectorAll('li.like');
+                    let liDislike = document.querySelectorAll('li.dislike');
+                    console.log(liLike)
+                    console.log(liDislike)
+                    const trackId = muziek[0].id;
+                    let checklist = [];
+                    
+
+                    liLike.forEach(li => {
+                        const likeId = li.innerText;
+                        checklist.push(likeId)
+                    })
+
+                    liDislike.forEach(li => {
+                        const dislikeId = li.innerText;
+                        checklist.push(dislikeId)
+                    })
+
+                    console.log(checklist);
+                    const newSet = new Set(checklist);
+                    const checkArray = Array.from(newSet);
+                    console.log(checkArray)
+
+                    function ShowOne(){
+                        const meth = checkArray.includes(trackId);
+                        if (meth == true){
+                            console.log('match')
+                            // functie haal uit lijst en start opnieuw
+                            const value = muziek[0]
+                            muziek = muziek.filter(function(item){
+                                    return item != value
+                            })
+                            
+                            CheckTwo(muziek);
+                        } else if(meth == false){
+                            showTrack(muziek);
+                        }
+                    }
+
+                    ShowOne();
+
+                    function CheckTwo(muziek){
+                        const newTrackId = muziek[0].id;
+                        const meth2 = checkArray.includes(newTrackId);
+                        if(meth2 == true){
+                            const value = muziek[0]
+                            muziek = muziek.filter(function(item){
+                                return item != value
+                            })
+                            CheckTwo(muziek);
+                        } else if(meth2 == false){
+                            showTrack(muziek);
+                        }
+                    }
+
+                    function showTrack(muziek){
+                        console.log(muziek[0])
+                        const track = muziek[0];
+
+                        const previewUrl = track.preview_url;
+
+                        let html = '';
+                        // Artiest foreach loopje
+                        let htmlSegment =  `<section class="figure">
+                                                <section>
+                                                    <section>
+                                                        <h2>${track.name}</h2>
+                                                        <h3>${track.artists[0].name}</h3>
+                                                        <form action="/ontdek" method="post">
+                                                            <input type="hidden" name="trackId" value="${track.id}">
+                                                            <input type="submit" name="like" value="like">
+                                                            <input type="submit" name="dislike" value="dislike">
+                                                        </form>
+                                                    </section>
+                                                    <section>
+                                                        <img src="${track.album.images[0].url}" alt="">
+                                                    </section>
+                                                </section>
+                                                <section>`;
+                        html += htmlSegment;
+                        if (previewUrl == null){
+                            let audioErr =  `<h3>Geen preview beschikbaar</h3>
+                                            </section>
+                                            </section>`;
+                            html += audioErr;
+                        } else{
+                            let audiocontrol = `<audio controls>
+                                                        <source src="${previewUrl}" type="audio/ogg">
+                                                    </audio>
+                                                </section>
+                                            </section>`;
+                            html += audiocontrol;
+                        }
+                        mainLijst.innerHTML = html;
+
+                    }
+
+                    
+
+
+                    // const checkLiked = () => {
+                    //     liLike.forEach(li => {
+                            
+                    //         if(likeId == trackId){
+                    //             const methode = "liked";
+                    //             method.push(methode)
+                    //             console.log(method)
+                    //         } else{
+                    //             checkDisLiked()
+                    //             console.log('no like yet')
+                    //         }
+                    //     })
+                    // };
+
+                    // const checkDisLiked = () => {
+                    //     liDislike.forEach(li => {
+                    //         const dislikeId = li.innerText;
+                    //         if(dislikeId == trackId){
+                    //             const methode = "disliked";
+                    //             method.push(methode)
+                    //             console.log(method)
+                    //         } else{
+                    //             console.log('no touch')
+                    //         }
+                    //     })
+                    // }
+
+                    // checkLiked();
+                    
+
+
+
+
+                    // Check voor Like
+                    // Check voor dislike
+                    // No like or dislike == POST
+
+                    
+
+
+                }
+
+                if (muziek == []){
+                    return
+                } else {
+                    CreateOne()
+                }
             })  
         })
     }
@@ -249,13 +364,11 @@ if(mainLikes){
                 });
         const log = await result.json();
         const token = log.access_token;
-        console.log(token)
 
         likeId.forEach(id => {
             const nummerId = id.innerText;
             console.log(nummerId)
             likes.push(LikeList(nummerId))
-            console.log(likes)
         })
 
         async function LikeList(nummerId){
@@ -265,10 +378,52 @@ if(mainLikes){
             });
             const eind = await res.json();
             // const trackArray = eind.items;
-            console.log(eind);
             return eind
         }
-    };;
+
+        let html = '';
+        const likeSection = document.querySelector('section.likes')
+
+        Promise.all(likes).then(data => {
+            data.forEach(track => {
+                console.log(track)
+                const previewUrl = track.preview_url;
+                let htmlSegment =  `<section class="likeSection">
+                                        <section>
+                                            <section>
+                                                <h2>${track.name}</h2>
+                                                <h3>${track.artists[0].name}</h3>
+                                                <form action="/likes" method="post">
+                                                    <input type="hidden" name="trackId" value="${track.id}">
+                                                    <input type="submit" name="delete" value="delete">
+                                                </form>
+                                            </section>
+                                            <section>
+                                                <img src="${track.album.images[0].url}" alt="">
+                                            </section>
+                                        </section>
+                                        <section>`
+                html += htmlSegment;                        
+                if (previewUrl == null){
+                    let audioErr =  `<h3>Geen preview beschikbaar</h3>
+                                    </section>
+                                </section>`;
+                    html += audioErr;
+                } else{
+                    let audiocontrol = `<audio controls>
+                                                <source src="${track.preview_url}" type="audio/ogg">
+                                            </audio>
+                                        </section>
+                                    </section>`;
+                    html += audiocontrol;
+                }
+                likeSection.innerHTML = html;
+            })
+        })
+
+
+
+    };
     getLikeList();
 
     

@@ -94,6 +94,17 @@ main.muziekLijst > section > section:nth-of-type(2) audio::-webkit-media-control
     box-shadow: none;
 }
 
+section.likeSection{
+    margin: 1em;
+    display: grid;
+    grid-template-rows:1fr auto;
+    grid-template-columns:1fr;
+    border: 3px solid black;
+}
+
+section.likeSection > section:first-of-type{
+    display: flex;
+}
 
 /* 
 main section > section{

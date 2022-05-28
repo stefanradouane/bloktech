@@ -235,7 +235,7 @@ app.post('/start', checkAuthenticated, async (req, res) => {
     res.render('pages/categorie');
 })
 
-app.get('/start/categorie', checkAuthenticated, (req, res) => {
+app.get('/start/categorie', checkAuthenticated, async (req, res) => {
     res.render('pages/categorie');
 })
 
@@ -243,7 +243,16 @@ app.get('/ontdek', checkAuthenticated, async (req, res) => {
     const query = {_id: ObjectId(req.session.passport.user)};
     const options = {projection:{_id:0, categorie:1}}
     const categorien = await db.collection('gebruikers').findOne(query, options)
-    res.render('pages/ontdek', {categorien}, console.log(categorien));
+    
+    const optionsLike = {projection:{_id:0, like:1}}
+    const likes = await db.collection('gebruikers').findOne(query, optionsLike);
+    const likeId = arrayify(likes.like);
+
+    const options3 = {projection:{_id:0, dislike:1}}
+    const dislikes = await db.collection('gebruikers').findOne(query, options3)
+    const dislikeId = arrayify(dislikes.dislike);
+
+    res.render('pages/ontdek', {categorien, likeId, dislikeId});
 })
 
 app.post('/ontdek', checkAuthenticated, async (req, res) => {
@@ -261,7 +270,6 @@ app.post('/ontdek', checkAuthenticated, async (req, res) => {
         if(methode == "like"){
             const options = {projection:{_id:0, like:1}}
             const likes = await db.collection('gebruikers').findOne(query, options);
-            console.log(likes);
 
             const werkCategorie = arrayify(likes.like);
 
@@ -293,7 +301,9 @@ app.post('/ontdek', checkAuthenticated, async (req, res) => {
                     "dislike" : myArr
                 }
             };
+
             db.collection('gebruikers').updateOne(filter, updateDoc, {});
+            
         }
         
     } catch (e) {
@@ -302,7 +312,18 @@ app.post('/ontdek', checkAuthenticated, async (req, res) => {
     const query = {_id: ObjectId(req.session.passport.user)};
     const options = {projection:{_id:0, categorie:1}}
     const categorien = await db.collection('gebruikers').findOne(query, options)
-    res.render('pages/ontdek', {categorien})
+    // Likes en dislikes ophalen uit database
+
+    const optionsLike = {projection:{_id:0, like:1}}
+    const likes = await db.collection('gebruikers').findOne(query, optionsLike);
+    const likeId = arrayify(likes.like);
+
+    const options3 = {projection:{_id:0, dislike:1}}
+    const dislikes = await db.collection('gebruikers').findOne(query, options3)
+    const dislikeId = arrayify(dislikes.dislike);
+
+
+    res.render('pages/ontdek', {categorien, likeId, dislikeId})
 })
 
 app.get('/likes', checkAuthenticated, async(req, res) => {
@@ -312,6 +333,36 @@ app.get('/likes', checkAuthenticated, async(req, res) => {
     const likes = await db.collection('gebruikers').findOne(query, options);
     const likeId = arrayify(likes.like);
     res.render('pages/likes', {likeId});
+})
+
+app.post('/likes', checkAuthenticated, async(req, res) => {
+    const likeId = [];
+
+    try{bd  
+        const query = {_id: ObjectId(req.session.passport.user)};
+        const options = {projection:{_id:0, like:1}}
+        const likes = await db.collection('gebruikers').findOne(query, options);
+        const likeArray = arrayify(likes.like);
+        const value = req.body.trackId
+        console.log(value)
+
+        const likeIds = likeArray.filter(function(item){
+            return item != value
+        })
+        likeIds.forEach(id => {
+            likeId.push(id)
+        })
+        const filter = {_id: ObjectId(req.session.passport.user)};
+        const updateDoc = {
+            $set: {
+                "like" : likeId
+            }
+        };
+        db.collection('gebruikers').updateOne(filter, updateDoc, {});
+    }   catch (e) {
+            throw (e);
+    };
+    res.render('pages/likes', {likeId})
 })
 
 /*******************************************************

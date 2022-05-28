@@ -13,6 +13,17 @@
             <li class="categorie"><%=mascot%></li>
           <% }); %>
         </ul>
+        <ul class="hidden">
+            <% likeId.forEach(function(id) { %>
+                <li class="like"><%=id%></li>
+              <% }); %>
+        </ul>
+        <ul class="hidden">
+            <% dislikeId.forEach(function(id) { %>
+                <li class="dislike"><%=id%></li>
+              <% }); %>
+            </ul>
+        
         <section class="figure">
             <%- include('../partials/figure'); %>
         </section>
