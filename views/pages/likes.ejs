@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <%- include('../partials/head'); %>
-</head>
-<body>
-    <header>
-        <%- include('../partials/header'); %>
-    </header>
-    <main class="likes">
-        <section>
-            <h2>Likes</h2>
-            <ul class="hidden">
-            <%likeId.forEach(function(id){ %>
-                <li class="likeId"><%=id%></li>
-                <% }); %>
-            </ul>
 
-            <p>Hier staan de nummers die je hebt geliked</p>
-            <!-- <img src="/images/lp.webp" alt=""> -->
-            <!-- <a href="/sounder/ontdek/">Start met muziek ontdekken</a> -->
-        </section>
-        <section class="likes">
-            <%- include('../partials/liked'); %>
-        </section>
-    </main>
-    <footer>
-        <%- include('../partials/footer'); %>
-    </footer>
-    <script src="/scripts/getSpotify.js"></script>
+<head>
+  <%- include('../partials/head'); %>
+</head>
+
+<body>
+  <header><%- include('../partials/header'); %></header>
+  <main class="likes">
+    <section>
+      <h2>Likes</h2>
+      <ul class="hidden">
+        <%likeId.forEach(function(id){ %>
+        <li class="likeId"><%=id%></li>
+        <% }); %>
+      </ul>
+
+      <!-- <img src="/images/lp.webp" alt=""> -->
+      <!-- <a href="/sounder/ontdek/">Start met muziek ontdekken</a> -->
+    </section>
+    <section class="likes"><%- include('../partials/liked'); %></section>
+  </main>
+  <footer><%- include('../partials/footer'); %></footer>
+  <script src="/scripts/getSpotify.js"></script>
 </body>
+
 </html>

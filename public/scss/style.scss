@@ -1,0 +1,459 @@
+$green: #1ba745;
+
+$bg-color: #000;
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #050505;
+    color: white;
+}
+
+header {
+    height: 4em;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $bg-color;
+
+    a {
+        text-decoration: none;
+
+        img {
+            height: 2.5em;
+        }
+    }
+}
+
+ul.hidden {
+    display: none;
+}
+
+main {
+    padding: 1em;
+
+    img {
+        width: 100%;
+    }
+
+
+}
+
+main.index {
+    position: absolute;
+    inset: 0;
+    // height: 100vh;
+
+    section:first-of-type {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: -2em;
+        gap: 2em;
+
+        a {
+            color: white;
+            font-size: 1.25em;
+            border: 1px solid white;
+            text-decoration: none;
+            padding: .5em 1em;
+        }
+
+    }
+
+    section:nth-of-type(2) {
+        position: absolute;
+        top: 5em;
+        right: 1em;
+        left: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5em;
+
+        p {
+            font-size: 1.2em;
+
+
+
+            span {
+                color: $green;
+            }
+        }
+
+        button {
+            font-size: 1em;
+            background-color: transparent;
+            color: orange;
+            border: none;
+        }
+    }
+}
+
+main.login {
+
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+        margin-bottom: .5em;
+    }
+
+    p {
+        margin-bottom: .5em;
+        color: orange;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: .5em;
+
+        div {
+            display: flex;
+            flex-direction: column;
+            gap: .1em;
+
+            input {
+                border: none;
+                padding: .5em;
+
+                &:focus {
+                    // background-color: blue;
+                    border: none;
+                    outline: none;
+                    box-shadow: none;
+                    border-bottom: 1px solid $green;
+                }
+
+            }
+
+
+        }
+
+        button {
+            padding: .5em 1em;
+            margin-top: .5em;
+            border-radius: none;
+            border: 1px solid $green;
+            color: $green;
+            background-color: transparent;
+            font-size: 1.1em;
+            width: 30%;
+            cursor: pointer;
+
+        }
+    }
+
+    a {
+        color: $green;
+        text-decoration: none;
+        margin-top: 2em;
+    }
+
+
+}
+
+main.start {
+    margin-bottom: 9em;
+
+    form.categorie {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+
+        button {
+            padding: 0.5em 1em;
+            font-size: 20px;
+            position: fixed;
+            bottom: 5em;
+            left: 50%;
+            transform: translateX(-50%);
+            // plaatsen van de button boven de footer in het midden.
+        }
+
+        .container {
+            width: 47.9%;
+            aspect-ratio: 1/1;
+            /* background-color: #ffffff; */
+            /* box-shadow: 0 0 25px rgba(17, 1, 68, 0.08); */
+            border-radius: 8px;
+            position: relative;
+
+            input[type="checkbox"] {
+                -webkit-appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                -o-appearance: none;
+                appearance: none;
+                position: absolute;
+                inset: 0;
+                cursor: pointer;
+                transition: 200ms;
+
+                &:checked {
+
+                    background-color: rgba(46, 204, 113, 0.5);
+                }
+
+                &:active {
+                    background-color: rgba(46, 204, 113, 0.75);
+                }
+
+            }
+
+            label {
+                position: absolute;
+            }
+
+            img {
+                width: 100%;
+                margin: auto;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                cursor: pointer;
+                z-index: -1;
+            }
+
+            p {
+                color: white;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, 200%);
+                font-weight: bold;
+                z-index: 2;
+            }
+        }
+    }
+}
+
+main.muziekLijst {
+    >section {
+        position: relative;
+        padding: 1em;
+        background-color: $bg-color;
+        border-radius: 10px;
+        height: 38em;
+
+
+        >section {
+            &:first-of-type {
+                display: flex;
+                flex-direction: column;
+                gap: 2em;
+
+                section {
+                    &:first-of-type {
+                        h2 {
+                            color: $green;
+                        }
+
+                        h3 {
+                            font-style: italic;
+                            margin-top: .25em;
+                        }
+                    }
+                }
+
+
+
+                form {
+                    margin-top: 1em;
+                    display: flex;
+                    gap: 1em;
+
+                    input {
+                        border: none;
+                        color: white;
+                        font-size: 1em;
+                        padding: .5em 1em;
+
+                        // Stylen van de knoppen! Apart per knop
+                        &:nth-of-type(2) {
+                            background-color: $green;
+                        }
+
+                        &:nth-of-type(3) {
+                            background-color: red;
+                        }
+
+
+                        // Plaatje van like en dislike toevoegen!
+
+                    }
+                }
+            }
+
+            &:nth-of-type(2) {
+                position: absolute;
+                bottom: 1em;
+                left: 1em;
+                right: 1em;
+
+                audio {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+main.likes {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin-bottom: 5em;
+
+    section.likes {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        section.likeSection {
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            // display: grid;
+            // grid-template-rows: 1fr auto;
+            // grid-template-columns: 1fr;
+            border: 3px solid black;
+            background-color: black;
+            border-radius: 10px;
+
+            >section {
+
+                &:first-of-type {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: .5em;
+
+                    section {
+                        &:first-of-type {
+                            h2 {
+                                color: $green;
+                            }
+
+                            h3 {
+                                font-style: italic;
+                                margin-top: .25em;
+                            }
+
+                            form {
+                                input {
+                                    background-color: transparent;
+                                    color: orange;
+                                    border: none;
+                                    font-size: 1em;
+                                    margin-top: 1em;
+
+                                }
+                            }
+                        }
+
+                        &:nth-of-type(2) {
+                            img {
+                                width: 10em;
+                                height: 10em;
+                            }
+                        }
+                    }
+                }
+
+                &:nth-of-type(2) {
+                    audio {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+
+    nav {
+        ul {
+            display: flex;
+            justify-content: space-around;
+            // background-color: red;
+
+
+            li {
+                background-color: black;
+                width: 6em;
+                height: 4em;
+                margin: .5em 0;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                border-radius: 8px;
+                // font-size: 1em;
+
+                &:nth-of-type(2) {
+                    a {
+                        color: $green;
+
+                        svg {
+                            fill: $green;
+                        }
+                    }
+                }
+
+
+                a {
+                    height: 100%;
+                    width: 100%;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    text-decoration: none;
+                    border-radius: 8px;
+
+
+                    svg {
+                        overflow: visible;
+                        height: 1.5em;
+                        fill: white;
+                    }
+                }
+
+            }
+
+            // li:last-of-type {
+            //     visibility: hidden;
+            //     opacity: 0;
+            // }
+        }
+    }
+}

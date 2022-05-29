@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <%- include('../partials/head'); %>
 </head>
+
 <body>
     <header>
         <%- include('../partials/header'); %>
     </header>
     <main class="start">
-        
-        <h2>Selecteer een aantal categorieen.</h2>
+
+        <h2>Selecteer een aantal categorieën.</h2>
         <form action="/start" method="post" class="categorie">
             <label for="naam">naam</label>
             <input type="checkbox" name="naam" value="naam">
@@ -20,4 +22,5 @@
     </footer>
     <script src="/scripts/getSpotify.js"></script>
 </body>
+
 </html>

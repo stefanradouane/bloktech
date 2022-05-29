@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
-    <%- include('../partials/head'); %>
+  <%- include('../partials/head'); %>
 </head>
+
 <body>
-    <header>
-        <%- include('../partials/header'); %>
-    </header>
-    <main>
-        <section>
-            <h2>Ontdek nieuwe muziek</h2>
-            <img src="/images/lp.webp" alt="">
-            <a href="/start">Start met muziek ontdekken</a>
-        </section>
-        <form action="/logout?_method=DELETE" method="POST">
-            <button type="submit">Log Out</button>
-        </form> 
-    </main>
-    <footer>
-        <%- include('../partials/footer'); %>
-    </footer>
+  <header><%- include('../partials/header'); %></header>
+  <main class="index">
+    <!-- Haal username op uitdatabase -->
+    <!-- Stop username in een p? o.i.d. -->
+    <section>
+      <img src="/images/logosounder.png" alt="logo van sounder" />
+      <a href="/ontdek">Start met muziek ontdekken</a>
+    </section>
+    <section>
+
+      <p>Welkom terug <span><%=naam%></span></p>
+      <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit">Log out</button>
+      </form>
+    </section>
+  </main>
+  <footer><%- include('../partials/footer'); %></footer>
 </body>
+
 </html>

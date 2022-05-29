@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <%- include('../partials/head'); %>
 </head>
+
 <body>
     <header>
         <%- include('../partials/header'); %>
     </header>
-    <main>
-        <h1>Register</h1>
+    <main class="login">
+        <h2>Registreer jezelf nu!</h2>
         <form action="/register" method="POST">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-        <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <button type="submit">Register</button>
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Registreer</button>
         </form>
-        <a href="/login">Login</a>
+        <a href="/login">Heb je toch wel al een account? Log in.</a>
     </main>
-    <footer>
-        <%- include('../partials/footer'); %>
-    </footer>
 </body>
+
 </html>

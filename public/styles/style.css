@@ -1,108 +1,86 @@
-*{
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    /* list-style: none; */
-}
-
-html{
-    font-family: 'museo-sans', Arial, Helvetica, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    scroll-behavior: smooth;
-}
-
-body{
+body {
     background-color: coral;
 }
 
-header{
-    height: 3em;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-}
-
-main ul.hidden{
+main ul.hidden {
     display: none;
     /* visibility: hidden; */
     /* opacity: 0; */
 }
 
-main > section{
+main>section {
     display: flex;
     flex-direction: column;
 }
 
-main section button{
-    padding: .5em;
+main section button {
+    padding: 0.5em;
 }
 
-main section img{
+main section img {
     width: 100%;
     order: -1;
 }
 
-main.muziekLijst > section{
+main.muziekLijst>section {
     margin: 1em;
     display: grid;
-    grid-template-rows:1fr auto;
-    grid-template-columns:1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
 
     /* flex-direction: column; */
     /* gap: 1em; */
     border: 3px solid black;
 }
 
-main.muziekLijst > section > section:first-of-type{
+main.muziekLijst>section>section:first-of-type {
     display: flex;
     position: relative;
 }
 
-main.muziekLijst > section > section:first-of-type > section:first-of-type{
+main.muziekLijst>section>section:first-of-type>section:first-of-type {
     display: flex;
     flex-direction: column;
     width: 50%;
     height: 10em;
-    padding: .5em;
-    gap: .5em;
+    padding: 0.5em;
+    gap: 0.5em;
 }
 
-main.muziekLijst > section > section:first-of-type > section:nth-of-type(2){
+main.muziekLijst>section>section:first-of-type>section:nth-of-type(2) {
     width: 10em;
-} 
-
-main.muziekLijst > section > section:first-of-type > section:nth-of-type(2) img{
-     width: 10em;
-     height: 10em;
-     object-fit: cover;
-     position: absolute;
-     top: 0;
-     right: 0;
 }
 
-main.muziekLijst > section > section:nth-of-type(2) audio{
+main.muziekLijst>section>section:first-of-type>section:nth-of-type(2) img {
+    width: 10em;
+    height: 10em;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+main.muziekLijst>section>section:nth-of-type(2) audio {
     width: 100%;
-    background-color:#c8c8c8;
+    background-color: #c8c8c8;
     border-radius: 0;
 }
 
-main.muziekLijst > section > section:nth-of-type(2) audio::-webkit-media-controls-panel {
-    background-color: rgba(200, 200, 200,1);
+main.muziekLijst>section>section:nth-of-type(2) audio::-webkit-media-controls-panel {
+    background-color: rgba(200, 200, 200, 1);
     border-radius: none;
     box-shadow: none;
 }
 
-section.likeSection{
+section.likeSection {
     margin: 1em;
     display: grid;
-    grid-template-rows:1fr auto;
-    grid-template-columns:1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
     border: 3px solid black;
 }
 
-section.likeSection > section:first-of-type{
+section.likeSection>section:first-of-type {
     display: flex;
 }
 
@@ -127,43 +105,42 @@ main section > section:nth-of-type(2){
     align-items: center;
 } */
 
-main form{
-    margin-top:2em ;
+main form {
+    margin-top: 2em;
     display: flex;
     gap: 1em;
 }
 
-main form input{
-    padding:.5em 1em;
+main form input {
+    padding: 0.5em 1em;
 }
 
-
-main figure section button{
+main figure section button {
     width: 7.5em;
 }
 
-main > section > details{
+main>section>details {
     width: 100%;
     margin: 0 1em;
 }
 
-main.start{
+main.start {
     margin-bottom: 4em;
 }
 
-form.categorie{
+form.categorie {
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
     padding: 1em;
 }
 
-form.categorie button{
-    padding:.5em 1em;
+form.categorie button {
+    padding: 0.5em 1em;
     font-size: 20px;
 }
 
-form.categorie .container{
+form.categorie .container {
     aspect-ratio: 1/1;
     width: 45%;
     /* background-color: #ffffff; */
@@ -185,21 +162,20 @@ input[type="checkbox"] {
     transition: 200ms;
 }
 
-input[type="checkbox"]:active{
+input[type="checkbox"]:active {
     background-color: rgba(46, 204, 113, 0.75);
 }
 
-input[type="checkbox"]:checked{
+input[type="checkbox"]:checked {
     background-color: rgba(46, 204, 113, 0.5);
 }
 
-
-.container p{
+.container p {
     color: white;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,200%);
+    transform: translate(-50%, 200%);
     font-weight: bold;
     z-index: 2;
 }
@@ -214,73 +190,38 @@ input[type="checkbox"]:checked{
     bottom: 0;
     cursor: pointer;
     z-index: -1;
-  }
+}
 
 /* Kaartjes die je hebt geliked  */
 
-main section.liked{
+main section.liked {
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: .5em;
-    padding: .5em;
+    margin: 0.5em;
+    padding: 0.5em;
     border-radius: 10px;
     background-color: white;
 }
+
 /* Hartje van likes -> formulier! */
-main section.liked svg{
+main section.liked svg {
     position: absolute;
-    top: .5em;
-    right: .5em;
+    top: 0.5em;
+    right: 0.5em;
     fill: black;
     /* width: 50%; */
 }
 
-footer{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+footer {
+
     /* margin-bottom: 1em ; */
 }
 
-footer nav ul{
-    display: flex;
-    justify-content: space-around;
-    background-color: white;
-}
+footer nav ul {}
 
-footer nav ul li{
-    background-color: black;
-    width: 4em;
-    height: 4em;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction:column ;
-    border-radius: 8px 8px 0 0 ;
-}
+footer nav ul li {}
 
-footer nav ul li a{
-    width: 4em;
-    height: 4em;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction:column ;
-    text-decoration: none;
-}
+footer nav ul li a {}
 
-footer nav ul li:last-of-type{
-    visibility: hidden;
-    opacity: 0;
-}
-
-
-svg{
-    overflow: visible;
-    width: 1.5em;
-    fill: white;
-}
+footer nav ul li:last-of-type {}
