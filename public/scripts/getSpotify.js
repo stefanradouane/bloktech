@@ -29,16 +29,40 @@ async function getCategory() {
 
   // Renderfunction shamellysly copy pasted van het internet
   let html = "";
+  let liCat = document.querySelectorAll('li.werkCat')
+
+  let checkCat = [];
+
+  liCat.forEach(li => {
+    console.log(li.innerText);
+    const catId = li.innerText;
+    checkCat.push(catId)
+  })
+
 
   categories.forEach((categorie) => {
-    let htmlSegment = `<div class="container">
+    const methode = checkCat.includes(categorie.id);
+    if (methode) {
+      console.log(categorie.id)
+      let htmlSegment = `<div class="container">
+                                    <label for="${categorie.id}">
+                                        <p>${categorie.name}</p>
+                                        <img src="${categorie.icons[0].url}"/>
+                                    </label>
+                                    <input type="checkbox" name="categorie" value="${categorie.id}" id="${categorie.name}" checked>
+                                </div>`;
+      html += htmlSegment;
+    } else {
+      console.log(categorie.id)
+      let htmlSegment = `<div class="container">
                                     <label for="${categorie.id}">
                                         <p>${categorie.name}</p>
                                         <img src="${categorie.icons[0].url}"/>
                                     </label>
                                     <input type="checkbox" name="categorie" value="${categorie.id}" id="${categorie.name}">
                                 </div>`;
-    html += htmlSegment;
+      html += htmlSegment;
+    }
   });
   let buttonToEnd = "<button>Opslaan</button>";
   html += buttonToEnd;
