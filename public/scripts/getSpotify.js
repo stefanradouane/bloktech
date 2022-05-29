@@ -410,6 +410,103 @@ if (mainLikes) {
   // const Id = likeId.innerText;
 }
 
+
+const mainDisikes = document.querySelector("main.dislikes");
+
+let dislikes = [];
+
+if (mainDisikes) {
+  const dislikeId = document.querySelectorAll("li.dislikeId");
+
+  async function getDislikeList() {
+    const result = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
+      },
+      body: "grant_type=client_credentials",
+    });
+    const log = await result.json();
+    const token = log.access_token;
+
+    dislikeId.forEach((id) => {
+      const nummerId = id.innerText;
+      console.log(nummerId);
+      dislikes.push(DislikeList(nummerId));
+    });
+
+    async function DislikeList(nummerId) {
+      const res = await fetch(`https://api.spotify.com/v1/tracks/${nummerId}`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      const eind = await res.json();
+      // const trackArray = eind.items;
+      return eind;
+    }
+
+    let html = "";
+    const dislikeSection = document.querySelector("section.dislikes");
+
+    Promise.all(dislikes).then((data) => {
+      data.forEach((track) => {
+        console.log(track);
+        const previewUrl = track.preview_url;
+        const artist = track.artists;
+        let htmlSegment = `<section class="dislikeSection">
+                                        <section>
+                                            <section>
+                                                <h2>${track.name}</h2>`
+        html += htmlSegment;
+        if (artist.length == 1) {
+          let ArtistSection = `<h3>${artist[0].name}</h3>`
+          html += ArtistSection;
+        } else if (artist.length == 2) {
+          let ArtistSection = `<h3>${artist[0].name} & ${artist[1].name}</h3>`
+          html += ArtistSection;
+        } else if (artist.length == 3) {
+          let ArtistSection = `<h3>${artist[0].name}, ${artist[1].name} & ${artist[2].name}</h3>`
+          html += ArtistSection;
+        } else if (artist.length >= 4) {
+          let ArtistSection = `<h3>${artist[0].name}, ${artist[1].name}, ${artist[2].name} & ${artist[3].name}</h3>`
+          html += ArtistSection;
+        }
+        let moreSegment = `<form action="/dislikes" method="post">
+                                                    <input type="hidden" name="trackId" value="${track.id}">
+                                                    <input type="submit" name="delete" value="delete">
+                                                </form>
+                                            </section>
+                                            <section>
+                                                <img src="${track.album.images[0].url}" alt="">
+                                            </section>
+                                        </section>
+                                        <section>`;
+        html += moreSegment;
+        if (previewUrl == null) {
+          let audioErr = `<h3>Geen preview beschikbaar</h3>
+                                    </section>
+                                </section>`;
+          html += audioErr;
+        } else {
+          let audiocontrol = `<audio controls>
+                                                <source src="${track.preview_url}" type="audio/ogg">
+                                            </audio>
+                                        </section>
+                                    </section>`;
+          html += audiocontrol;
+        }
+        dislikeSection.innerHTML = html;
+      });
+    });
+  }
+  getDislikeList();
+
+  // const Id = likeId.innerText;
+}
+
 // <!-- Functie om kaartjes te maken --!>
 
 // tracks.forEach(track => {

@@ -170,6 +170,9 @@ main.login {
 
 main.start {
     margin-bottom: 9em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 
     form.categorie {
         display: flex;
@@ -180,9 +183,15 @@ main.start {
             padding: 0.5em 1em;
             font-size: 20px;
             position: fixed;
-            bottom: 5em;
+            bottom: 96px;
             left: 50%;
             transform: translateX(-50%);
+            border: none;
+            background-color: black;
+            color: $green;
+            border-bottom: 2px solid $green;
+            border-radius: 8px 8px 0 0;
+
             // plaatsen van de button boven de footer in het midden.
         }
 
@@ -321,12 +330,112 @@ main.likes {
     gap: 1em;
     margin-bottom: 5em;
 
+
+    section {
+        >a {
+            color: $green;
+            text-decoration: none;
+
+        }
+
+    }
+
+
+
     section.likes {
         display: flex;
         flex-direction: column;
         gap: 1em;
 
         section.likeSection {
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            // display: grid;
+            // grid-template-rows: 1fr auto;
+            // grid-template-columns: 1fr;
+            border: 3px solid black;
+            background-color: black;
+            border-radius: 10px;
+
+            >section {
+
+                &:first-of-type {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: .5em;
+
+                    section {
+                        &:first-of-type {
+                            h2 {
+                                color: $green;
+                            }
+
+                            h3 {
+                                font-style: italic;
+                                margin-top: .25em;
+                            }
+
+                            form {
+                                input {
+                                    background-color: transparent;
+                                    color: orange;
+                                    border: none;
+                                    font-size: 1em;
+                                    margin-top: 1em;
+
+                                }
+                            }
+                        }
+
+                        &:nth-of-type(2) {
+                            img {
+                                width: 10em;
+                                height: 10em;
+                            }
+                        }
+                    }
+                }
+
+                &:nth-of-type(2) {
+                    audio {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+}
+
+
+main.dislikes {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin-bottom: 5em;
+
+    section {
+        >a {
+            color: $green;
+            text-decoration: none;
+
+        }
+
+    }
+
+
+
+    section.dislikes {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        section.dislikeSection {
             padding: 1em;
             display: flex;
             flex-direction: column;

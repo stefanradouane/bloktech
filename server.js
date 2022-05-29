@@ -439,6 +439,57 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
   });
 });
 
+app.get("/dislikes", checkAuthenticated, async (req, res) => {
+  const query = {
+    _id: ObjectId(req.session.passport.user)
+  };
+  const options = {
+    projection: {
+      _id: 0,
+      dislike: 1
+    }
+  };
+  const dislikes = await db.collection("gebruikers").findOne(query, options);
+  const dislikeArray = arrayify(dislikes.dislike);
+  console.log(dislikeArray);
+  res.render("pages/dislikes", {
+    dislikeArray
+  })
+})
+
+app.post("/dislikes", checkAuthenticated, async (req, res) => {
+  const query = {
+    _id: ObjectId(req.session.passport.user)
+  };
+  const options = {
+    projection: {
+      _id: 0,
+      dislike: 1
+    }
+  };
+  const dislikes = await db.collection("gebruikers").findOne(query, options);
+  const dislikeLijst = arrayify(dislikes.dislike);
+  const value = req.body.trackId;
+  console.log(value);
+
+  const dislikeArray = dislikeLijst.filter(function (item) {
+    return item != value;
+  });
+  const filter = {
+    _id: ObjectId(req.session.passport.user)
+  };
+  const updateDoc = {
+    $set: {
+      dislike: dislikeArray,
+    },
+  };
+
+  db.collection("gebruikers").updateOne(filter, updateDoc, {});
+  res.render("pages/dislikes", {
+    dislikeArray
+  });
+});
+
 /*******************************************************
  * If no routes give response, show 404
  ********************************************************/
