@@ -27,27 +27,31 @@ Wanneer je bent ingelogd kun je categorieen selecteren. Op basis van deze gekoze
 ### Before we start
 
 <details>
-    <summary>Nog geen node.js, NPM of Git geinstalleerd?</summary>
-    * Node.js // [Download node.js]("https://nodejs.org/en/download/")
-    ```
-    // Check node version
-    node -v
-    ```
+<summary>Nog geen node.js, NPM of Git geinstalleerd?</summary>
 
-    * NPM
-    ```
-    // Install NPM
-    npm install npm --global
+- Node.js // [Download node.js]("https://nodejs.org/en/download/")
 
-    // Check NPM version
-    npm -v
-    ```
+```
+// Check node version
+node -v
+```
 
-    * Git // [Download Git]("https://github.com/git-guides/install-git")
-    ```
-    // Check version
-    git version
-    ```
+- NPM
+
+```
+// Install NPM
+npm install npm --global
+
+// Check NPM version
+npm -v
+```
+
+- Git // [Download Git]("https://github.com/git-guides/install-git")
+
+```
+// Check version
+git version
+```
 
 </details>
 
