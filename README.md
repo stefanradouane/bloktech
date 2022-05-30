@@ -1,4 +1,4 @@
-# bloktech
+# Blok Tech
 
 **blok tech periode 4 leerjaar 2**
 
@@ -24,10 +24,17 @@ Wanneer je bent ingelogd kun je categorieen selecteren. Op basis van deze gekoze
 
 ## ✨ Installatie
 
-### Before we start
+## Before we start
+
+Wil je aan de slag met mijn project?<br>
+Zorg ervoor dat je eerst de volgende dingen hebt installeerd.
+
+- Node.js
+- NPM
+- Git
 
 <details>
-<summary>Nog geen node.js, NPM of Git geinstalleerd?</summary>
+<summary>Heb je Node.js, NPM of Git nog niet geinstalleerd?</summary>
 
 - Node.js // [Download node.js]("https://nodejs.org/en/download/")
 
@@ -54,38 +61,6 @@ git version
 ```
 
 </details>
-
-Wil je aan de slag met mijn project?<br>
-Zorg ervoor dat je eerst de volgende items installeerd.
-
-- Node.js // [Download node.js](https://nodejs.org/en/download/)
-
-```
-// Check node version
-node -v
-```
-
-- NPM
-
-```
-// Install NPM
-npm install npm --global
-
-// Check NPM version
-npm -v
-```
-
-- Git // [Download Git](https://github.com/git-guides/install-git)
-
-```
-// Check version
-git version
-```
-
-- NPM
-- Express
-- MongoDB Atlas en MongoDB Compass
-- EJS
 
 Voer dan de volgende stappen uit: <br>
 
