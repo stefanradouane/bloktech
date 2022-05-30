@@ -32,6 +32,7 @@ Zorg ervoor dat je eerst de volgende dingen hebt installeerd.
 - Node.js
 - NPM
 - Git
+<!-- Optionele apps. -->
 
 <details>
 <summary><strong>Heb je Node.js, NPM of Git nog niet geinstalleerd?</strong></summary>
@@ -62,7 +63,7 @@ git version
 
 </details>
 
-### Start
+### Starten van de server
 
 Voer dan de volgende stappen uit:<br>
 
@@ -87,13 +88,27 @@ node server.js
 ```
 
 Ga naar een browser en navigeer naar: localhost:3000 <br>
-Als alles goed is verlopen zie je de matches van de asieldieren en kun je filteren. <br>
+Als alles goed is verlopen zie je nu een inlog scherm.<br>
+**Top tot zo ver werkt alles!**
 
-## :computer:Database
+### :computer: Koppelen van de database
+
+Om de app daadwerkelijk ook te laten werken moet je een database koppelen aan de app.<br>
+
+<!-- Summary? -->
+
+Dit is heel erg simpel en kost maar 4 stappen.
+
+1. Maak een account aan op [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
 
 Binnen dit project is er gebruik van een MongoDB database. <br>
 Wil je hier meer over begrijpen en lezen wat mijn database structuur is? Dan verwijs ik je graag door naar de pagina [Database Structure](https://github.com/ArisRosbach/blokTech/wiki/Database-Structure) binnen mijn wiki. <br>
 Hier vind je een korte toelichting over een database en heb ik de structuur in een afbeelding weergegeven.
+
+### :computer: De spotify api laten werken
+
+<!-- Hier moet ik uitleggen welk bestand moet worden geopend -->
+<!-- Hier moet  -->
 
 ## :memo:Documentatie
 
