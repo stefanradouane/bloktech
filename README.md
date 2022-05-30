@@ -102,7 +102,7 @@ Als alles goed is verlopen zie je nu een inlog scherm.<br>
 
 ### :computer: Verander de naam van EXAMPLE.env
 
-<em>De app heeft een aantal variabelen nodig die je zelf moet ophalen en plaatsen in een '.env' bestand.</em><br>
+<strong>De app heeft een aantal variabelen nodig die je zelf moet ophalen en plaatsen in een '.env' bestand.</strong><br><br>
 Momenteel is er alleen nog een EXAMPLE.env bestand, verander de naam van 'EXAMPLE.env' naar alleen '.env'.<br>
 Verder zul je nog gaan lezen hoe je de variabelen die je nodig hebt kunt verzamelen.
 
