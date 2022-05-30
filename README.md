@@ -114,6 +114,7 @@ Om de app daadwerkelijk ook te laten werken moet je een database koppelen aan de
 
 <details>
 <summary>Dit is simpeler dan het lijkt het zijn een aantal stappen.</summary>
+
 1. Maak een account aan op [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register) // Als je al een account hebt ga door naar stap 4
 2. Voltooi de welkom onboarding
 3. Maak een shared cluster aan en geef dit een logische naam
