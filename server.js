@@ -37,12 +37,16 @@ const {
   use
 } = require("passport");
 
-// inizializePassport(passport, email => users.find(user => user.email === email),
-// id => users.find(user => user.id === id));
+
+let db = null;
+
+// Readme change 1
+const myDatabase = "gebruikers";
+
 
 inizializePassport(
   passport,
-  async (email) => await db.collection("gebruikers").findOne({
+  async (email) => await db.collection(myDatabase).findOne({
       email: email
     }),
     (id) => {
@@ -50,21 +54,6 @@ inizializePassport(
       return userFound;
     }
 );
-
-// db.collection('gebruikers').findOne({_id:id},{_id:1, name:0, email:0, password:0})
-// db.collection('gebruikers').findOne(user => user._id === id))
-
-// db.collection('gebruikers').find().project({ _id: 1}))
-
-//  -> id die ik wil ophalen naar de variabel id
-
-let db = null;
-
-
-// let namen = require('./database/database');
-// let nummers = require('./database/database');
-// const data = require('./public/scripts/script');
-// console.log(data)
 
 /*******************************************************
  * Middleware
@@ -78,7 +67,6 @@ app.use(bodyParser.json());
 
 app.post("/save-categorie", (req, res) => {
   res.send(req.body);
-  // console.log(req.body)
 });
 
 app.use(flash());
@@ -109,11 +97,6 @@ function checkNotAuthenticated(req, res, next) {
   }
   next();
 }
-
-// app.delete('/logout', (req, res) => {
-//     req.logOut()
-//     res.redirect('/login')
-// })
 
 app.delete("/logout", function (req, res, next) {
   req.logout(function (err) {
@@ -149,7 +132,7 @@ app.get("/", checkAuthenticated, async (req, res) => {
     }
   };
   // const username
-  const username = await db.collection("gebruikers").findOne(query, options);
+  const username = await db.collection(myDatabase).findOne(query, options);
   const naam = username.name;
   // geef const mee aan site
   res.render("pages/index", {
@@ -198,7 +181,7 @@ app.get("/register", checkNotAuthenticated, (req, res) => {
 app.post("/register", checkNotAuthenticated, async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await db.collection("gebruikers").insertOne({
+    await db.collection(myDatabase).insertOne({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
@@ -210,7 +193,6 @@ app.post("/register", checkNotAuthenticated, async (req, res) => {
 });
 
 app.get("/start", checkAuthenticated, async (req, res) => {
-  // Get categories
   const query = {
     _id: ObjectId(req.session.passport.user)
   };
@@ -220,16 +202,8 @@ app.get("/start", checkAuthenticated, async (req, res) => {
       categorie: 1
     }
   };
-
-  const categories = await db.collection("gebruikers").findOne(query, options);
+  const categories = await db.collection(myDatabase).findOne(query, options);
   const werkCat = categories.categorie;
-  console.log(werkCat)
-
-  // plaats categorien op pagina met template engine
-  // scan categorien met getSpotify
-  // if categorie == liCat : checked.   
-
-
   res.render("pages/start", {
     werkCat
   });
@@ -245,7 +219,7 @@ app.post("/start", checkAuthenticated, async (req, res) => {
       categorie: categorie,
     },
   };
-  db.collection("gebruikers").updateOne(filter, updateDoc, {});
+  db.collection(myDatabase).updateOne(filter, updateDoc, {});
   res.render("pages/categorie");
 });
 
@@ -260,7 +234,7 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
       categorie: 1
     }
   };
-  const categorien = await db.collection("gebruikers").findOne(query, options);
+  const categorien = await db.collection(myDatabase).findOne(query, options);
 
   const optionsLike = {
     projection: {
@@ -268,7 +242,7 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
       like: 1
     }
   };
-  const likes = await db.collection("gebruikers").findOne(query, optionsLike);
+  const likes = await db.collection(myDatabase).findOne(query, optionsLike);
   const likeId = arrayify(likes.like);
 
   const options3 = {
@@ -277,7 +251,7 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
       dislike: 1
     }
   };
-  const dislikes = await db.collection("gebruikers").findOne(query, options3);
+  const dislikes = await db.collection(myDatabase).findOne(query, options3);
   const dislikeId = arrayify(dislikes.dislike);
   // when categorien = empty :res.render(/categorie)
   if (categorien.categorie == undefined) {
@@ -312,7 +286,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
         like: 1
       }
     };
-    const likes = await db.collection("gebruikers").findOne(query, options);
+    const likes = await db.collection(myDatabase).findOne(query, options);
 
     const werkCategorie = arrayify(likes.like);
 
@@ -327,7 +301,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
       },
     };
 
-    db.collection("gebruikers").updateOne(filter, updateDoc, {});
+    db.collection(myDatabase).updateOne(filter, updateDoc, {});
   } else {
     const options = {
       projection: {
@@ -335,7 +309,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
         dislike: 1
       }
     };
-    const dislikes = await db.collection("gebruikers").findOne(query, options);
+    const dislikes = await db.collection(myDatabase).findOne(query, options);
     console.log(dislikes);
 
     const werkCategorie = arrayify(dislikes.dislike);
@@ -349,7 +323,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
       },
     };
 
-    db.collection("gebruikers").updateOne(filter, updateDoc, {});
+    db.collection(myDatabase).updateOne(filter, updateDoc, {});
   }
 
   const optionsCat = {
@@ -359,7 +333,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
     }
   };
   const categorien = await db
-    .collection("gebruikers")
+    .collection(myDatabase)
     .findOne(query, optionsCat);
   // Likes en dislikes ophalen uit database
 
@@ -369,7 +343,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
       like: 1
     }
   };
-  const likes = await db.collection("gebruikers").findOne(query, optionsLike);
+  const likes = await db.collection(myDatabase).findOne(query, optionsLike);
   const likeId = arrayify(likes.like);
 
   const options3 = {
@@ -378,7 +352,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
       dislike: 1
     }
   };
-  const dislikes = await db.collection("gebruikers").findOne(query, options3);
+  const dislikes = await db.collection(myDatabase).findOne(query, options3);
   const dislikeId = arrayify(dislikes.dislike);
 
   res.render("pages/ontdek", {
@@ -399,7 +373,7 @@ app.get("/likes", checkAuthenticated, async (req, res) => {
     }
   };
 
-  const likes = await db.collection("gebruikers").findOne(query, options);
+  const likes = await db.collection(myDatabase).findOne(query, options);
   const likeId = arrayify(likes.like);
   res.render("pages/likes", {
     likeId
@@ -416,7 +390,7 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
       like: 1
     }
   };
-  const likes = await db.collection("gebruikers").findOne(query, options);
+  const likes = await db.collection(myDatabase).findOne(query, options);
   const likeArray = arrayify(likes.like);
   const value = req.body.trackId;
   console.log(value);
@@ -433,7 +407,7 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
     },
   };
 
-  db.collection("gebruikers").updateOne(filter, updateDoc, {});
+  db.collection(myDatabase).updateOne(filter, updateDoc, {});
   res.render("pages/likes", {
     likeId
   });
@@ -449,7 +423,7 @@ app.get("/dislikes", checkAuthenticated, async (req, res) => {
       dislike: 1
     }
   };
-  const dislikes = await db.collection("gebruikers").findOne(query, options);
+  const dislikes = await db.collection(myDatabase).findOne(query, options);
   const dislikeArray = arrayify(dislikes.dislike);
   console.log(dislikeArray);
   res.render("pages/dislikes", {
@@ -467,7 +441,7 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
       dislike: 1
     }
   };
-  const dislikes = await db.collection("gebruikers").findOne(query, options);
+  const dislikes = await db.collection(myDatabase).findOne(query, options);
   const dislikeLijst = arrayify(dislikes.dislike);
   const value = req.body.trackId;
   console.log(value);
@@ -484,7 +458,7 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
     },
   };
 
-  db.collection("gebruikers").updateOne(filter, updateDoc, {});
+  db.collection(myDatabase).updateOne(filter, updateDoc, {});
   res.render("pages/dislikes", {
     dislikeArray
   });
@@ -510,7 +484,7 @@ async function connectDB() {
     await client.connect();
     db = client.db(process.env.DB_NAME);
     console.log("connect");
-    const gebruikers = await db.collection("gebruikers").find({}, {}).toArray();
+    const gebruikers = await db.collection(myDatabase).find({}, {}).toArray();
   } catch (error) {
     throw error;
   }
