@@ -1,11 +1,3 @@
-# Blok Tech
-
-**blok tech periode 4 leerjaar 2**
-
-Mijn naam is Stefan Radouane.
-Ik ga een matchin applicatie maken voor blok tech.
-Ik heb gekozen voor het matching concept, katten matchen aan bomen om in vast te raken.
-
 # Sounder
 
 <p align="center">
@@ -228,13 +220,13 @@ const clientSecret = "abcd1234ef56"
 10. Top het is je gelukt om de spotify API werkend te krijgen!
 </details>
 
-## :memo:Documentatie
+## 📄 Documentatie
 
 Dit project is tot stand gekomen dankzij veel ideeën maar vooral onderzoek. <br>
 Mijn gehele documentatie hiervan kun je vinden in de [wiki](https://github.com/ArisRosbach/blokTech/wiki) van deze repository. <br>
 Hier lees je over hoe ik tot mijn concept en feature ben gekomen. Daarnaast heb ik ook veel onderzoek gedaan naar de onderwerpen die kwamen kijken bij het maken van dit project.
 
-## :heavy_exclamation_mark:Lincense
+## 🏷️ License
 
 Deze repository is licensed onder de [GNU General Public License v3.0](https://github.com/ArisRosbach/blokTech/blob/main/LICENSE)
 
@@ -242,8 +234,12 @@ Deze repository is licensed onder de [GNU General Public License v3.0](https://g
   <img width="80%" src="https://github.com/ArisRosbach/blokTech/blob/main/images/bannerLicense.png" />
 </p>
 
-## :email:Contact
+## 📮 Contact
 
-Naam - Aris Rosbach <br>
-Email - aris.rosbach@hva.nl <br>
-Project - https://github.com/ArisRosbach/blokTech
+Naam - Stefan Radouane <br>
+Email - stefan.radouane@hva.nl <br>
+Project - https://github.com/stefanradouane/bloktech-individueel
+
+<p align="center">
+  <img width="80%" src="https://github.com/ArisRosbach/blokTech/blob/main/images/logoxs.png" />
+</p>
