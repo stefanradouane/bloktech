@@ -9,7 +9,7 @@ Ik heb gekozen voor het matching concept, katten matchen aan bomen om in vast te
 # Sounder
 
 <p align="center">
-  <img width="70%" src="https://github.com/ArisRosbach/blokTech/blob/main/images/bannerPawFinder.png" />
+  <img width="70%" src="https://github.com/stefanradouane/bloktech-individueel/blob/main/public/images/logosounder.png" />
 </p>
 
 ## 🎵 Over mijn project
@@ -24,7 +24,7 @@ Wanneer je bent ingelogd kun je categorieen selecteren. Op basis van deze gekoze
 
 ## ✨ Installatie
 
-## Before we start
+### Voordat je start
 
 Wil je aan de slag met mijn project?<br>
 Zorg ervoor dat je eerst de volgende dingen hebt installeerd.
@@ -62,16 +62,19 @@ git version
 
 </details>
 
-Voer dan de volgende stappen uit: <br>
+### Start
+
+Voer dan de volgende stappen uit:<br>
 
 1. Open een terminal en navigeer naar een map waar jij mijn repository in wilt opslaan.
+
 2. Clone deze repository:
 
 ```
-git clone https://github.com/ArisRosbach/blokTech
+git clone https://github.com/stefanradouane/bloktech-individueel
 ```
 
-3.  Wanneer dit is gelukt heb je de repository op je eigen computer staan. Navigeer binnen deze repository in de terminal. Je wilt nu alle packages installeren die je nodig hebt voor deze feature. Om dit project vervolgens te laten werken voer je het volgende commando uit: <br>
+3.  Wanneer dit is gelukt heb je de repository op je eigen computer gedownload. Navigeer naar deze repository in de terminal. Je wilt nu alle packages installeren die je nodig hebt voor deze feature. Om dit project vervolgens te laten werken voer je het volgende commando uit: <br>
 
 ```
 npm install
@@ -80,34 +83,11 @@ npm install
 4. Als je het project wilt gebruiken tik dan het volgende in je terminal:
 
 ```
-nodemon index.js
+node server.js
 ```
 
-Ga naar een browser en navigeer naar: localhost:8000 <br>
+Ga naar een browser en navigeer naar: localhost:3000 <br>
 Als alles goed is verlopen zie je de matches van de asieldieren en kun je filteren. <br>
-
-### Node installeren
-
-Heb je bij stap 3 problemen gehad dan kan dat zijn omdat je geen node hebt geïnstalleerd.
-
-1.  Open je terminal en installeer nvm met het volgende commando;
-
-```
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-```
-
-2.  Sluit je terminal en start deze vervolgens opnieuw op. Tik het volgende in je terminal:
-
-```
-nvm install stable
-```
-
-3.  Nu heb je Node succesvol geïnstalleerd. Dit kun je met de volgende checken:
-
-```
-node -v #
-npm -v #
-```
 
 ## :computer:Database
 
