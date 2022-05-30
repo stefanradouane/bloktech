@@ -241,5 +241,5 @@ Email - stefan.radouane@hva.nl <br>
 Project - https://github.com/stefanradouane/bloktech-individueel
 
 <p align="center">
-  <img width="80%" src="https://github.com/ArisRosbach/blokTech/blob/main/images/logoxs.png" />
+  <img width="20%" src="https://github.com/stefanradouane/bloktech-individueel/blob/main/public/images/logoxs.png" />
 </p>
