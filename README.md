@@ -32,6 +32,7 @@ Zorg ervoor dat je eerst de volgende dingen hebt installeerd.
 - Node.js
 - NPM
 - Git
+- MongoDB Compass
 <!-- Optionele apps. -->
 
 <details>
@@ -60,6 +61,12 @@ npm -v
 // Check version
 git version
 ```
+
+- MongoDB Compass
+
+1. Download [MongoDB Compass](https://www.mongodb.com/try/download/compass)<br>
+2. Installeer de app
+3. Als je de app opent en "New Connection" ziet staan ben je klaar, voor nu.
 
 </details>
 
@@ -99,7 +106,20 @@ Om de app daadwerkelijk ook te laten werken moet je een database koppelen aan de
 
 Dit is heel erg simpel en kost maar 4 stappen.
 
-1. Maak een account aan op [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register){:target="\_blank" rel="noopener"}
+1. Maak een account aan op [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register) // Als je al een account hebt ga door naar stap 4
+2. Voltooi de welkom onboarding
+3. Maak een shared cluster aan en geef dit een logische naam
+4. Log in met je MongoDB account
+5. Klik Database links in de navigatie er opent nu een scherm van 'Database Deployments'. Je ziet nu jouw cluster staan, klik op connect naast de naam van jouw cluster
+6. Als je nog geen connection security hebt ingesteld dan krijg je nu te zien dat je een gebruiker moet aanmaken. Naast de gebruiker moet je ook een IP adres verifiëren, je kunt klikken op 'add current ip address' // Als je al een gebruiker hebt om MongoDB kun je deze stap overslaan
+7. Vervolgens moet je een vorm van connectie selecteren. Klik op 'Connect your application'
+8. Zorg ervoor dat je de driver hebt ingesteld op Node.js version 4.1 or later
+9. Kopieer de tekst
+
+```
+// Voorbeeld van de tekst die je moet kopieren
+mongodb+srv://<gebruikersnaam>:<wachtwoord>@<clustenaam>.<id>.mongodb.net/?retryWrites=true&w=majority
+```
 
 Binnen dit project is er gebruik van een MongoDB database. <br>
 Wil je hier meer over begrijpen en lezen wat mijn database structuur is? Dan verwijs ik je graag door naar de pagina [Database Structure](https://github.com/ArisRosbach/blokTech/wiki/Database-Structure) binnen mijn wiki. <br>
