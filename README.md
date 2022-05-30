@@ -36,7 +36,7 @@ Zorg ervoor dat je eerst de volgende dingen hebt installeerd.
 <details>
 <summary>Heb je Node.js, NPM of Git nog niet geinstalleerd?</summary>
 
-- Node.js // [Download node.js]("https://nodejs.org/en/download/")
+- Node.js // [Download node.js](https://nodejs.org/en/download/)
 
 ```
 // Check node version
@@ -53,7 +53,7 @@ npm install npm --global
 npm -v
 ```
 
-- Git // [Download Git]("https://github.com/git-guides/install-git")
+- Git // [Download Git](https://github.com/git-guides/install-git)
 
 ```
 // Check version
