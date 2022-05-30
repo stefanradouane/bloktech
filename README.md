@@ -34,7 +34,7 @@ Zorg ervoor dat je eerst de volgende dingen hebt installeerd.
 - Git
 
 <details>
-<summary>Heb je Node.js, NPM of Git nog niet geinstalleerd?</summary>
+<summary> **Heb je Node.js, NPM of Git nog niet geinstalleerd?** </summary>
 
 - Node.js // [Download node.js](https://nodejs.org/en/download/)
 
