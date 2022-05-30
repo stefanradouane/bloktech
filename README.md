@@ -223,16 +223,14 @@ const clientSecret = "abcd1234ef56"
 ## 📄 Documentatie
 
 Dit project is tot stand gekomen dankzij veel ideeën maar vooral onderzoek. <br>
-Mijn gehele documentatie hiervan kun je vinden in de [wiki](https://github.com/ArisRosbach/blokTech/wiki) van deze repository. <br>
+Mijn gehele documentatie hiervan kun je vinden in de [wiki](https://github.com/stefanradouane/bloktech-individueel/wiki) van deze repository. <br>
 Hier lees je over hoe ik tot mijn concept en feature ben gekomen. Daarnaast heb ik ook veel onderzoek gedaan naar de onderwerpen die kwamen kijken bij het maken van dit project.
 
 ## 🏷️ License
 
-Deze repository is licensed onder de [GNU General Public License v3.0](https://github.com/ArisRosbach/blokTech/blob/main/LICENSE)
+© Stefan Radouane
 
-<p align="center">
-  <img width="80%" src="https://github.com/ArisRosbach/blokTech/blob/main/images/bannerLicense.png" />
-</p>
+Licensed under the [MIT License](https://github.com/stefanradouane/bloktech-individueel/blob/main/LICENSE)
 
 ## 📮 Contact
 
@@ -241,5 +239,5 @@ Email - stefan.radouane@hva.nl <br>
 Project - https://github.com/stefanradouane/bloktech-individueel
 
 <p align="center">
-  <img width="20%" src="https://github.com/stefanradouane/bloktech-individueel/blob/main/public/images/logoxs.png" />
+  <img width="5%" src="https://github.com/stefanradouane/bloktech-individueel/blob/main/public/images/logoxs.png" />
 </p>
