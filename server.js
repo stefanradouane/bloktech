@@ -40,8 +40,7 @@ const {
 
 let db = null;
 
-// Readme change 1
-const myDatabase = "gebruikers";
+const myDatabase = process.env.DB_COLLECTION;
 
 
 inizializePassport(
@@ -154,25 +153,6 @@ app.post(
     failureFlash: true,
   })
 );
-
-// (req, res) => {
-// try{
-//     const email = req.body.email;
-//     const password = req.body.password;
-//     const userAccount = await db.collection('gebruikers').findOne({email:email});
-//     const match = await bcrypt.compare(password, userAccount.password);
-
-//     if (match){
-//         res.status(201).render("pages/start");
-//     } else{
-//         res.send("password onjuist")
-//     }
-
-// } catch (error){
-//     res.status(400).send('email onjuist')
-// }
-
-// })
 
 app.get("/register", checkNotAuthenticated, (req, res) => {
   res.render("pages/register");

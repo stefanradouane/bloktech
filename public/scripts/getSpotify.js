@@ -1,5 +1,3 @@
-console.log("hoi");
-
 const clientId = "97827c6f27404e7a8ce75a072081a151";
 const clientSecret = "9d4531501fd94595a45632324e3387b5";
 
@@ -181,7 +179,6 @@ if (mainLijst) {
             const meth = checkArray.includes(trackId);
             if (meth == true) {
               console.log("match");
-              // functie haal uit lijst en start opnieuw
               const value = muziek[0];
               muziek = muziek.filter(function (item) {
                 return item != value;
@@ -263,41 +260,7 @@ if (mainLijst) {
             }
             section.innerHTML = html;
           }
-
-          // const checkLiked = () => {
-          //     liLike.forEach(li => {
-
-          //         if(likeId == trackId){
-          //             const methode = "liked";
-          //             method.push(methode)
-          //             console.log(method)
-          //         } else{
-          //             checkDisLiked()
-          //             console.log('no like yet')
-          //         }
-          //     })
-          // };
-
-          // const checkDisLiked = () => {
-          //     liDislike.forEach(li => {
-          //         const dislikeId = li.innerText;
-          //         if(dislikeId == trackId){
-          //             const methode = "disliked";
-          //             method.push(methode)
-          //             console.log(method)
-          //         } else{
-          //             console.log('no touch')
-          //         }
-          //     })
-          // }
-
-          // checkLiked();
-
-          // Check voor Like
-          // Check voor dislike
-          // No like or dislike == POST
         }
-
         if (muziek == []) {
           return;
         } else {
@@ -307,11 +270,6 @@ if (mainLijst) {
     });
   }
   getTracks();
-
-  // Promise.all(muziek).then(data => {
-  //     console.log(data)
-  //     console.log(muziek)
-  // })
 }
 
 const mainLikes = document.querySelector("main.likes");
@@ -347,7 +305,6 @@ if (mainLikes) {
         },
       });
       const eind = await res.json();
-      // const trackArray = eind.items;
       return eind;
     }
 
@@ -406,8 +363,6 @@ if (mainLikes) {
     });
   }
   getLikeList();
-
-  // const Id = likeId.innerText;
 }
 
 
@@ -444,7 +399,6 @@ if (mainDisikes) {
         },
       });
       const eind = await res.json();
-      // const trackArray = eind.items;
       return eind;
     }
 
@@ -503,28 +457,4 @@ if (mainDisikes) {
     });
   }
   getDislikeList();
-
-  // const Id = likeId.innerText;
 }
-
-// <!-- Functie om kaartjes te maken --!>
-
-// tracks.forEach(track => {
-//     console.log(track);
-// })
-
-// module.exports = ((nummers));
-
-// const _getGenre = sync
-
-// console.log(token);
-// const eind = await fetch(`https://api.spotify.com/v1/browse/categories?country=NL`, {
-//     method: 'GET',
-//     headers: { 'Authorization' : 'Bearer ' + token}
-// });
-// // console.log(token);
-// data = await eind.json();
-// console.log(data.categories.items);
-// return data.categories;
-
-// console.log(_getToken())
