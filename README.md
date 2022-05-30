@@ -58,7 +58,7 @@ git version
 Wil je aan de slag met mijn project?<br>
 Zorg ervoor dat je eerst de volgende items installeerd.
 
-- Node.js // [Download node.js]("https://nodejs.org/en/download/")
+- Node.js // [Download node.js](https://nodejs.org/en/download/)
 
 ```
 // Check node version
@@ -75,7 +75,7 @@ npm install npm --global
 npm -v
 ```
 
-- Git // [Download Git]("https://github.com/git-guides/install-git")
+- Git // [Download Git](https://github.com/git-guides/install-git)
 
 ```
 // Check version
