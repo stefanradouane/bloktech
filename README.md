@@ -99,7 +99,7 @@ Om de app daadwerkelijk ook te laten werken moet je een database koppelen aan de
 
 Dit is heel erg simpel en kost maar 4 stappen.
 
-1. Maak een account aan op [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
+1. Maak een account aan op [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register){:target="\_blank" rel="noopener"}
 
 Binnen dit project is er gebruik van een MongoDB database. <br>
 Wil je hier meer over begrijpen en lezen wat mijn database structuur is? Dan verwijs ik je graag door naar de pagina [Database Structure](https://github.com/ArisRosbach/blokTech/wiki/Database-Structure) binnen mijn wiki. <br>
