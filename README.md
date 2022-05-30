@@ -22,7 +22,7 @@ Het concept wat ik heb bedacht is muziek matchen op basis van jou lievelings muz
 Hierbij wil ik me focussen op toevoegen en verwijderen van muziek naar een 'likelijst'.<br>
 Wanneer je bent ingelogd kun je categorieen selecteren. Op basis van deze gekozen categoerieen kun je bij 'ontdek' alle nummers zien die je mogelijk leuk vind. Om een beeld te krijgen van het nummer kun je de coverart en wanneer beschikbaar een preview zien. Elk nummer kun je een like geven of een dislike. Wanneer je een nummer een like geeft kun je dit nummer later terug vinden in je 'likelijst'. Wanneer je een nummer een dislike geeft komt dit nummer in de 'dislikelijst'. Dit kan je bekijken in de 'likelijst', als je dan klikt op de link: 'nummers die je een dislike hebt gegeven'.
 
-## ✨ Installatie
+## 🎼 Installatie
 
 ### Voordat je start
 
@@ -72,7 +72,7 @@ git version
 
 </details>
 
-### Starten van de server
+### :zap: Starten van de server
 
 Voer dan de volgende stappen uit:<br>
 
@@ -106,7 +106,7 @@ Als alles goed is verlopen zie je nu een inlog scherm.<br>
 Momenteel is er alleen nog een EXAMPLE.env bestand, verander de naam van 'EXAMPLE.env' naar alleen '.env'.<br>
 Verder zul je nog gaan lezen hoe je de variabelen die je nodig hebt kunt verzamelen.
 
-### :computer: Koppelen van de database
+### 🎛️ Koppelen van de database
 
 Om de app daadwerkelijk ook te laten werken moet je een database koppelen aan de app.<br>
 
@@ -120,7 +120,7 @@ Om de app daadwerkelijk ook te laten werken moet je een database koppelen aan de
 3. Maak een shared cluster aan en geef dit een logische naam
 4. Log in met je MongoDB account
 5. Klik Database links in de navigatie er opent nu een scherm van 'Database Deployments'. Je ziet nu jouw cluster staan, klik op connect naast de naam van jouw cluster
-6. Als je nog geen connection security hebt ingesteld dan krijg je nu te zien dat je een gebruiker moet aanmaken. Naast de gebruiker moet je ook een IP adres verifiëren, je kunt klikken op 'add current ip address' // Als je al een gebruiker hebt om MongoDB kun je deze stap overslaan
+6. Als je nog geen connection security hebt ingesteld dan krijg je nu te zien dat je een gebruiker moet aanmaken. Naast de gebruiker moet je ook een IP adres verifiëren, je kunt klikken op 'add current ip address' // Als je al een account hebt op MongoDB kun je deze stap overslaan
 7. Vervolgens moet je een vorm van connectie selecteren. Klik op 'Connect your application'
 8. Zorg ervoor dat je de driver hebt ingesteld op Node.js version 4.1 or later
 9. Kopieer de tekst, laat exact dit zelfde scherm open staan
@@ -194,10 +194,39 @@ Binnen dit project is er gebruik van een MongoDB database. <br>
 Wil je hier meer over begrijpen en lezen wat mijn database structuur is? Dan verwijs ik je graag door naar de pagina [Database Structure](https://github.com/ArisRosbach/blokTech/wiki/Database-Structure) binnen mijn wiki. <br>
 Hier vind je een korte toelichting over een database en heb ik de structuur in een afbeelding weergegeven.
 
-### :computer: De spotify api laten werken
+### 💿 De spotify API werkend maken
 
-<!-- Hier moet ik uitleggen welk bestand moet worden geopend -->
-<!-- Hier moet  -->
+Naast het koppelen van de database moet er ook verbinding gemaakt worden met de API van spotfiy.<br>
+Om deze API te laten werken heb je twee dingen nodig, een Client ID & een Client Secret.
+
+<details>
+<summary>Dit is simpeler dan het lijkt het zijn een aantal stappen.</summary>
+
+1. Open [Spotify Developer](https://developer.spotify.com/dashboard/)
+2. Klik op 'log in' er opent nu een pop-up waar je kunt inloggen met je spotify account. Heb je nog geen account dan kun je jezelf registreren of inloggen met facebook, apple of google.
+3. Open je dashboard, en klik op create an app
+4. Vul een 'app name' in bijvoorbeeld 'sounder'. Vul ook een 'app description' in bijvoorbeeld "Tinder voor muziek."
+5. Wanneer je dit hebt ingevuld klik op create
+6. Dit project wordt automatisch geopent links op het scherm zie je jouw Client ID staan dit id kun je kopieren, hou de website nog open
+7. Open /public/scripts/getSpotify.js en vul dit op regel 1 bij clientId in tussen dubbele quotes ("...")
+
+```
+//file getSpotify.js
+const clientId = "1234abcd56ef"
+```
+
+8. Open de website van spotify opnieuw, je ziet onder het Client ID, een groene link staan met "SHOW CLIENT SECRET" klik hier op, jouw Client Secret is nu zichtbaar op het scherm.
+
+9. Kopieer deze code plaats dit in getSpotify.js op regel 2 bij clientSecret in tussen dubbele quotes ("...")
+
+```
+//file getSpotify.js
+const clientId = "1234abcd56ef"
+const clientSecret = "abcd1234ef56"
+```
+
+10. Top het is je gelukt om de spotify API werkend te krijgen!
+</details>
 
 ## :memo:Documentatie
 
