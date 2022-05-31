@@ -5,7 +5,6 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "prestart": "gulp",
     "start": "node server.js",
     "lint": "eslint --fix ./",
     "gulp": "gulp"
