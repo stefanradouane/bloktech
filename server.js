@@ -287,17 +287,31 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 	const checklist = [];
 	const nslikes = noscriptlikes.noscriptlike // array
 	const nsdislikes = noscriptdislikes.noscriptdislike // array
+	if (nslikes) {
+		nslikes.forEach(like => {
+			checklist.push(like.id)
+		});
+	}
 
-	nslikes.forEach(like => {
-		checklist.push(like)
-	});
+	if (nsdislikes) {
+		nsdislikes.forEach(dislike => {
+			checklist.push(dislike.id)
+		});
+	}
 
-	nsdislikes.forEach(dislike => {
-		checklist.push(dislike)
-	});
+
 
 	const newSet = new Set(checklist);
 	const checkArray = Array.from(newSet);
+
+	// console.log(checkArray)
+
+	console.log(checkArray)
+
+
+
+
+
 
 
 	function ShowOne() {
@@ -356,6 +370,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 
 	if (req.body.noscript == "true") {
 		console.log(req.body.noscript)
+		console.log('hoi')
 
 		let trackFormat = {
 			"id": `${req.body.nummerId}`,
@@ -383,9 +398,8 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 
 			const werkCategorie = arrayify(likes.noscriptlike);
 
-			const cat3 = werkCategorie.concat(trackFormat);
-
-			const singelItem = new Set(cat3);
+			const singelItem = new Set(werkCategorie);
+			singelItem.add(trackFormat)
 			const myArr = Array.from(singelItem);
 
 			const updateDoc = {
@@ -528,6 +542,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 });
 
 app.get("/likes", checkAuthenticated, async (req, res) => {
+	const action = "/likes";
 	const query = {
 		_id: ObjectId(req.session.passport.user)
 	};
@@ -556,7 +571,8 @@ app.get("/likes", checkAuthenticated, async (req, res) => {
 
 	res.render("pages/likes", {
 		likeId,
-		NSlikes
+		NSlikes,
+		action
 	});
 });
 
@@ -565,6 +581,7 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 		_id: ObjectId(req.session.passport.user)
 	};
 	if (req.body.noscript == "true") {
+
 		let trackFormat = {
 			"id": `${req.body.nummerId}`,
 			"name": `${req.body.name}`,
@@ -583,12 +600,12 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 		const NSlikeArray = arrayify(NSlikes.noscriptlike);
 		console.log(NSlikeArray)
 
-		const value = trackFormat;
+		const value = trackFormat.name;
 
 
 
-		const NSlikeId = NSlikeArray.filter(function (item) {
-			return trackFormat;
+		const NSlikeId = NSlikeArray.filter(function (e) {
+			return e.name != value;
 		});
 		// console.log(trackFormat)
 
@@ -635,6 +652,8 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 });
 
 app.get("/dislikes", checkAuthenticated, async (req, res) => {
+	const action = "/dislikes";
+
 	const query = {
 		_id: ObjectId(req.session.passport.user)
 	};
@@ -646,9 +665,23 @@ app.get("/dislikes", checkAuthenticated, async (req, res) => {
 	};
 	const dislikes = await db.collection(myDatabase).findOne(query, options);
 	const dislikeArray = arrayify(dislikes.dislike);
-	console.log(dislikeArray);
+
+	const options2 = {
+		projection: {
+			_id: 0,
+			noscriptdislike: 1
+		}
+	};
+
+	const dislike = await db.collection(myDatabase).findOne(query, options2);
+	const NSdislikes = dislike.noscriptdislike;
+	// const NSlikeId = arrayify(like.noscriptlike);
+
+	console.log(NSdislikes)
 	res.render("pages/dislikes", {
-		dislikeArray
+		dislikeArray,
+		NSdislikes,
+		action
 	});
 });
 
@@ -656,33 +689,78 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
 	const query = {
 		_id: ObjectId(req.session.passport.user)
 	};
-	const options = {
-		projection: {
-			_id: 0,
-			dislike: 1
+	if (req.body.noscript == "true") {
+		let trackFormat = {
+			"id": `${req.body.nummerId}`,
+			"name": `${req.body.name}`,
+			"artists": `${req.body.artists}`,
+			"cover": `${req.body.cover}`,
+			"preview": `${req.body.preview}`
 		}
-	};
-	const dislikes = await db.collection(myDatabase).findOne(query, options);
-	const dislikeLijst = arrayify(dislikes.dislike);
-	const value = req.body.trackId;
-	console.log(value);
 
-	const dislikeArray = dislikeLijst.filter(function (item) {
-		return item != value;
-	});
-	const filter = {
-		_id: ObjectId(req.session.passport.user)
-	};
-	const updateDoc = {
-		$set: {
-			dislike: dislikeArray,
-		},
-	};
+		const options = {
+			projection: {
+				_id: 0,
+				noscriptdislike: 1
+			}
+		};
+		const NSdislikes = await db.collection(myDatabase).findOne(query, options);
+		const NSdislikeArray = arrayify(NSdislikes.noscriptdislike);
+		console.log(NSdislikeArray)
 
-	db.collection(myDatabase).updateOne(filter, updateDoc, {});
-	res.render("pages/dislikes", {
-		dislikeArray
-	});
+		const value = trackFormat.name;
+
+		console.log(NSdislikeArray)
+
+		console.log(value)
+
+
+
+		const NSdislikeId = NSdislikeArray.filter(function (e) {
+			return e.name != value;
+		});
+
+
+
+		const filter = {
+			_id: ObjectId(req.session.passport.user)
+		};
+		const updateDoc = {
+			$set: {
+				noscriptdislike: NSdislikeId,
+			},
+		};
+
+		db.collection(myDatabase).updateOne(filter, updateDoc, {});
+
+	} else {
+		const options = {
+			projection: {
+				_id: 0,
+				dislike: 1
+			}
+		};
+		const dislikes = await db.collection(myDatabase).findOne(query, options);
+		const dislikeLijst = arrayify(dislikes.dislike);
+		const value = req.body.trackId;
+		console.log(value);
+
+		const dislikeArray = dislikeLijst.filter(function (item) {
+			return item != value;
+		});
+		const filter = {
+			_id: ObjectId(req.session.passport.user)
+		};
+		const updateDoc = {
+			$set: {
+				dislike: dislikeArray,
+			},
+		};
+
+		db.collection(myDatabase).updateOne(filter, updateDoc, {});
+	}
+
+	res.redirect("/dislikes");
 });
 
 /*******************************************************
