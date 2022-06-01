@@ -40,9 +40,6 @@ ul.hidden {
     display: none;
 }
 
-div.noscript {
-    display: none;
-}
 
 main {
     padding: 1em;
@@ -280,12 +277,21 @@ main.start {
 }
 
 main.muziekLijst {
+    position: relative;
+
     >section {
         position: relative;
         padding: 1em;
         background-color: $bg-color;
         border-radius: 10px;
         height: 38em;
+
+        &.noJS{
+            position: absolute;
+            &:not(:first-of-type){
+                position: relative;
+            }
+        }
 
 
         >section {
@@ -348,6 +354,8 @@ main.muziekLijst {
             }
         }
     }
+
+
 }
 
 main.likes {

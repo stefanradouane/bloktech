@@ -12,7 +12,6 @@ async function getCategory() {
 	});
 	const log = await result.json();
 	const token = log.access_token;
-	// console.log(token);
 	const eind = await fetch(
 		"https://api.spotify.com/v1/browse/categories?country=NL", {
 			method: "GET",
@@ -96,7 +95,7 @@ if (mainLijst) {
 		let listItems = document.querySelectorAll("li.categorie");
 
 		async function getPlaylist(catID) {
-			console.log(token)
+			console.log(token);
 			const res = await fetch(
 				`https://api.spotify.com/v1/browse/categories/${catID}/playlists?limit=1`, {
 					method: "GET",
@@ -126,7 +125,7 @@ if (mainLijst) {
 					const afspeellijst = link.playlists.items;
 					afspeellijst.forEach((lijst) => {
 						if (lijst == null) {
-							return
+							return;
 						} else {
 							const tracksEndPoint = lijst.tracks.href;
 							tracks.push(getMuziek(tracksEndPoint));
@@ -464,10 +463,10 @@ if (mainDisikes) {
 }
 
 function jsON() {
-	const section = document.querySelector('section.noJs')
-	section.remove()
-	const likeSect = document.querySelector('section.noJSlikes')
-	likeSect.remove()
+	const section = document.querySelector("section.noJs");
+	section.remove();
+	const likeSect = document.querySelector("section.noJSlikes");
+	likeSect.remove();
 }
 
 jsON();

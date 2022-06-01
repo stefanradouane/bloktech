@@ -36,7 +36,7 @@ const {
 	use
 } = require("passport");
 
-const toplist = require('./apifallback');
+const toplist = require("./apifallback");
 
 let db = null;
 const myDatabase = process.env.DB_COLLECTION;
@@ -266,17 +266,17 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 	const noscriptdislikes = await db.collection(myDatabase).findOne(query, optionsns2);
 
 	const checklist = [];
-	const nslikes = noscriptlikes.noscriptlike // array
-	const nsdislikes = noscriptdislikes.noscriptdislike // array
+	const nslikes = noscriptlikes.noscriptlike; // array
+	const nsdislikes = noscriptdislikes.noscriptdislike; // array
 	if (nslikes) {
 		nslikes.forEach(like => {
-			checklist.push(like.id)
+			checklist.push(like.id);
 		});
 	}
 
 	if (nsdislikes) {
 		nsdislikes.forEach(dislike => {
-			checklist.push(dislike.id)
+			checklist.push(dislike.id);
 		});
 	}
 	const newSet = new Set(checklist);
@@ -295,7 +295,7 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 		}
 	}
 
-	ShowOne()
+	ShowOne();
 
 	function CheckTwo(tracks) {
 		const newTrackId = tracks[0].id;
@@ -307,14 +307,14 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 			});
 			CheckTwo(tracks);
 		} else {
-			Create(tracks)
+			Create(tracks);
 
 		}
 	}
 
 
 	function Create(tracks) {
-		track = tracks[0]
+		track = tracks[0];
 	}
 
 
@@ -334,7 +334,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 			"artists": `${req.body.artists}`,
 			"cover": `${req.body.cover}`,
 			"preview": `${req.body.preview}`
-		}
+		};
 
 		const query = {
 			_id: ObjectId(req.session.passport.user)
@@ -355,7 +355,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 			const werkCategorie = arrayify(likes.noscriptlike);
 
 			const singelItem = new Set(werkCategorie);
-			singelItem.add(trackFormat)
+			singelItem.add(trackFormat);
 			const myArr = Array.from(singelItem);
 
 			const updateDoc = {
@@ -482,7 +482,7 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 		const dislikes = await db.collection(myDatabase).findOne(query, options3);
 		const dislikeId = arrayify(dislikes.dislike);
 	}
-	res.redirect("/ontdek")
+	res.redirect("/ontdek");
 });
 
 app.get("/likes", checkAuthenticated, async (req, res) => {
@@ -529,7 +529,7 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 			"artists": `${req.body.artists}`,
 			"cover": `${req.body.cover}`,
 			"preview": `${req.body.preview}`
-		}
+		};
 
 		const options = {
 			projection: {
@@ -630,7 +630,7 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
 			"artists": `${req.body.artists}`,
 			"cover": `${req.body.cover}`,
 			"preview": `${req.body.preview}`
-		}
+		};
 
 		const options = {
 			projection: {
@@ -724,7 +724,7 @@ app.listen(port, () => {
 
 
 async function updateToplist() {
-	const myTracks = await toplist.getToplist()
+	const myTracks = await toplist.getToplist();
 	const filter = {
 		"name": "toplist",
 	};
@@ -735,4 +735,4 @@ async function updateToplist() {
 	};
 	await db.collection(dbLijst).updateOne(filter, updateDoc, {});
 }
-updateToplist()
+updateToplist();
