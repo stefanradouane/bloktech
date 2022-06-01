@@ -1,20 +1,26 @@
 <section>
   <section>
-    <h2>Naam liedje</h2>
-    <h3>Artiest</h3>
-    <form>
-      <!-- action="/" method="post" -->
-      <input type="hidden" name="nummerId" value="nummerId" />
-      <input type="submit" value="Like" />
-      <input type="submit" value="Dislike" />
+    <h2><%=track.name%></h2>
+    <h3><%=track.artists%></h3>
+    <form action="/ontdek" method="POST">
+      <input type="hidden" name="nummerId" value="<%=track.id%>" />
+      <input type="submit" name="like" value="Like" />
+      <input type="submit" name="dislike" value="Dislike" />
+      <input type="hidden" name="noscript" value="true" />
+      <input type="hidden" name="name" value="<%= track.name%>" />
+      <input type="hidden" name="artists" value="<%= track.artists%>" />
+      <input type="hidden" name="cover" value="<%=track.cover%>" />
+      <input type="hidden" name="preview" value="<%=track.preview%>" />
+
+
     </form>
   </section>
   <section>
-    <img src="/images/lp.webp" alt="" />
+    <img src="<%=track.cover%>" alt="" />
   </section>
 </section>
 <section>
   <audio controls>
-    <source src="audio.mp3" type="audio/ogg" />
+    <source src="<%= track.preview%>" type="audio/ogg" />
   </audio>
 </section>

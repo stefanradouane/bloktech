@@ -11,9 +11,10 @@
     </header>
     <main class="start">
         <ul class="hidden">
+            <%if(werkCat){%>
             <% werkCat.forEach(function(cat) { %>
             <li class="werkCat"><%=cat%></li>
-            <% }); %>
+            <% })}; %>
         </ul>
         <h2>Selecteer een aantal categorieën.</h2>
         <form action="/start" method="post" class="categorie">

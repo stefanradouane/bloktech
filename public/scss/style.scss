@@ -40,6 +40,10 @@ ul.hidden {
     display: none;
 }
 
+div.noscript {
+    display: none;
+}
+
 main {
     padding: 1em;
 
@@ -48,6 +52,28 @@ main {
     }
 
 
+}
+
+main.loading {
+    justify-content: center;
+    align-items: center;
+    height: 45em;
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+
+    img {
+        width: 80%;
+    }
+
+    button {
+        font-size: 1.3em;
+        padding-bottom: .2em;
+        border: none;
+        color: white;
+        border-bottom: 2px solid $green;
+        background-color: transparent;
+    }
 }
 
 main.index {

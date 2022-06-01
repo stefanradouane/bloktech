@@ -1,0 +1,23 @@
+<section>
+    <section>
+        <h2><%= like.name%></h2>
+        <h3><%= like.artists%></h3>
+        <form action="/likes" method="POST">
+            <input type="hidden" name="nummerId" value="<%=like.id%>" />
+            <input type="submit" name="delete" value="delete" />
+            <input type="hidden" name="noscript" value="true" />
+            <input type="hidden" name="name" value="<%= like.name%>" />
+            <input type="hidden" name="artists" value="<%= like.artists%>" />
+            <input type="hidden" name="cover" value="<%=like.cover%>" />
+            <input type="hidden" name="preview" value="<%=like.preview%>" />
+        </form>
+    </section>
+    <section>
+        <img src="<%= like.cover%>" alt="">
+    </section>
+</section>
+<section>
+    <audio controls>
+        <source src="<%= like.preview %>" type="audio/ogg">
+    </audio>
+</section>

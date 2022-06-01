@@ -10,30 +10,40 @@
         <%- include('../partials/header'); %>
     </header>
     <main class="muziekLijst">
+        <%if(categorien.categorie){%>
         <ul class="hidden">
             <% categorien.categorie.forEach(function(mascot) { %>
             <li class="categorie"><%=mascot%></li>
             <% }); %>
         </ul>
+        <%}%>
+        <%if(likeId){%>
         <ul class="hidden">
             <% likeId.forEach(function(id) { %>
             <li class="like"><%=id%></li>
             <% }); %>
         </ul>
+        <%}%>
+        <%if(dislikeId){%>
         <ul class="hidden">
             <% dislikeId.forEach(function(id) { %>
             <li class="dislike"><%=id%></li>
             <% }); %>
         </ul>
+        <%}%>
+        <%if(track){%>
+        <section class="noJs">
+            <%- include('../partials/figure', {track}); %>
+        </section>
+        <%}%>
+        <section class="figure">
 
-        <section draggable="true" class="figure">
-            <%- include('../partials/figure'); %>
         </section>
     </main>
     <footer>
         <%- include('../partials/footer'); %>
-    </footer>
-    <script src="/scripts/getSpotify.js"></script>
+        </footer>
+        <script src="/scripts/getSpotify.js"></script>
 </body>
 
 </html>

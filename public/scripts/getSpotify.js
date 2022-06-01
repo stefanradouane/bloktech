@@ -92,11 +92,11 @@ if (mainLijst) {
 		});
 		const log = await result.json();
 		const token = log.access_token;
-		console.log(token);
 
 		let listItems = document.querySelectorAll("li.categorie");
 
 		async function getPlaylist(catID) {
+			console.log(token)
 			const res = await fetch(
 				`https://api.spotify.com/v1/browse/categories/${catID}/playlists?limit=1`, {
 					method: "GET",
@@ -125,8 +125,12 @@ if (mainLijst) {
 				} else {
 					const afspeellijst = link.playlists.items;
 					afspeellijst.forEach((lijst) => {
-						const tracksEndPoint = lijst.tracks.href;
-						tracks.push(getMuziek(tracksEndPoint));
+						if (lijst == null) {
+							return
+						} else {
+							const tracksEndPoint = lijst.tracks.href;
+							tracks.push(getMuziek(tracksEndPoint));
+						}
 					});
 				}
 			});
@@ -236,8 +240,8 @@ if (mainLijst) {
 						}
 						let moreSegment = `<form action="/ontdek" method="post">
                                   <input type="hidden" name="trackId" value="${track.id}">
-                                  <input type="submit" name="like" value="like" placeholder="Like">
-                                  <input type="submit" name="dislike" value="dislike" placeholder="Dislike">
+                                  <input type="submit" name="like" value="Like" placeholder="Like">
+                                  <input type="submit" name="dislike" value="Dislike" placeholder="Dislike">
                               </form>
                           </section>
                           <section>
@@ -458,3 +462,12 @@ if (mainDisikes) {
 	}
 	getDislikeList();
 }
+
+function jsON() {
+	const section = document.querySelector('section.noJs')
+	section.remove()
+	const likeSect = document.querySelector('section.noJSlikes')
+	likeSect.remove()
+}
+
+jsON();

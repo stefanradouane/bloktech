@@ -16,14 +16,19 @@
         <li class="likeId"><%=id%></li>
         <% }); %>
       </ul>
-
-      <!-- <img src="/images/lp.webp" alt=""> -->
-      <!-- <a href="/sounder/ontdek/">Start met muziek ontdekken</a> -->
     </section>
-    <section class="likes"></section>
+    <section class="likes">
+      <section class="noJSlikes likeSection">
+        <%if(NSlikes){%>
+        <% NSlikes.forEach(function(like) { %>
+        <%- include('../partials/liked', {like}); %>
+        <% }); %>
+        <%}%>
+      </section>
+    </section>
   </main>
   <footer><%- include('../partials/footer'); %></footer>
-  <script src="/scripts/getSpotify.js"></script>
+        <script src="/scripts/getSpotify.js"></script>
 </body>
 
 </html>

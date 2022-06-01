@@ -60,7 +60,7 @@ inizializePassport(
 			email: email
 		}),
 		(id) => {
-			const userFound = "User logged in!";
+			const userFound = "true";
 			return userFound;
 		}
 );
@@ -74,10 +74,6 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 app.use(bodyParser.json());
-
-app.post("/save-categorie", (req, res) => {
-	res.send(req.body);
-});
 
 app.use(flash());
 app.use(
@@ -117,6 +113,8 @@ app.delete("/logout", function (req, res, next) {
 	});
 });
 
+
+
 /*******************************************************
  * Set template engine
  ********************************************************/
@@ -128,6 +126,7 @@ app.set("view engine", "ejs");
  * Get /
  *  home - show movielist
  ********************************************************/
+
 
 app.get("/", checkAuthenticated, async (req, res) => {
 
@@ -211,11 +210,13 @@ app.post("/start", checkAuthenticated, async (req, res) => {
 		},
 	};
 	db.collection(myDatabase).updateOne(filter, updateDoc, {});
-	res.render("pages/categorie");
+	res.redirect("/ontdek");
 });
 
 
 app.get("/ontdek", checkAuthenticated, async (req, res) => {
+	let track = "";
+
 	const query = {
 		_id: ObjectId(req.session.passport.user)
 	};
@@ -244,113 +245,286 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 	};
 	const dislikes = await db.collection(myDatabase).findOne(query, options3);
 	const dislikeId = arrayify(dislikes.dislike);
-	// when categorien = empty :res.render(/categorie)
-	if (categorien.categorie == undefined) {
-		res.redirect("/start");
-	} else {
-		res.render("pages/ontdek", {
-			categorien,
-			likeId,
-			dislikeId
-		});
+
+	// Get tracks from db
+	const filter = {
+		"name": "toplist",
+	};
+
+	const options4 = {
+		projection: {
+			_id: 0,
+			myTracks: 1
+		}
+	};
+
+	const myTracks = await db.collection(dbLijst).findOne(filter, options4);
+	let tracks = myTracks.myTracks;
+
+
+
+	// Show track die niet ik likelijst is.
+	const nummerId = tracks[0].id;
+
+	// Get noscriptlikes
+	const optionsns = {
+		projection: {
+			_id: 0,
+			noscriptlike: 1
+		}
+	};
+	const noscriptlikes = await db.collection(myDatabase).findOne(query, optionsns);
+	// Get noscriptdislikes
+
+	const optionsns2 = {
+		projection: {
+			_id: 0,
+			noscriptdislike: 1
+		}
+	};
+	const noscriptdislikes = await db.collection(myDatabase).findOne(query, optionsns2);
+
+	const checklist = [];
+	const nslikes = noscriptlikes.noscriptlike // array
+	const nsdislikes = noscriptdislikes.noscriptdislike // array
+
+	nslikes.forEach(like => {
+		checklist.push(like)
+	});
+
+	nsdislikes.forEach(dislike => {
+		checklist.push(dislike)
+	});
+
+	const newSet = new Set(checklist);
+	const checkArray = Array.from(newSet);
+
+
+	function ShowOne() {
+		const check = checkArray.includes(nummerId);
+		if (check == true) {
+			const value = tracks[0];
+			tracks = tracks.filter(function (item) {
+				return item != value;
+			});
+			CheckTwo(tracks);
+		} else {
+			CheckTwo(tracks);
+		}
 	}
+
+	ShowOne()
+
+	function CheckTwo(tracks) {
+		const newTrackId = tracks[0].id;
+		const meth2 = checkArray.includes(newTrackId);
+		if (meth2 == true) {
+			const value = tracks[0];
+			tracks = tracks.filter(function (item) {
+				return item != value;
+			});
+			CheckTwo(tracks);
+		} else {
+			Create(tracks)
+
+		}
+	}
+
+
+	function Create(tracks) {
+		track = tracks[0]
+	}
+
+
+	// function showTrack(tracks) {
+	// 	console.log(tracks[0])
+
+	// }
+
+
+
+	res.render("pages/ontdek", {
+		categorien,
+		likeId,
+		dislikeId,
+		track
+	});
 });
 
 app.post("/ontdek", checkAuthenticated, async (req, res) => {
 	// console.log(req.body.trackId)
-	const query = {
-		_id: ObjectId(req.session.passport.user)
-	};
 
-	const trackId = req.body.trackId;
+	if (req.body.noscript == "true") {
+		console.log(req.body.noscript)
 
-	const methode = req.body.like;
+		let trackFormat = {
+			"id": `${req.body.nummerId}`,
+			"name": `${req.body.name}`,
+			"artists": `${req.body.artists}`,
+			"cover": `${req.body.cover}`,
+			"preview": `${req.body.preview}`
+		}
 
-	const filter = {
-		_id: ObjectId(req.session.passport.user)
-	};
+		const query = {
+			_id: ObjectId(req.session.passport.user)
+		};
 
-	if (methode == "like") {
-		const options = {
+		const manier = req.body.like;
+
+		if (manier == "Like") {
+			const options = {
+				projection: {
+					_id: 0,
+					noscriptlike: 1
+				}
+			};
+
+			const likes = await db.collection(myDatabase).findOne(query, options);
+
+			const werkCategorie = arrayify(likes.noscriptlike);
+
+			const cat3 = werkCategorie.concat(trackFormat);
+
+			const singelItem = new Set(cat3);
+			const myArr = Array.from(singelItem);
+
+			const updateDoc = {
+				$set: {
+					noscriptlike: myArr,
+				},
+			};
+
+			db.collection(myDatabase).updateOne(query, updateDoc, {});
+
+		} else {
+
+			const options = {
+				projection: {
+					_id: 0,
+					noscriptdislike: 1
+				}
+			};
+
+
+			const likes = await db.collection(myDatabase).findOne(query, options);
+
+			const werkCategorie = arrayify(likes.noscriptdislike);
+
+			const cat3 = werkCategorie.concat(trackFormat);
+
+			const singelItem = new Set(cat3);
+			const myArr = Array.from(singelItem);
+
+			const updateDoc = {
+				$set: {
+					noscriptdislike: myArr,
+				},
+			};
+
+			db.collection(myDatabase).updateOne(query, updateDoc, {});
+		}
+
+
+	} else {
+		const query = {
+			_id: ObjectId(req.session.passport.user)
+		};
+
+		const trackId = req.body.trackId;
+
+		const methode = req.body.like;
+
+		const filter = {
+			_id: ObjectId(req.session.passport.user)
+		};
+
+		if (methode == "Like") {
+			const options = {
+				projection: {
+					_id: 0,
+					like: 1
+				}
+			};
+			const likes = await db.collection(myDatabase).findOne(query, options);
+
+			const werkCategorie = arrayify(likes.like);
+
+			const cat3 = werkCategorie.concat(trackId);
+
+			const singelItem = new Set(cat3);
+			const myArr = Array.from(singelItem);
+
+			const updateDoc = {
+				$set: {
+					like: myArr,
+				},
+			};
+			db.collection(myDatabase).updateOne(filter, updateDoc, {});
+		} else {
+			const options = {
+				projection: {
+					_id: 0,
+					dislike: 1
+				}
+			};
+			const dislikes = await db.collection(myDatabase).findOne(query, options);
+			console.log(dislikes);
+
+			const werkCategorie = arrayify(dislikes.dislike);
+			const cat3 = werkCategorie.concat(trackId);
+			const singelItem = new Set(cat3);
+			const myArr = Array.from(singelItem);
+
+			const updateDoc = {
+				$set: {
+					dislike: myArr,
+				},
+			};
+
+			db.collection(myDatabase).updateOne(filter, updateDoc, {});
+		}
+
+		const optionsCat = {
+			projection: {
+				_id: 0,
+				categorie: 1
+			}
+		};
+		const categorien = await db
+			.collection(myDatabase)
+			.findOne(query, optionsCat);
+		// Likes en dislikes ophalen uit database
+
+		const optionsLike = {
 			projection: {
 				_id: 0,
 				like: 1
 			}
 		};
-		const likes = await db.collection(myDatabase).findOne(query, options);
+		const likes = await db.collection(myDatabase).findOne(query, optionsLike);
+		const likeId = arrayify(likes.like);
 
-		const werkCategorie = arrayify(likes.like);
-
-		const cat3 = werkCategorie.concat(trackId);
-
-		const singelItem = new Set(cat3);
-		const myArr = Array.from(singelItem);
-
-		const updateDoc = {
-			$set: {
-				like: myArr,
-			},
-		};
-
-		db.collection(myDatabase).updateOne(filter, updateDoc, {});
-	} else {
-		const options = {
+		const options3 = {
 			projection: {
 				_id: 0,
 				dislike: 1
 			}
 		};
-		const dislikes = await db.collection(myDatabase).findOne(query, options);
-		console.log(dislikes);
+		const dislikes = await db.collection(myDatabase).findOne(query, options3);
+		const dislikeId = arrayify(dislikes.dislike);
 
-		const werkCategorie = arrayify(dislikes.dislike);
-		const cat3 = werkCategorie.concat(trackId);
-		const singelItem = new Set(cat3);
-		const myArr = Array.from(singelItem);
 
-		const updateDoc = {
-			$set: {
-				dislike: myArr,
-			},
-		};
 
-		db.collection(myDatabase).updateOne(filter, updateDoc, {});
+
+
+		// res.render("pages/ontdek", {
+		// 	categorien,
+		// 	likeId,
+		// 	dislikeId,
+		// 	track
+		// });
 	}
-
-	const optionsCat = {
-		projection: {
-			_id: 0,
-			categorie: 1
-		}
-	};
-	const categorien = await db
-		.collection(myDatabase)
-		.findOne(query, optionsCat);
-	// Likes en dislikes ophalen uit database
-
-	const optionsLike = {
-		projection: {
-			_id: 0,
-			like: 1
-		}
-	};
-	const likes = await db.collection(myDatabase).findOne(query, optionsLike);
-	const likeId = arrayify(likes.like);
-
-	const options3 = {
-		projection: {
-			_id: 0,
-			dislike: 1
-		}
-	};
-	const dislikes = await db.collection(myDatabase).findOne(query, options3);
-	const dislikeId = arrayify(dislikes.dislike);
-
-	res.render("pages/ontdek", {
-		categorien,
-		likeId,
-		dislikeId
-	});
+	res.redirect("/ontdek")
 });
 
 app.get("/likes", checkAuthenticated, async (req, res) => {
@@ -366,8 +540,23 @@ app.get("/likes", checkAuthenticated, async (req, res) => {
 
 	const likes = await db.collection(myDatabase).findOne(query, options);
 	const likeId = arrayify(likes.like);
+
+	const options2 = {
+		projection: {
+			_id: 0,
+			noscriptlike: 1
+		}
+	};
+
+	const like = await db.collection(myDatabase).findOne(query, options2);
+	const NSlikes = like.noscriptlike;
+	// const NSlikeId = arrayify(like.noscriptlike);
+
+	console.log(NSlikes)
+
 	res.render("pages/likes", {
-		likeId
+		likeId,
+		NSlikes
 	});
 });
 
@@ -375,33 +564,74 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 	const query = {
 		_id: ObjectId(req.session.passport.user)
 	};
-	const options = {
-		projection: {
-			_id: 0,
-			like: 1
+	if (req.body.noscript == "true") {
+		let trackFormat = {
+			"id": `${req.body.nummerId}`,
+			"name": `${req.body.name}`,
+			"artists": `${req.body.artists}`,
+			"cover": `${req.body.cover}`,
+			"preview": `${req.body.preview}`
 		}
-	};
-	const likes = await db.collection(myDatabase).findOne(query, options);
-	const likeArray = arrayify(likes.like);
-	const value = req.body.trackId;
-	console.log(value);
 
-	const likeId = likeArray.filter(function (item) {
-		return item != value;
-	});
-	const filter = {
-		_id: ObjectId(req.session.passport.user)
-	};
-	const updateDoc = {
-		$set: {
-			like: likeId,
-		},
-	};
+		const options = {
+			projection: {
+				_id: 0,
+				noscriptlike: 1
+			}
+		};
+		const NSlikes = await db.collection(myDatabase).findOne(query, options);
+		const NSlikeArray = arrayify(NSlikes.noscriptlike);
+		console.log(NSlikeArray)
 
-	db.collection(myDatabase).updateOne(filter, updateDoc, {});
-	res.render("pages/likes", {
-		likeId
-	});
+		const value = trackFormat;
+
+
+
+		const NSlikeId = NSlikeArray.filter(function (item) {
+			return trackFormat;
+		});
+		// console.log(trackFormat)
+
+		console.log(NSlikeId)
+
+		const filter = {
+			_id: ObjectId(req.session.passport.user)
+		};
+		const updateDoc = {
+			$set: {
+				noscriptlike: NSlikeId,
+			},
+		};
+
+		db.collection(myDatabase).updateOne(filter, updateDoc, {});
+
+	} else {
+		const options = {
+			projection: {
+				_id: 0,
+				like: 1
+			}
+		};
+		const likes = await db.collection(myDatabase).findOne(query, options);
+		const likeArray = arrayify(likes.like);
+		const value = req.body.trackId;
+		console.log(value);
+
+		const likeId = likeArray.filter(function (item) {
+			return item != value;
+		});
+		const filter = {
+			_id: ObjectId(req.session.passport.user)
+		};
+		const updateDoc = {
+			$set: {
+				like: likeId,
+			},
+		};
+
+		db.collection(myDatabase).updateOne(filter, updateDoc, {});
+	}
+	res.redirect("/likes");
 });
 
 app.get("/dislikes", checkAuthenticated, async (req, res) => {
@@ -490,61 +720,16 @@ app.listen(port, () => {
 });
 
 
-async function addToplist() {
+async function updateToplist() {
 	const myTracks = await toplist.getToplist()
-
-	async function currentList() {
-		// console.log(myTracks)
-
-		const filter = {
-			"name": "toplist",
-		};
-
-		const updateDoc = {
-			$set: {
-				myTracks: myTracks
-			}
-		};
-
-		await db.collection(dbLijst).updateOne(filter, updateDoc, {});
-		console.log('done')
-
-
-		// const options = {
-		// 	projection: {
-		// 		_id: 0,
-		// 		myTracks: 1
-		// 	}
-		// };
-		// const list = await db.collection(dbLijst).findOne(filter, options);
-		// console.log(list)
-	}
-
-	currentList()
-
-
-
-	// async function UpdateList() {
-	// 	await db.collection(dbLijst).insertOne({
-	// 		myTracks
-	// 	});
-	// }
-	// UpdateList()
-
-
-
-
-
-	// myTracks.forEach(track => {
-
-	// 	
-
-	// 	if(song.id == track.id){
-	// 		console.log('match')
-	// 	}
-
-
-
-	// })
+	const filter = {
+		"name": "toplist",
+	};
+	const updateDoc = {
+		$set: {
+			myTracks: myTracks
+		}
+	};
+	await db.collection(dbLijst).updateOne(filter, updateDoc, {});
 }
-addToplist()
+updateToplist()

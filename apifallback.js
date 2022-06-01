@@ -15,7 +15,7 @@ const getToplist = async (trackArray) => {
     // console.log(token)
 
     const res = await fetch(
-        `https://api.spotify.com/v1/browse/categories/pop/playlists?limit=1`, {
+        `https://api.spotify.com/v1/browse/categories/toplists/playlists?limit=1`, {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + token,
