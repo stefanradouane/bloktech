@@ -38,20 +38,9 @@ const {
 
 const toplist = require('./apifallback');
 
-
-
-
-
 let db = null;
-
 const myDatabase = process.env.DB_COLLECTION;
-
-
 const dbLijst = process.env.DB_COLLECTION_TWO;
-
-
-
-
 
 
 inizializePassport(
@@ -129,8 +118,6 @@ app.set("view engine", "ejs");
 
 
 app.get("/", checkAuthenticated, async (req, res) => {
-
-	// Get username 
 	const query = {
 		_id: ObjectId(req.session.passport.user)
 	};
@@ -140,10 +127,8 @@ app.get("/", checkAuthenticated, async (req, res) => {
 			name: 1
 		}
 	};
-	// const username
 	const username = await db.collection(myDatabase).findOne(query, options);
 	const naam = username.name;
-	// geef const mee aan site
 	res.render("pages/index", {
 		naam
 	});
@@ -260,10 +245,6 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 
 	const myTracks = await db.collection(dbLijst).findOne(filter, options4);
 	let tracks = myTracks.myTracks;
-
-
-
-	// Show track die niet ik likelijst is.
 	const nummerId = tracks[0].id;
 
 	// Get noscriptlikes
@@ -298,21 +279,8 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 			checklist.push(dislike.id)
 		});
 	}
-
-
-
 	const newSet = new Set(checklist);
 	const checkArray = Array.from(newSet);
-
-	// console.log(checkArray)
-
-	console.log(checkArray)
-
-
-
-
-
-
 
 	function ShowOne() {
 		const check = checkArray.includes(nummerId);
@@ -350,13 +318,6 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 	}
 
 
-	// function showTrack(tracks) {
-	// 	console.log(tracks[0])
-
-	// }
-
-
-
 	res.render("pages/ontdek", {
 		categorien,
 		likeId,
@@ -366,12 +327,7 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 });
 
 app.post("/ontdek", checkAuthenticated, async (req, res) => {
-	// console.log(req.body.trackId)
-
 	if (req.body.noscript == "true") {
-		console.log(req.body.noscript)
-		console.log('hoi')
-
 		let trackFormat = {
 			"id": `${req.body.nummerId}`,
 			"name": `${req.body.name}`,
@@ -482,7 +438,6 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 				}
 			};
 			const dislikes = await db.collection(myDatabase).findOne(query, options);
-			console.log(dislikes);
 
 			const werkCategorie = arrayify(dislikes.dislike);
 			const cat3 = werkCategorie.concat(trackId);
@@ -526,17 +481,6 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 		};
 		const dislikes = await db.collection(myDatabase).findOne(query, options3);
 		const dislikeId = arrayify(dislikes.dislike);
-
-
-
-
-
-		// res.render("pages/ontdek", {
-		// 	categorien,
-		// 	likeId,
-		// 	dislikeId,
-		// 	track
-		// });
 	}
 	res.redirect("/ontdek")
 });
@@ -565,9 +509,6 @@ app.get("/likes", checkAuthenticated, async (req, res) => {
 
 	const like = await db.collection(myDatabase).findOne(query, options2);
 	const NSlikes = like.noscriptlike;
-	// const NSlikeId = arrayify(like.noscriptlike);
-
-	console.log(NSlikes)
 
 	res.render("pages/likes", {
 		likeId,
@@ -598,7 +539,6 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 		};
 		const NSlikes = await db.collection(myDatabase).findOne(query, options);
 		const NSlikeArray = arrayify(NSlikes.noscriptlike);
-		console.log(NSlikeArray)
 
 		const value = trackFormat.name;
 
@@ -607,9 +547,6 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 		const NSlikeId = NSlikeArray.filter(function (e) {
 			return e.name != value;
 		});
-		// console.log(trackFormat)
-
-		console.log(NSlikeId)
 
 		const filter = {
 			_id: ObjectId(req.session.passport.user)
@@ -632,7 +569,6 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 		const likes = await db.collection(myDatabase).findOne(query, options);
 		const likeArray = arrayify(likes.like);
 		const value = req.body.trackId;
-		console.log(value);
 
 		const likeId = likeArray.filter(function (item) {
 			return item != value;
@@ -675,9 +611,7 @@ app.get("/dislikes", checkAuthenticated, async (req, res) => {
 
 	const dislike = await db.collection(myDatabase).findOne(query, options2);
 	const NSdislikes = dislike.noscriptdislike;
-	// const NSlikeId = arrayify(like.noscriptlike);
 
-	console.log(NSdislikes)
 	res.render("pages/dislikes", {
 		dislikeArray,
 		NSdislikes,
@@ -706,15 +640,7 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
 		};
 		const NSdislikes = await db.collection(myDatabase).findOne(query, options);
 		const NSdislikeArray = arrayify(NSdislikes.noscriptdislike);
-		console.log(NSdislikeArray)
-
 		const value = trackFormat.name;
-
-		console.log(NSdislikeArray)
-
-		console.log(value)
-
-
 
 		const NSdislikeId = NSdislikeArray.filter(function (e) {
 			return e.name != value;
@@ -743,7 +669,6 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
 		const dislikes = await db.collection(myDatabase).findOne(query, options);
 		const dislikeLijst = arrayify(dislikes.dislike);
 		const value = req.body.trackId;
-		console.log(value);
 
 		const dislikeArray = dislikeLijst.filter(function (item) {
 			return item != value;
