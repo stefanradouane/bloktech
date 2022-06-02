@@ -90,26 +90,6 @@ const getToplist = async (trackArray) => {
         }
     })
     return myTracks
-    // console.log(myTracks)
-
-
-
-
-    // console.log(track.name)
-    // console.log(track.artists[0].name)
-    // console.log(track.id)
-    // console.log(track.album.images[0].url)
-    // console.log(track.preview_url)
-
-
-
-
-
-    // return;
-
-
-
-
 }
 
 exports.getToplist = getToplist;
