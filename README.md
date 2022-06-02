@@ -21,23 +21,23 @@ Wanneer je bent ingelogd kun je categorieen selecteren. Op basis van deze gekoze
 Wil je aan de slag met mijn project?<br>
 Zorg ervoor dat je eerst de volgende dingen hebt installeerd.
 
-- Node.js
-- NPM
-- Git
-- MongoDB Compass
-  <!-- Optionele apps. -->
+-   Node.js
+-   NPM
+-   Git
+-   MongoDB Compass
+    <!-- Optionele apps. -->
 
 <details>
 <summary><strong>Heb je Node.js, NPM, Git of MongoDB Compass nog niet geinstalleerd?</strong></summary>
 
-- Node.js // [Download node.js](https://nodejs.org/en/download/)
+-   Node.js // [Download node.js](https://nodejs.org/en/download/)
 
 ```
 // Check node version
 node -v
 ```
 
-- NPM
+-   NPM
 
 ```
 // Install NPM
@@ -49,14 +49,14 @@ npm install npm --global
 npm -v
 ```
 
-- Git // [Download Git](https://github.com/git-guides/install-git)
+-   Git // [Download Git](https://github.com/git-guides/install-git)
 
 ```
 // Check version
 git version
 ```
 
-- MongoDB Compass
+-   MongoDB Compass
 
 1. Download [MongoDB Compass](https://www.mongodb.com/try/download/compass)<br>
 2. Installeer de app
@@ -179,7 +179,19 @@ DB_NAME = sounder
 DB_COLLECTION = "gebruikers"
 ```
 
-25. Top het is je gelukt om de database te koppelen aan de app!
+25. Omdat de app ook de spotify API gebruikt als fallback in de de back-end van de server. Heb je een tweede collection nodig. Maak een tweede collection aan in de database, en geef deze een logische naam. Ik heb deze collection "toplijst" genoemd, omdat er in deze collection een array van de toplijst wordt opgeslagen.
+
+26. Tot slot moet je ook het variabel DB_COLLECTION_TWO invullen met de naam van de collection, zorg ervoor dat je de naam van de collectie zet tussen dubbele quotes ("...")
+
+```
+//.env file
+DB_URI = mongodb+srv://gebruikersnaam:<password>@clustenaam.id.mongodb.net/?retryWrites=true&w=majority
+DB_NAME = sounder
+DB_COLLECTION = "gebruikers"
+DB_COLLECTION_TWO = "toplijst"
+```
+
+28. Top het is je gelukt om de database te koppelen aan de app!
 </details>
 
 Binnen dit project is er gebruik van een MongoDB database. <br>
