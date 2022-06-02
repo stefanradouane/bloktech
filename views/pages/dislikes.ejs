@@ -7,7 +7,7 @@
 
 <body>
     <header><%- include('../partials/header'); %></header>
-    <main class="likes">
+    <main class="likes dislikes">
         <section>
             <h2>Dislikes</h2>
             <a href="/likes">Terug naar likes</a>
@@ -22,7 +22,7 @@
             <!-- <img src="/images/lp.webp" alt=""> -->
             <!-- <a href="/sounder/ontdek/">Start met muziek ontdekken</a> -->
         </section>
-        <section class="likes">
+        <section class="likes dislikes">
             <%if(NSdislikes){%>
             <% NSdislikes.forEach(function(like) { %>
             <%- include('../partials/liked', {like, action}); %>
