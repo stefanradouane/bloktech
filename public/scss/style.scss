@@ -17,6 +17,9 @@ html {
 body {
     background-color: #050505;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header {
@@ -43,12 +46,17 @@ ul.hidden {
 
 main {
     padding: 1em;
+    max-width: 414px;
 
     img {
         width: 100%;
     }
+}
 
-
+audio {
+    outline: none;
+    background-color: #f1f3f4;
+    border-radius: 10px;
 }
 
 main.loading {
@@ -86,6 +94,11 @@ main.index {
         justify-content: center;
         margin-top: -2em;
         gap: 2em;
+
+        img {
+            width: 80%;
+            max-width: 30em;
+        }
 
         a {
             color: white;
@@ -219,7 +232,7 @@ main.start {
         }
 
         .container {
-            width: 47.9%;
+            width: 47.8%;
             aspect-ratio: 1/1;
             /* background-color: #ffffff; */
             /* box-shadow: 0 0 25px rgba(17, 1, 68, 0.08); */
@@ -236,6 +249,7 @@ main.start {
                 inset: 0;
                 cursor: pointer;
                 transition: 200ms;
+                z-index: 3;
 
                 &:checked {
 
@@ -278,17 +292,19 @@ main.start {
 
 main.muziekLijst {
     position: relative;
+    transform: translateY(10%);
 
     >section {
         position: relative;
         padding: 1em;
         background-color: $bg-color;
         border-radius: 10px;
-        height: 38em;
+        height: 37em;
 
-        &.noJS{
+        &.noJS {
             position: absolute;
-            &:not(:first-of-type){
+
+            &:not(:first-of-type) {
                 position: relative;
             }
         }
@@ -311,6 +327,12 @@ main.muziekLijst {
                             margin-top: .25em;
                         }
                     }
+
+                    &:nth-of-type(2) {
+                        img {
+                            max-width: 25em;
+                        }
+                    }
                 }
 
 
@@ -325,6 +347,8 @@ main.muziekLijst {
                         color: white;
                         font-size: 1em;
                         padding: .5em 1em;
+                        border-radius: 5px;
+                        cursor: pointer;
 
                         // Stylen van de knoppen! Apart per knop
                         &:nth-of-type(2) {
@@ -418,7 +442,7 @@ main.likes {
                                     border: none;
                                     font-size: 1em;
                                     margin-top: 1em;
-
+                                    cursor: pointer;
                                 }
                             }
                         }
@@ -506,7 +530,7 @@ main.dislikes {
                                     border: none;
                                     font-size: 1em;
                                     margin-top: 1em;
-
+                                    cursor: pointer;
                                 }
                             }
                         }
@@ -540,8 +564,14 @@ footer {
     left: 0;
     right: 0;
     z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     nav {
+        width: 100%;
+        max-width: 65em;
+
         ul {
             display: flex;
             justify-content: space-around;
@@ -582,6 +612,7 @@ footer {
                     flex-direction: column;
                     text-decoration: none;
                     border-radius: 8px;
+                    cursor: pointer;
 
 
                     svg {
@@ -597,6 +628,45 @@ footer {
             //     visibility: hidden;
             //     opacity: 0;
             // }
+        }
+    }
+}
+
+@media only screen and (min-width:750px) {
+    main {
+        &.muziekLijst {
+            transform: scale(1.1) translateY(10%);
+        }
+
+        &.likes {
+            max-width: 740px;
+            width: 100%;
+
+            section.likes {
+                section {
+                    &.likeSection {
+                        section:first-of-type {
+                            section:nth-of-type(2) {
+                                img {
+                                    height: 15em;
+                                    width: 15em;
+                                }
+                            }
+                        }
+                    }
+
+                    &.dislikeSection {
+                        section:first-of-type {
+                            section:nth-of-type(2) {
+                                img {
+                                    height: 15em;
+                                    width: 15em;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

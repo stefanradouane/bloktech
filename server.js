@@ -317,13 +317,16 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 		track = tracks[0];
 	}
 
-
-	res.render("pages/ontdek", {
-		categorien,
-		likeId,
-		dislikeId,
-		track
-	});
+	if (categorien.categorie == undefined || categorien.categorie[0] == undefined) {
+		res.redirect("/start")
+	} else {
+		res.render("pages/ontdek", {
+			categorien,
+			likeId,
+			dislikeId,
+			track
+		});
+	}
 });
 
 app.post("/ontdek", checkAuthenticated, async (req, res) => {

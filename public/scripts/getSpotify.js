@@ -95,9 +95,8 @@ if (mainLijst) {
 		let listItems = document.querySelectorAll("li.categorie");
 
 		async function getPlaylist(catID) {
-			console.log(token);
 			const res = await fetch(
-				`https://api.spotify.com/v1/browse/categories/${catID}/playlists?limit=1`, {
+				`https://api.spotify.com/v1/browse/categories/${catID}/playlists?limit=5`, {
 					method: "GET",
 					headers: {
 						Authorization: "Bearer " + token,
@@ -148,10 +147,21 @@ if (mainLijst) {
 
 			Promise.all(tracks).then((data) => {
 				data.forEach((array) => {
-					// console.log(array)
+					console.log(array)
 					array.forEach((tracky) => {
 						const track = tracky.track;
-						muziek.push(track);
+						console.log(track)
+						if (track == null) {
+							return
+						} else {
+							if (track.preview_url == null) {
+								return
+							} else {
+								muziek.push(track);
+							}
+						}
+
+
 					});
 				});
 
@@ -173,15 +183,12 @@ if (mainLijst) {
 						checklist.push(dislikeId);
 					});
 
-					console.log(checklist);
 					const newSet = new Set(checklist);
 					const checkArray = Array.from(newSet);
-					console.log(checkArray);
 
 					function ShowOne() {
 						const meth = checkArray.includes(trackId);
 						if (meth == true) {
-							console.log("match");
 							const value = muziek[0];
 							muziek = muziek.filter(function (item) {
 								return item != value;
@@ -464,9 +471,13 @@ if (mainDisikes) {
 
 function jsON() {
 	const section = document.querySelector("section.noJs");
-	section.remove();
 	const likeSect = document.querySelector("section.noJSlikes");
-	likeSect.remove();
+	if (section) {
+		section.remove();
+	}
+	if (likeSect) {
+		likeSect.remove();
+	}
 }
 
 jsON();
