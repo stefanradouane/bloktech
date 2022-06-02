@@ -214,22 +214,30 @@ Om deze API te laten werken heb je twee dingen nodig, een Client ID & een Client
 6. Dit project wordt automatisch geopent links op het scherm zie je jouw Client ID staan dit id kun je kopieren, hou de website nog open
 7. Open /public/scripts/getSpotify.js en vul dit op regel 1 bij clientId in tussen dubbele quotes ("...")
 
-```
+```javascript
 //file getSpotify.js
-const clientId = "1234abcd56ef"
+const clientId = "1234abcd56ef";
 ```
 
 8. Open de website van spotify opnieuw, je ziet onder het Client ID, een groene link staan met "SHOW CLIENT SECRET" klik hier op, jouw Client Secret is nu zichtbaar op het scherm.
 
 9. Kopieer deze code plaats dit in getSpotify.js op regel 2 bij clientSecret in tussen dubbele quotes ("...")
 
-```
+```javascript
 //file getSpotify.js
-const clientId = "1234abcd56ef"
-const clientSecret = "abcd1234ef56"
+const clientId = "1234abcd56ef";
+const clientSecret = "abcd1234ef56";
 ```
 
-10. Top het is je gelukt om de spotify API werkend te krijgen!
+10. De app gebruikt de spotify api ook in de backend, de toplijst wordt opgeslagen in de database voor en opgehaald mocht de javascript uitstaan. In dit bestand zijn ook de 'ClientId' & 'ClientSecret' nodig. Vul de 'ClientId' & 'ClientSecret' in op regel 4 & 5 van het bestand apifallback.js
+
+```javascript
+//file getSpotify.js
+const clientId = "1234abcd56ef";
+const clientSecret = "abcd1234ef56";
+```
+
+11. Top het is je gelukt om de spotify API werkend te krijgen!
 </details>
 
 ## 📄 Documentatie
