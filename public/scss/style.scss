@@ -248,6 +248,8 @@ main.start {
 				&:active {
 					background-color: rgba(46, 204, 113, 0.75);
 				}
+
+
 			}
 
 			label {
@@ -300,7 +302,7 @@ main.muziekLijst {
 			&:first-of-type {
 				display: flex;
 				flex-direction: column;
-				gap: 2em;
+				gap: 1em;
 
 				section {
 					&:first-of-type {
@@ -579,12 +581,174 @@ footer {
 					}
 				}
 			}
-
-			// li:last-of-type {
-			//     visibility: hidden;
-			//     opacity: 0;
-			// }
 		}
+	}
+}
+
+section.audio-box {
+	position: relative;
+	color: white;
+	width: 100%;
+	height: 55px;
+	background-color: #050505;
+	border-radius: 0 0 6px 6px;
+
+	section {
+		margin: 0;
+		padding: 0;
+
+		&.controls {
+			padding: .7em;
+			position: absolute;
+			inset: auto 0 0 0;
+			display: flex;
+			width: 100%;
+			height: 45px;
+			background-color: rgba(0, 0, 0, 0.7);
+			transition: all .5s;
+			gap: 1.25em;
+
+			&.hide {
+				display: none;
+			}
+
+			section {
+				display: flex;
+				align-items: center;
+
+				&.tijdbalk {
+					position: absolute;
+					inset: 0 0 auto 0;
+					transform: translateY(-100%);
+
+					input {
+						width: 100%;
+					}
+				}
+
+				&.buttons {
+					position: relative;
+					cursor: pointer;
+				}
+
+				&.volume {
+					position: relative;
+					flex-grow: 1;
+					gap: .5em;
+
+					&:hover {
+						input {
+							width: 10em;
+						}
+					}
+
+					input {
+						display: block;
+						width: 0em;
+						transition: .5s;
+
+						&::-webkit-slider-thumb {
+							background-color: var($green);
+							box-shadow: -400px 0 0 400px var($green);
+						}
+					}
+				}
+
+
+
+				svg {
+					fill: white;
+					height: 100%;
+				}
+			}
+
+			.tijdmoment {
+				cursor: default;
+			}
+		}
+
+
+	}
+
+	input[type="range"] {
+		-webkit-appearance: none;
+		background-color: transparent;
+		height: 10px;
+		cursor: pointer;
+		margin: 0;
+
+		&::-webkit-slider-runnable-track {
+			border-radius: 0;
+			background-color: $bg-color;
+			overflow: hidden;
+		}
+
+
+		&::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			height: 10px;
+			width: 10px;
+			background-color: $green;
+			border-radius: 0;
+			color: $bg-color;
+			box-shadow: -400px 0 0 400px $green;
+		}
+
+		&::-webkit-slider-thumb:hover {
+			background-color: rgba(46, 204, 113, 0.5);
+		}
+	}
+
+
+
+	svg {
+		cursor: pointer;
+		overflow: visible;
+		position: relative;
+		width: min(8vw, 23px);
+
+		&:hover {
+			fill: $green;
+		}
+
+		&:active {
+			fill: rgba(46, 204, 113, 0.5);
+		}
+
+		.stil {
+			fill: #444444;
+
+			&:hover {
+				fill: #777777;
+			}
+
+			polygon {
+				&.gedempt {
+					display: block;
+					width: 0px;
+				}
+			}
+		}
+
+		&.mute {
+			cursor: pointer;
+			overflow: visible;
+
+			.gedempt {
+				display: none;
+				max-width: 0;
+			}
+		}
+	}
+
+	p {
+		&.getal {
+			display: none;
+		}
+	}
+
+	.hide {
+		display: none;
 	}
 }
 

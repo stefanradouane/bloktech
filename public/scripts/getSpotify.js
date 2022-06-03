@@ -257,19 +257,205 @@ if (mainLijst) {
                                             </section>`;
 							html += audioErr;
 						} else {
+							let audiosection = `<section class="audio-box">
+													<section class="controls">
+														<section class="tijdbalk">
+															<input class="time" type="range" value="0" min="0" max="100">
+														</section>
+														<section class="buttons">
+															<svg class="pauze hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.15 77.69">
+																<rect width="28.16" height="77.69" rx="1.75" />
+																<rect x="36" width="28.16" height="77.69" rx="1.75" />
+															</svg>
+															<svg class="play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.6 77.74">
+																<path d="M73.48,38,8,.13A1,1,0,0,0,6.39,1V76.69a1,1,0,0,0,1.56.9L73.48,39.76A1,1,0,0,0,73.48,38Z"
+																	transform="translate(-6.39 0.01)" />
+															</svg>
+														</section>
+														<section class="volume">
+															<svg class="mute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 572.5 574.7">
+																<path class="small"
+																	d="M-408.78,2321.44c0-57-31.87-106.81-78.12-131.06v58.91c15.54,19.12,25,44.41,25,72.15s-9.47,53-25,72.15v58.91C-440.65,2430.22-408.78,2379.44-408.78,2321.44Z"
+																	transform="translate(840.65 -2034.09)" />
+																<polygon points="0 193.6 0 381.1 125 381.1 281.25 537.35 281.25 37.35 125 193.6 0 193.6" />
+																<path class="big"
+																	d="M-486.9,2034.09v67.5c90.31,28.18,156.25,116,156.25,219.85s-65.94,191.68-156.25,219.86v67.49c125.31-29.81,218.75-147.11,218.75-287.35S-361.59,2063.91-486.9,2034.09Z"
+																	transform="translate(840.65 -2034.09)" />
+																<polygon class="gedempt" points="46.79 0 0.26 46.72 523.15 574.7 572.5 524.2 46.79 0" />
+															</svg>
+															<input class="volume" type="range" min="0" max="100">
+															<p class="getal">0.5</p>
+														</section>
+														<section class="timer">
+															<p class="tijdmoment">0:00/0:00</p>
+														</section>
+													</section>
+												</section>`;
+
 							let audiocontrol = `<audio controls>
                                       <source src="${previewUrl}" type="audio/ogg">
                                   </audio>
                               </section>`;
-							html += audiocontrol;
+							html += audiosection;
 						}
 						section.innerHTML = html;
 
-						// 
-						// 
+						const audio = new Audio(track.preview_url)
+
+						var btn = document.querySelector(".buttons");
+						var pauze = document.querySelector(".pauze");
+						var play = document.querySelector(".play");
+						var audiobox = document.querySelector(".audio-box");
+
+						var volumeSlide = document.querySelector("input.volume");
+						var mute = document.querySelector(".mute");
+						var getal = document.querySelector(".getal");
+						var groot = document.querySelector(".big");
+						var svgMute = document.querySelector(".mute");
+
+						var tijdMomi = document.querySelector(".tijdmoment");
+
+						// Video geladen -> tijd van de video updaten
+						audio.onloadedmetadata = function () {
+							tijdMomi.textContent = myTime(audio.currentTime) + "/" + myTime(audio.duration);
+						};
+
+						////////////////////////////////
+						// Volume van de video aanpassen
+						volumeSlide.addEventListener('input', volumeChange)
+
+						function volumeChange() {
+							var volumeGetal = volumeSlide.value;
+							var volumeDec = volumeGetal / 100;
+							audio.volume = volumeDec;
+							const toggleTypeBig = (volumeDec >= 0.01 && volumeDec <= 0.5) ? 'add' : 'remove';
+							groot.classList[toggleTypeBig]('hide');
+							const toggleMute = (volumeDec == 0) ? 'add' : 'remove';
+							svgMute.classList[toggleMute]('stil');
+						}
+
+						////////////////
+						// Volume dempen
+						mute.addEventListener('click', volumeMute);
+
+						function volumeMute() {
+							var geluid = volumeSlide.value;
+							var volumeBack = geluid / 100;
+							if (audio.volume >= 0.01) {
+								getal.textContent = volumeBack;
+								var volumeGetal = 0;
+								audio.volume = volumeGetal;
+								volumeSlide.value = volumeGetal;
+								svgMute.classList.add('stil');
+
+							} else if (volumeSlide.value == 0) {
+								var volumeOld = getal.innerHTML
+								audio.volume = volumeOld;
+								var value = volumeOld * 100;
+								volumeSlide.value = value;
+								svgMute.classList.remove('stil');
+							}
+						}
+
+						// Tijd updaten op de balk
+						var tijd = document.querySelector("input.time");
+
+						audio.addEventListener('timeupdate', function () {
+							var juicePos = audio.currentTime / audio.duration;
+							var schaal = juicePos * 100;
+							tijd.value = schaal;
+						})
+
+						// Tijd veranderen op de balk
+						tijd.addEventListener('input', scrub);
+
+						function scrub() {
+							audio.pause();
+							var minuut = tijd.value;
+							var delingMin = minuut / 100;
+							var deling = audio.duration * delingMin;
+							audio.currentTime = deling;
+							play.classList.remove("hide")
+							pauze.classList.add("hide")
+							timer = setInterval(update, 100);
+						}
+
+						// Tijd veranderd via de balk
+						tijd.addEventListener('mouseup', noklik);
+
+						function noklik() {
+							speelAf();
+						}
+
+						// Tijd update
+						function update() {
+							tijdMomi.textContent = myTime(audio.currentTime) + "/" + myTime(audio.duration);
+						}
+
+						// Functie van seconde naar minuut
+						function myTime(time) {
+							var uur = ~~(time / 3600);
+							var min = ~~((time / 3600) / 60);
+							var sec = time % 60;
+							var secMin = "";
+							if (uur > 0) {
+								secMin += "" + uur + ":" + (min < 10 ? "0" : "");
+							}
+							secMin += "" + min + ":" + (sec < 9.5 ? "0" : "");
+							secMin += "" + Math.round(sec);
+							return secMin;
+						}
+
+						// Check of de video afspleelt
+						audio.addEventListener('timeupdate', videomotion);
+
+						function videomotion() {
+							if (audio.ended) {
+								pauze.classList.add('hide');
+								play.classList.remove('hide');
+								clearInterval(timer)
+								audiobox.classList.remove('playing');
+							} else if (audio.paused) {
+								audiobox.classList.remove('playing');
+								audiobox.classList.remove('hover');
+							} else if (audio.play) {
+								audiobox.classList.add('playing');
+							}
+						};
+
+						audio.addEventListener('click', speelAf);
+						btn.addEventListener('click', speelAf);
+
+
+						function speelAf() {
+							// Check of video afspeelt.
+							const manier = audio.paused ? 'play' : 'pause';
+							// Speel af of pauzeer video.
+							audio[manier]();
+							if (manier == 'play') {
+								play.classList.add("hide")
+								pauze.classList.remove("hide")
+
+								timer = setInterval(update, 100);
+							} else {
+								play.classList.remove("hide")
+								pauze.classList.add("hide")
+
+								clearInterval(timer);
+							}
+						}
+
+						document.addEventListener("keydown", keycheck);
+
+						function keycheck(e) {
+							// console.log(e)
+							if (e.keyCode === 32) {
+								speelAf();
+								e.preventDefault();
+							}
+						};
+
 						// Functie notificatie
-						// 
-						//
 
 						function checkNotificationOn() {
 							if ('Notification' in window) {
@@ -314,15 +500,6 @@ if (mainLijst) {
 								icon: `${track.album.images[2].url}`
 							}
 							let n = new Notification(title, option);
-
-							n.addEventListener('show', function (ev) {
-								console.log('SHOW', ev.currentTarget.data)
-								console.log(ev)
-							})
-
-							n.addEventListener('close', function (ev) {
-								console.log('CLOSE', ev.currentTarget.data)
-							})
 
 							setTimeout(n.close.bind(n), 5000)
 						}
@@ -412,6 +589,7 @@ if (mainLikes) {
                                 </section>`;
 					html += audioErr;
 				} else {
+
 					let audiocontrol = `<audio controls>
                                                 <source src="${track.preview_url}" type="audio/ogg">
                                             </audio>
@@ -617,61 +795,3 @@ function jsON() {
 }
 
 jsON();
-
-
-// function eventListeners(track, submitLike, submitDislike) {
-
-// 	console.log(track)
-// 	console.log(submitLike)
-// 	console.log(submitDislike)
-// 	const liked = () => {
-// 		return submitLike
-// 	}
-
-// 	const disliked = () => {
-// 		return submitDislike
-// 	}
-// }
-
-// function showNoti(track) {
-// 	console.log(track)
-// 	if ('Notification' in window) {
-// 		if (Notification.permission === "granted") {
-// 			// doNotify(track)
-// 		} else {
-// 			Notification.requestPermission()
-// 				.then(function (result) {
-// 					console.log(result);
-
-// 				})
-// 				.catch((err) => {
-// 					console.log(err)
-// 				})
-
-// 		}
-// 	}
-// }
-
-
-
-
-// function doNotify() {
-// 	console.log(track)
-// 	let title = "The Title"
-// 	let option = {
-// 		body: "hello from JavaScript!",
-// 		image: "./images/logoxs.png"
-// 	}
-// 	let n = new Notification(title, option);
-
-// 	n.addEventListener('show', function (ev) {
-// 		console.log('SHOW', ev.currentTarget.data)
-// 		console.log(ev)
-// 	})
-
-// 	n.addEventListener('close', function (ev) {
-// 		console.log('CLOSE', ev.currentTarget.data)
-// 	})
-
-// 	setTimeout(n.close.bind(n), 5000)
-// }

@@ -46,12 +46,12 @@ const dbLijst = process.env.DB_COLLECTION_TWO;
 inizializePassport(
 	passport,
 	async (email) => await db.collection(myDatabase).findOne({
-			email: email
-		}),
-		(id) => {
-			const userFound = "true";
-			return userFound;
-		}
+		email: email
+	}),
+	(id) => {
+		const userFound = "true";
+		return userFound;
+	}
 );
 
 /*******************************************************
@@ -318,7 +318,7 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 	}
 
 	if (categorien.categorie == undefined || categorien.categorie[0] == undefined) {
-		res.redirect("/start")
+		res.redirect("/start");
 	} else {
 		res.render("pages/ontdek", {
 			categorien,
@@ -604,7 +604,7 @@ app.get("/dislikes", checkAuthenticated, async (req, res) => {
 	};
 	const dislikes = await db.collection(myDatabase).findOne(query, options);
 	const dislikeArray = arrayify(dislikes.dislike);
-	console.log(dislikeArray)
+	console.log(dislikeArray);
 
 	const options2 = {
 		projection: {
@@ -615,7 +615,7 @@ app.get("/dislikes", checkAuthenticated, async (req, res) => {
 
 	const dislike = await db.collection(myDatabase).findOne(query, options2);
 	const NSdislikes = dislike.noscriptdislike;
-	console.log(dislike)
+	console.log(dislike);
 	res.render("pages/dislikes", {
 		dislikeArray,
 		NSdislikes,
