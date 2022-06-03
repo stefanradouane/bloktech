@@ -3,686 +3,636 @@ $green: #1ba745;
 $bg-color: #000;
 
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 
 html {
-    font-family: Arial, Helvetica, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    scroll-behavior: smooth;
+	font-family: Arial, Helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	scroll-behavior: smooth;
 }
 
 body {
-    background-color: #050505;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	background-color: #050505;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 header {
-    height: 4em;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: $bg-color;
+	height: 4em;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: $bg-color;
 
-    a {
-        text-decoration: none;
+	a {
+		text-decoration: none;
 
-        img {
-            height: 2.5em;
-        }
-    }
+		img {
+			height: 2.5em;
+		}
+	}
 }
 
 ul.hidden {
-    display: none;
+	display: none;
 }
 
-
 main {
-    padding: 1em;
-    max-width: 414px;
+	padding: 1em;
+	max-width: 414px;
 
-    img {
-        width: 100%;
-    }
+	img {
+		width: 100%;
+	}
 }
 
 audio {
-    outline: none;
-    background-color: #f1f3f4;
-    border-radius: 10px;
+	outline: none;
+	background-color: #f1f3f4;
+	border-radius: 10px;
 }
 
 main.loading {
-    justify-content: center;
-    align-items: center;
-    height: 45em;
-    display: flex;
-    flex-direction: column;
-    gap: 3em;
+	justify-content: center;
+	align-items: center;
+	height: 45em;
+	display: flex;
+	flex-direction: column;
+	gap: 3em;
 
-    img {
-        width: 80%;
-    }
+	img {
+		width: 80%;
+	}
 
-    button {
-        font-size: 1.3em;
-        padding-bottom: .2em;
-        border: none;
-        color: white;
-        border-bottom: 2px solid $green;
-        background-color: transparent;
-    }
+	button {
+		font-size: 1.3em;
+		padding-bottom: 0.2em;
+		border: none;
+		color: white;
+		border-bottom: 2px solid $green;
+		background-color: transparent;
+	}
 }
 
 main.index {
-    position: absolute;
-    inset: 0;
-    // height: 100vh;
+	position: absolute;
+	inset: 0;
+	// height: 100vh;
 
-    section:first-of-type {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-top: -2em;
-        gap: 2em;
+	section:first-of-type {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin-top: -2em;
+		gap: 2em;
 
-        img {
-            width: 80%;
-            max-width: 30em;
-        }
+		img {
+			width: 80%;
+			max-width: 30em;
+		}
 
-        a {
-            color: white;
-            font-size: 1.25em;
-            border: 1px solid white;
-            text-decoration: none;
-            padding: .5em 1em;
-        }
+		a {
+			color: white;
+			font-size: 1.25em;
+			border: 1px solid white;
+			text-decoration: none;
+			padding: 0.5em 1em;
+		}
+	}
 
-    }
+	section:nth-of-type(2) {
+		position: absolute;
+		top: 5em;
+		right: 1em;
+		left: 1em;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5em;
 
-    section:nth-of-type(2) {
-        position: absolute;
-        top: 5em;
-        right: 1em;
-        left: 1em;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: .5em;
+		p {
+			font-size: 1.2em;
 
-        p {
-            font-size: 1.2em;
+			span {
+				color: $green;
+			}
+		}
 
-
-
-            span {
-                color: $green;
-            }
-        }
-
-        button {
-            font-size: 1em;
-            background-color: transparent;
-            color: orange;
-            border: none;
-        }
-    }
+		button {
+			font-size: 1em;
+			background-color: transparent;
+			color: orange;
+			border: none;
+		}
+	}
 }
 
 main.login {
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
 
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
+	h2 {
+		margin-bottom: 0.5em;
+	}
 
-    h2 {
-        margin-bottom: .5em;
-    }
+	p {
+		margin-bottom: 0.5em;
+		color: orange;
+	}
 
-    p {
-        margin-bottom: .5em;
-        color: orange;
-    }
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5em;
 
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: .5em;
+		div {
+			display: flex;
+			flex-direction: column;
+			gap: 0.1em;
 
-        div {
-            display: flex;
-            flex-direction: column;
-            gap: .1em;
+			input {
+				border: none;
+				padding: 0.5em;
 
-            input {
-                border: none;
-                padding: .5em;
+				&:focus {
+					// background-color: blue;
+					border: none;
+					outline: none;
+					box-shadow: none;
+					border-bottom: 1px solid $green;
+				}
+			}
+		}
 
-                &:focus {
-                    // background-color: blue;
-                    border: none;
-                    outline: none;
-                    box-shadow: none;
-                    border-bottom: 1px solid $green;
-                }
+		button {
+			padding: 0.5em 1em;
+			margin-top: 0.5em;
+			border-radius: none;
+			border: 1px solid $green;
+			color: $green;
+			background-color: transparent;
+			font-size: 1.1em;
+			width: 30%;
+			cursor: pointer;
+		}
+	}
 
-            }
-
-
-        }
-
-        button {
-            padding: .5em 1em;
-            margin-top: .5em;
-            border-radius: none;
-            border: 1px solid $green;
-            color: $green;
-            background-color: transparent;
-            font-size: 1.1em;
-            width: 30%;
-            cursor: pointer;
-
-        }
-    }
-
-    a {
-        color: $green;
-        text-decoration: none;
-        margin-top: 2em;
-    }
-
-
+	a {
+		color: $green;
+		text-decoration: none;
+		margin-top: 2em;
+	}
 }
 
 main.start {
-    margin-bottom: 9em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
+	margin-bottom: 9em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
 
-    form.categorie {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1em;
+	form.categorie {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1em;
 
-        button {
-            padding: 0.5em 1em;
-            font-size: 20px;
-            position: fixed;
-            bottom: 96px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: none;
-            background-color: black;
-            color: $green;
-            border-bottom: 2px solid $green;
-            border-radius: 8px 8px 0 0;
+		button {
+			padding: 0.5em 1em;
+			font-size: 20px;
+			position: fixed;
+			bottom: 96px;
+			left: 50%;
+			transform: translateX(-50%);
+			border: none;
+			background-color: black;
+			color: $green;
+			border-bottom: 2px solid $green;
+			border-radius: 8px 8px 0 0;
+			z-index: 4;
+			cursor: pointer;
+			// plaatsen van de button boven de footer in het midden.
+		}
 
-            // plaatsen van de button boven de footer in het midden.
-        }
+		.container {
+			width: 47.8%;
+			aspect-ratio: 1/1;
+			/* background-color: #ffffff; */
+			/* box-shadow: 0 0 25px rgba(17, 1, 68, 0.08); */
+			border-radius: 8px;
+			position: relative;
 
-        .container {
-            width: 47.8%;
-            aspect-ratio: 1/1;
-            /* background-color: #ffffff; */
-            /* box-shadow: 0 0 25px rgba(17, 1, 68, 0.08); */
-            border-radius: 8px;
-            position: relative;
+			input[type="checkbox"] {
+				-webkit-appearance: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				-o-appearance: none;
+				appearance: none;
+				position: absolute;
+				inset: 0;
+				cursor: pointer;
+				transition: 200ms;
+				z-index: 3;
 
-            input[type="checkbox"] {
-                -webkit-appearance: none;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                -o-appearance: none;
-                appearance: none;
-                position: absolute;
-                inset: 0;
-                cursor: pointer;
-                transition: 200ms;
-                z-index: 3;
+				&:checked {
+					background-color: rgba(46, 204, 113, 0.5);
+				}
 
-                &:checked {
+				&:active {
+					background-color: rgba(46, 204, 113, 0.75);
+				}
+			}
 
-                    background-color: rgba(46, 204, 113, 0.5);
-                }
+			label {
+				position: absolute;
+			}
 
-                &:active {
-                    background-color: rgba(46, 204, 113, 0.75);
-                }
+			img {
+				width: 100%;
+				margin: auto;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				cursor: pointer;
+				z-index: -1;
+			}
 
-            }
-
-            label {
-                position: absolute;
-            }
-
-            img {
-                width: 100%;
-                margin: auto;
-                left: 0;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                cursor: pointer;
-                z-index: -1;
-            }
-
-            p {
-                color: white;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, 200%);
-                font-weight: bold;
-                z-index: 2;
-            }
-        }
-    }
+			p {
+				color: white;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, 200%);
+				font-weight: bold;
+				z-index: 2;
+			}
+		}
+	}
 }
 
 main.muziekLijst {
-    position: relative;
-    transform: translateY(10%);
+	position: relative;
 
-    >section {
-        position: relative;
-        padding: 1em;
-        background-color: $bg-color;
-        border-radius: 10px;
-        height: 37em;
+	>section {
+		position: relative;
+		padding: 1em;
+		background-color: $bg-color;
+		border-radius: 10px;
+		height: 37em;
 
-        &.noJS {
-            position: absolute;
+		&.noJS {
+			position: absolute;
 
-            &:not(:first-of-type) {
-                position: relative;
-            }
-        }
+			&:not(:first-of-type) {
+				position: relative;
+			}
+		}
 
+		>section {
+			&:first-of-type {
+				display: flex;
+				flex-direction: column;
+				gap: 2em;
 
-        >section {
-            &:first-of-type {
-                display: flex;
-                flex-direction: column;
-                gap: 2em;
+				section {
+					&:first-of-type {
+						h2 {
+							color: $green;
+						}
 
-                section {
-                    &:first-of-type {
-                        h2 {
-                            color: $green;
-                        }
+						h3 {
+							font-style: italic;
+							margin-top: 0.25em;
+						}
+					}
 
-                        h3 {
-                            font-style: italic;
-                            margin-top: .25em;
-                        }
-                    }
+					&:nth-of-type(2) {
+						img {
+							max-width: 25em;
+						}
+					}
+				}
 
-                    &:nth-of-type(2) {
-                        img {
-                            max-width: 25em;
-                        }
-                    }
-                }
+				form {
+					margin-top: 1em;
+					display: flex;
+					gap: 1em;
 
+					input {
+						border: none;
+						color: white;
+						font-size: 1em;
+						padding: 0.5em 1em;
+						border-radius: 5px;
+						cursor: pointer;
 
+						// Stylen van de knoppen! Apart per knop
+						&:nth-of-type(2) {
+							background-color: $green;
+						}
 
-                form {
-                    margin-top: 1em;
-                    display: flex;
-                    gap: 1em;
+						&:nth-of-type(3) {
+							background-color: red;
+						}
 
-                    input {
-                        border: none;
-                        color: white;
-                        font-size: 1em;
-                        padding: .5em 1em;
-                        border-radius: 5px;
-                        cursor: pointer;
+						// Plaatje van like en dislike toevoegen!
+					}
+				}
+			}
 
-                        // Stylen van de knoppen! Apart per knop
-                        &:nth-of-type(2) {
-                            background-color: $green;
-                        }
+			&:nth-of-type(2) {
+				position: absolute;
+				bottom: 1em;
+				left: 1em;
+				right: 1em;
 
-                        &:nth-of-type(3) {
-                            background-color: red;
-                        }
-
-
-                        // Plaatje van like en dislike toevoegen!
-
-                    }
-                }
-            }
-
-            &:nth-of-type(2) {
-                position: absolute;
-                bottom: 1em;
-                left: 1em;
-                right: 1em;
-
-                audio {
-                    width: 100%;
-                }
-            }
-        }
-    }
-
-
+				audio {
+					width: 100%;
+				}
+			}
+		}
+	}
 }
 
 main.likes {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    margin-bottom: 5em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	margin-bottom: 5em;
 
+	section {
+		>a {
+			color: $green;
+			text-decoration: none;
+		}
+	}
 
-    section {
-        >a {
-            color: $green;
-            text-decoration: none;
+	section.likes {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
 
-        }
+		section.likeSection {
+			padding: 1em;
+			display: flex;
+			flex-direction: column;
+			gap: 1em;
+			// display: grid;
+			// grid-template-rows: 1fr auto;
+			// grid-template-columns: 1fr;
+			border: 3px solid black;
+			background-color: black;
+			border-radius: 10px;
 
-    }
+			>section {
+				&:first-of-type {
+					display: flex;
+					justify-content: space-between;
+					gap: 0.5em;
 
+					section {
+						&:first-of-type {
+							h2 {
+								color: $green;
+							}
 
+							h3 {
+								font-style: italic;
+								margin-top: 0.25em;
+							}
 
-    section.likes {
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
+							form {
+								input {
+									background-color: transparent;
+									color: orange;
+									border: none;
+									font-size: 1em;
+									margin-top: 1em;
+									cursor: pointer;
+								}
+							}
+						}
 
-        section.likeSection {
-            padding: 1em;
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            // display: grid;
-            // grid-template-rows: 1fr auto;
-            // grid-template-columns: 1fr;
-            border: 3px solid black;
-            background-color: black;
-            border-radius: 10px;
+						&:nth-of-type(2) {
+							img {
+								width: 10em;
+								height: 10em;
+							}
+						}
+					}
+				}
 
-            >section {
-
-                &:first-of-type {
-                    display: flex;
-                    justify-content: space-between;
-                    gap: .5em;
-
-                    section {
-                        &:first-of-type {
-                            h2 {
-                                color: $green;
-                            }
-
-                            h3 {
-                                font-style: italic;
-                                margin-top: .25em;
-                            }
-
-                            form {
-                                input {
-                                    background-color: transparent;
-                                    color: orange;
-                                    border: none;
-                                    font-size: 1em;
-                                    margin-top: 1em;
-                                    cursor: pointer;
-                                }
-                            }
-                        }
-
-                        &:nth-of-type(2) {
-                            img {
-                                width: 10em;
-                                height: 10em;
-                            }
-                        }
-                    }
-                }
-
-                &:nth-of-type(2) {
-                    audio {
-                        width: 100%;
-                    }
-                }
-            }
-        }
-
-    }
-
-
-
+				&:nth-of-type(2) {
+					audio {
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
 }
 
-
 main.dislikes {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    margin-bottom: 5em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	margin-bottom: 5em;
 
-    section {
-        >a {
-            color: $green;
-            text-decoration: none;
+	section {
+		>a {
+			color: $green;
+			text-decoration: none;
+		}
+	}
 
-        }
+	section.dislikes {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
 
-    }
+		section.dislikeSection {
+			padding: 1em;
+			display: flex;
+			flex-direction: column;
+			gap: 1em;
+			// display: grid;
+			// grid-template-rows: 1fr auto;
+			// grid-template-columns: 1fr;
+			border: 3px solid black;
+			background-color: black;
+			border-radius: 10px;
 
+			>section {
+				&:first-of-type {
+					display: flex;
+					justify-content: space-between;
+					gap: 0.5em;
 
+					section {
+						&:first-of-type {
+							h2 {
+								color: $green;
+							}
 
-    section.dislikes {
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
+							h3 {
+								font-style: italic;
+								margin-top: 0.25em;
+							}
 
-        section.dislikeSection {
-            padding: 1em;
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            // display: grid;
-            // grid-template-rows: 1fr auto;
-            // grid-template-columns: 1fr;
-            border: 3px solid black;
-            background-color: black;
-            border-radius: 10px;
+							form {
+								input {
+									background-color: transparent;
+									color: orange;
+									border: none;
+									font-size: 1em;
+									margin-top: 1em;
+									cursor: pointer;
+								}
+							}
+						}
 
-            >section {
+						&:nth-of-type(2) {
+							img {
+								width: 10em;
+								height: 10em;
+							}
+						}
+					}
+				}
 
-                &:first-of-type {
-                    display: flex;
-                    justify-content: space-between;
-                    gap: .5em;
-
-                    section {
-                        &:first-of-type {
-                            h2 {
-                                color: $green;
-                            }
-
-                            h3 {
-                                font-style: italic;
-                                margin-top: .25em;
-                            }
-
-                            form {
-                                input {
-                                    background-color: transparent;
-                                    color: orange;
-                                    border: none;
-                                    font-size: 1em;
-                                    margin-top: 1em;
-                                    cursor: pointer;
-                                }
-                            }
-                        }
-
-                        &:nth-of-type(2) {
-                            img {
-                                width: 10em;
-                                height: 10em;
-                            }
-                        }
-                    }
-                }
-
-                &:nth-of-type(2) {
-                    audio {
-                        width: 100%;
-                    }
-                }
-            }
-        }
-
-    }
-
-
-
+				&:nth-of-type(2) {
+					audio {
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-    nav {
-        width: 100%;
-        max-width: 65em;
+	nav {
+		width: 100%;
+		max-width: 65em;
 
-        ul {
-            display: flex;
-            justify-content: space-around;
-            // background-color: red;
+		ul {
+			display: flex;
+			justify-content: space-around;
+			// background-color: red;
 
+			li {
+				background-color: black;
+				width: 6em;
+				height: 4em;
+				margin: 0.5em 0;
+				color: white;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+				border-radius: 8px;
+				// font-size: 1em;
 
-            li {
-                background-color: black;
-                width: 6em;
-                height: 4em;
-                margin: .5em 0;
-                color: white;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                border-radius: 8px;
-                // font-size: 1em;
+				&:nth-of-type(2) {
+					a {
+						color: $green;
 
-                &:nth-of-type(2) {
-                    a {
-                        color: $green;
+						svg {
+							fill: $green;
+						}
+					}
+				}
 
-                        svg {
-                            fill: $green;
-                        }
-                    }
-                }
+				a {
+					height: 100%;
+					width: 100%;
+					color: white;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					flex-direction: column;
+					text-decoration: none;
+					border-radius: 8px;
+					cursor: pointer;
 
+					svg {
+						overflow: visible;
+						height: 1.5em;
+						fill: white;
+					}
+				}
+			}
 
-                a {
-                    height: 100%;
-                    width: 100%;
-                    color: white;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-                    text-decoration: none;
-                    border-radius: 8px;
-                    cursor: pointer;
-
-
-                    svg {
-                        overflow: visible;
-                        height: 1.5em;
-                        fill: white;
-                    }
-                }
-
-            }
-
-            // li:last-of-type {
-            //     visibility: hidden;
-            //     opacity: 0;
-            // }
-        }
-    }
+			// li:last-of-type {
+			//     visibility: hidden;
+			//     opacity: 0;
+			// }
+		}
+	}
 }
 
-@media only screen and (min-width:414px) {
-    main {
-        &.index {
-            position: inherit;
+@media only screen and (min-width: 414px) {
+	main {
+		&.index {
+			position: inherit;
 
-            section {
-                &:first-of-type {
-                    margin-top: 15em;
-                }
-            }
-        }
-    }
+			section {
+				&:first-of-type {
+					margin-top: 15em;
+				}
+			}
+		}
+	}
 }
 
+@media only screen and (min-width: 750px) {
+	main {
+		&.likes {
+			max-width: 740px;
+			width: 100%;
 
-@media only screen and (min-width:750px) {
-    main {
+			section.likes {
+				section {
+					&.likeSection {
+						section:first-of-type {
+							section:nth-of-type(2) {
+								img {
+									height: 15em;
+									width: 15em;
+								}
+							}
+						}
+					}
 
-        &.muziekLijst {
-            transform: scale(1.1) translateY(10%);
-        }
-
-        &.likes {
-            max-width: 740px;
-            width: 100%;
-
-            section.likes {
-                section {
-                    &.likeSection {
-                        section:first-of-type {
-                            section:nth-of-type(2) {
-                                img {
-                                    height: 15em;
-                                    width: 15em;
-                                }
-                            }
-                        }
-                    }
-
-                    &.dislikeSection {
-                        section:first-of-type {
-                            section:nth-of-type(2) {
-                                img {
-                                    height: 15em;
-                                    width: 15em;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+					&.dislikeSection {
+						section:first-of-type {
+							section:nth-of-type(2) {
+								img {
+									height: 15em;
+									width: 15em;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

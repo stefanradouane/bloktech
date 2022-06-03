@@ -232,7 +232,7 @@ const clientSecret = "abcd1234ef56";
 10. De app gebruikt de spotify api ook in de backend, de toplijst wordt opgeslagen in de database voor en opgehaald mocht de javascript uitstaan. In dit bestand zijn ook de 'ClientId' & 'ClientSecret' nodig. Vul de 'ClientId' & 'ClientSecret' in op regel 4 & 5 van het bestand apifallback.js
 
 ```javascript
-//file getSpotify.js
+//file apifallback.js
 const clientId = "1234abcd56ef";
 const clientSecret = "abcd1234ef56";
 ```
