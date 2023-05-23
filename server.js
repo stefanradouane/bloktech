@@ -12,10 +12,7 @@ const fetch = require("node-fetch");
 
 const dotenv = require("dotenv").config();
 
-const {
-	MongoClient,
-	ObjectId
-} = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,9 +29,7 @@ const inizializePassport = require("./passport-config");
 
 const user = require("./passport-config");
 
-const {
-	use
-} = require("passport");
+const { use } = require("passport");
 
 const toplist = require("./apifallback");
 
@@ -42,12 +37,12 @@ let db = null;
 const myDatabase = process.env.DB_COLLECTION;
 const dbLijst = process.env.DB_COLLECTION_TWO;
 
-
 inizializePassport(
 	passport,
-	async (email) => await db.collection(myDatabase).findOne({
-		email: email
-	}),
+	async (email) =>
+		await db.collection(myDatabase).findOne({
+			email: email,
+		}),
 	(id) => {
 		const userFound = "true";
 		return userFound;
@@ -59,9 +54,11 @@ inizializePassport(
  ********************************************************/
 app.use(express.static("./public"));
 
-app.use(bodyParser.urlencoded({
-	extended: false
-}));
+app.use(
+	bodyParser.urlencoded({
+		extended: false,
+	})
+);
 app.use(bodyParser.json());
 
 app.use(flash());
@@ -102,8 +99,6 @@ app.delete("/logout", function (req, res, next) {
 	});
 });
 
-
-
 /*******************************************************
  * Set template engine
  ********************************************************/
@@ -116,21 +111,20 @@ app.set("view engine", "ejs");
  *  home - show movielist
  ********************************************************/
 
-
 app.get("/", checkAuthenticated, async (req, res) => {
 	const query = {
-		_id: ObjectId(req.session.passport.user)
+		_id: ObjectId(req.session.passport.user),
 	};
 	const options = {
 		projection: {
 			_id: 0,
-			name: 1
-		}
+			name: 1,
+		},
 	};
 	const username = await db.collection(myDatabase).findOne(query, options);
 	const naam = username.name;
 	res.render("pages/index", {
-		naam
+		naam,
 	});
 });
 
@@ -169,25 +163,25 @@ app.post("/register", checkNotAuthenticated, async (req, res) => {
 
 app.get("/start", checkAuthenticated, async (req, res) => {
 	const query = {
-		_id: ObjectId(req.session.passport.user)
+		_id: ObjectId(req.session.passport.user),
 	};
 	const options = {
 		projection: {
 			_id: 0,
-			categorie: 1
-		}
+			categorie: 1,
+		},
 	};
 	const categories = await db.collection(myDatabase).findOne(query, options);
 	const werkCat = categories.categorie;
 	res.render("pages/start", {
-		werkCat
+		werkCat,
 	});
 });
 
 app.post("/start", checkAuthenticated, async (req, res) => {
 	const categorie = arrayify(req.body.categorie);
 	const filter = {
-		_id: ObjectId(req.session.passport.user)
+		_id: ObjectId(req.session.passport.user),
 	};
 	const updateDoc = {
 		$set: {
@@ -198,26 +192,25 @@ app.post("/start", checkAuthenticated, async (req, res) => {
 	res.redirect("/ontdek");
 });
 
-
 app.get("/ontdek", checkAuthenticated, async (req, res) => {
 	let track = "";
 
 	const query = {
-		_id: ObjectId(req.session.passport.user)
+		_id: ObjectId(req.session.passport.user),
 	};
 	const options = {
 		projection: {
 			_id: 0,
-			categorie: 1
-		}
+			categorie: 1,
+		},
 	};
 	const categorien = await db.collection(myDatabase).findOne(query, options);
 
 	const optionsLike = {
 		projection: {
 			_id: 0,
-			like: 1
-		}
+			like: 1,
+		},
 	};
 	const likes = await db.collection(myDatabase).findOne(query, optionsLike);
 	const likeId = arrayify(likes.like);
@@ -225,22 +218,22 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 	const options3 = {
 		projection: {
 			_id: 0,
-			dislike: 1
-		}
+			dislike: 1,
+		},
 	};
 	const dislikes = await db.collection(myDatabase).findOne(query, options3);
 	const dislikeId = arrayify(dislikes.dislike);
 
 	// Get tracks from db
 	const filter = {
-		"name": "toplist",
+		name: "toplist",
 	};
 
 	const options4 = {
 		projection: {
 			_id: 0,
-			myTracks: 1
-		}
+			myTracks: 1,
+		},
 	};
 
 	const myTracks = await db.collection(dbLijst).findOne(filter, options4);
@@ -251,31 +244,35 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 	const optionsns = {
 		projection: {
 			_id: 0,
-			noscriptlike: 1
-		}
+			noscriptlike: 1,
+		},
 	};
-	const noscriptlikes = await db.collection(myDatabase).findOne(query, optionsns);
+	const noscriptlikes = await db
+		.collection(myDatabase)
+		.findOne(query, optionsns);
 	// Get noscriptdislikes
 
 	const optionsns2 = {
 		projection: {
 			_id: 0,
-			noscriptdislike: 1
-		}
+			noscriptdislike: 1,
+		},
 	};
-	const noscriptdislikes = await db.collection(myDatabase).findOne(query, optionsns2);
+	const noscriptdislikes = await db
+		.collection(myDatabase)
+		.findOne(query, optionsns2);
 
 	const checklist = [];
 	const nslikes = noscriptlikes.noscriptlike; // array
 	const nsdislikes = noscriptdislikes.noscriptdislike; // array
 	if (nslikes) {
-		nslikes.forEach(like => {
+		nslikes.forEach((like) => {
 			checklist.push(like.id);
 		});
 	}
 
 	if (nsdislikes) {
-		nsdislikes.forEach(dislike => {
+		nsdislikes.forEach((dislike) => {
 			checklist.push(dislike.id);
 		});
 	}
@@ -308,23 +305,24 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 			CheckTwo(tracks);
 		} else {
 			Create(tracks);
-
 		}
 	}
-
 
 	function Create(tracks) {
 		track = tracks[0];
 	}
 
-	if (categorien.categorie == undefined || categorien.categorie[0] == undefined) {
+	if (
+		categorien.categorie == undefined ||
+		categorien.categorie[0] == undefined
+	) {
 		res.redirect("/start");
 	} else {
 		res.render("pages/ontdek", {
 			categorien,
 			likeId,
 			dislikeId,
-			track
+			track,
 		});
 	}
 });
@@ -332,15 +330,15 @@ app.get("/ontdek", checkAuthenticated, async (req, res) => {
 app.post("/ontdek", checkAuthenticated, async (req, res) => {
 	if (req.body.noscript == "true") {
 		let trackFormat = {
-			"id": `${req.body.nummerId}`,
-			"name": `${req.body.name}`,
-			"artists": `${req.body.artists}`,
-			"cover": `${req.body.cover}`,
-			"preview": `${req.body.preview}`
+			id: `${req.body.nummerId}`,
+			name: `${req.body.name}`,
+			artists: `${req.body.artists}`,
+			cover: `${req.body.cover}`,
+			preview: `${req.body.preview}`,
 		};
 
 		const query = {
-			_id: ObjectId(req.session.passport.user)
+			_id: ObjectId(req.session.passport.user),
 		};
 
 		const manier = req.body.like;
@@ -349,11 +347,13 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 			const options = {
 				projection: {
 					_id: 0,
-					noscriptlike: 1
-				}
+					noscriptlike: 1,
+				},
 			};
 
-			const likes = await db.collection(myDatabase).findOne(query, options);
+			const likes = await db
+				.collection(myDatabase)
+				.findOne(query, options);
 
 			const werkCategorie = arrayify(likes.noscriptlike);
 
@@ -368,18 +368,17 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 			};
 
 			db.collection(myDatabase).updateOne(query, updateDoc, {});
-
 		} else {
-
 			const options = {
 				projection: {
 					_id: 0,
-					noscriptdislike: 1
-				}
+					noscriptdislike: 1,
+				},
 			};
 
-
-			const likes = await db.collection(myDatabase).findOne(query, options);
+			const likes = await db
+				.collection(myDatabase)
+				.findOne(query, options);
 
 			const werkCategorie = arrayify(likes.noscriptdislike);
 
@@ -396,11 +395,9 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 
 			db.collection(myDatabase).updateOne(query, updateDoc, {});
 		}
-
-
 	} else {
 		const query = {
-			_id: ObjectId(req.session.passport.user)
+			_id: ObjectId(req.session.passport.user),
 		};
 
 		const trackId = req.body.trackId;
@@ -408,17 +405,19 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 		const methode = req.body.like;
 
 		const filter = {
-			_id: ObjectId(req.session.passport.user)
+			_id: ObjectId(req.session.passport.user),
 		};
 
 		if (methode == "Like") {
 			const options = {
 				projection: {
 					_id: 0,
-					like: 1
-				}
+					like: 1,
+				},
 			};
-			const likes = await db.collection(myDatabase).findOne(query, options);
+			const likes = await db
+				.collection(myDatabase)
+				.findOne(query, options);
 
 			const werkCategorie = arrayify(likes.like);
 
@@ -437,10 +436,12 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 			const options = {
 				projection: {
 					_id: 0,
-					dislike: 1
-				}
+					dislike: 1,
+				},
 			};
-			const dislikes = await db.collection(myDatabase).findOne(query, options);
+			const dislikes = await db
+				.collection(myDatabase)
+				.findOne(query, options);
 
 			const werkCategorie = arrayify(dislikes.dislike);
 			const cat3 = werkCategorie.concat(trackId);
@@ -459,8 +460,8 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 		const optionsCat = {
 			projection: {
 				_id: 0,
-				categorie: 1
-			}
+				categorie: 1,
+			},
 		};
 		const categorien = await db
 			.collection(myDatabase)
@@ -470,19 +471,23 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 		const optionsLike = {
 			projection: {
 				_id: 0,
-				like: 1
-			}
+				like: 1,
+			},
 		};
-		const likes = await db.collection(myDatabase).findOne(query, optionsLike);
+		const likes = await db
+			.collection(myDatabase)
+			.findOne(query, optionsLike);
 		const likeId = arrayify(likes.like);
 
 		const options3 = {
 			projection: {
 				_id: 0,
-				dislike: 1
-			}
+				dislike: 1,
+			},
 		};
-		const dislikes = await db.collection(myDatabase).findOne(query, options3);
+		const dislikes = await db
+			.collection(myDatabase)
+			.findOne(query, options3);
 		const dislikeId = arrayify(dislikes.dislike);
 	}
 	res.redirect("/ontdek");
@@ -491,13 +496,13 @@ app.post("/ontdek", checkAuthenticated, async (req, res) => {
 app.get("/likes", checkAuthenticated, async (req, res) => {
 	const action = "/likes";
 	const query = {
-		_id: ObjectId(req.session.passport.user)
+		_id: ObjectId(req.session.passport.user),
 	};
 	const options = {
 		projection: {
 			_id: 0,
-			like: 1
-		}
+			like: 1,
+		},
 	};
 
 	const likes = await db.collection(myDatabase).findOne(query, options);
@@ -506,8 +511,8 @@ app.get("/likes", checkAuthenticated, async (req, res) => {
 	const options2 = {
 		projection: {
 			_id: 0,
-			noscriptlike: 1
-		}
+			noscriptlike: 1,
+		},
 	};
 
 	const like = await db.collection(myDatabase).findOne(query, options2);
@@ -516,43 +521,40 @@ app.get("/likes", checkAuthenticated, async (req, res) => {
 	res.render("pages/likes", {
 		likeId,
 		NSlikes,
-		action
+		action,
 	});
 });
 
 app.post("/likes", checkAuthenticated, async (req, res) => {
 	const query = {
-		_id: ObjectId(req.session.passport.user)
+		_id: ObjectId(req.session.passport.user),
 	};
 	if (req.body.noscript == "true") {
-
 		let trackFormat = {
-			"id": `${req.body.nummerId}`,
-			"name": `${req.body.name}`,
-			"artists": `${req.body.artists}`,
-			"cover": `${req.body.cover}`,
-			"preview": `${req.body.preview}`
+			id: `${req.body.nummerId}`,
+			name: `${req.body.name}`,
+			artists: `${req.body.artists}`,
+			cover: `${req.body.cover}`,
+			preview: `${req.body.preview}`,
 		};
 
 		const options = {
 			projection: {
 				_id: 0,
-				noscriptlike: 1
-			}
+				noscriptlike: 1,
+			},
 		};
 		const NSlikes = await db.collection(myDatabase).findOne(query, options);
 		const NSlikeArray = arrayify(NSlikes.noscriptlike);
 
 		const value = trackFormat.name;
 
-
-
 		const NSlikeId = NSlikeArray.filter(function (e) {
 			return e.name != value;
 		});
 
 		const filter = {
-			_id: ObjectId(req.session.passport.user)
+			_id: ObjectId(req.session.passport.user),
 		};
 		const updateDoc = {
 			$set: {
@@ -561,13 +563,12 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 		};
 
 		db.collection(myDatabase).updateOne(filter, updateDoc, {});
-
 	} else {
 		const options = {
 			projection: {
 				_id: 0,
-				like: 1
-			}
+				like: 1,
+			},
 		};
 		const likes = await db.collection(myDatabase).findOne(query, options);
 		const likeArray = arrayify(likes.like);
@@ -577,7 +578,7 @@ app.post("/likes", checkAuthenticated, async (req, res) => {
 			return item != value;
 		});
 		const filter = {
-			_id: ObjectId(req.session.passport.user)
+			_id: ObjectId(req.session.passport.user),
 		};
 		const updateDoc = {
 			$set: {
@@ -594,13 +595,13 @@ app.get("/dislikes", checkAuthenticated, async (req, res) => {
 	const action = "/dislikes";
 
 	const query = {
-		_id: ObjectId(req.session.passport.user)
+		_id: ObjectId(req.session.passport.user),
 	};
 	const options = {
 		projection: {
 			_id: 0,
-			dislike: 1
-		}
+			dislike: 1,
+		},
 	};
 	const dislikes = await db.collection(myDatabase).findOne(query, options);
 	const dislikeArray = arrayify(dislikes.dislike);
@@ -609,8 +610,8 @@ app.get("/dislikes", checkAuthenticated, async (req, res) => {
 	const options2 = {
 		projection: {
 			_id: 0,
-			noscriptdislike: 1
-		}
+			noscriptdislike: 1,
+		},
 	};
 
 	const dislike = await db.collection(myDatabase).findOne(query, options2);
@@ -619,30 +620,32 @@ app.get("/dislikes", checkAuthenticated, async (req, res) => {
 	res.render("pages/dislikes", {
 		dislikeArray,
 		NSdislikes,
-		action
+		action,
 	});
 });
 
 app.post("/dislikes", checkAuthenticated, async (req, res) => {
 	const query = {
-		_id: ObjectId(req.session.passport.user)
+		_id: ObjectId(req.session.passport.user),
 	};
 	if (req.body.noscript == "true") {
 		let trackFormat = {
-			"id": `${req.body.nummerId}`,
-			"name": `${req.body.name}`,
-			"artists": `${req.body.artists}`,
-			"cover": `${req.body.cover}`,
-			"preview": `${req.body.preview}`
+			id: `${req.body.nummerId}`,
+			name: `${req.body.name}`,
+			artists: `${req.body.artists}`,
+			cover: `${req.body.cover}`,
+			preview: `${req.body.preview}`,
 		};
 
 		const options = {
 			projection: {
 				_id: 0,
-				noscriptdislike: 1
-			}
+				noscriptdislike: 1,
+			},
 		};
-		const NSdislikes = await db.collection(myDatabase).findOne(query, options);
+		const NSdislikes = await db
+			.collection(myDatabase)
+			.findOne(query, options);
 		const NSdislikeArray = arrayify(NSdislikes.noscriptdislike);
 		const value = trackFormat.name;
 
@@ -650,10 +653,8 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
 			return e.name != value;
 		});
 
-
-
 		const filter = {
-			_id: ObjectId(req.session.passport.user)
+			_id: ObjectId(req.session.passport.user),
 		};
 		const updateDoc = {
 			$set: {
@@ -662,15 +663,16 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
 		};
 
 		db.collection(myDatabase).updateOne(filter, updateDoc, {});
-
 	} else {
 		const options = {
 			projection: {
 				_id: 0,
-				dislike: 1
-			}
+				dislike: 1,
+			},
 		};
-		const dislikes = await db.collection(myDatabase).findOne(query, options);
+		const dislikes = await db
+			.collection(myDatabase)
+			.findOne(query, options);
 		const dislikeLijst = arrayify(dislikes.dislike);
 		const value = req.body.trackId;
 
@@ -678,7 +680,7 @@ app.post("/dislikes", checkAuthenticated, async (req, res) => {
 			return item != value;
 		});
 		const filter = {
-			_id: ObjectId(req.session.passport.user)
+			_id: ObjectId(req.session.passport.user),
 		};
 		const updateDoc = {
 			$set: {
@@ -726,17 +728,18 @@ app.listen(port, () => {
 	console.log("+/================================================/+\n\n");
 });
 
-
 async function updateToplist() {
 	const myTracks = await toplist.getToplist();
 	const filter = {
-		"name": "toplist",
+		name: "toplist",
 	};
 	const updateDoc = {
 		$set: {
-			myTracks: myTracks
-		}
+			myTracks: myTracks,
+		},
 	};
-	await db.collection(dbLijst).updateOne(filter, updateDoc, {});
+	if (db) {
+		await db.collection(dbLijst).updateOne(filter, updateDoc, {});
+	}
 }
 updateToplist();
